@@ -26,3 +26,29 @@ a:hover { color: #4B58A6; }
 .filter-red { background-color: #FB6353; }
 
 canvas {-ms-touch-action: double-tap-zoom;}
+
+.item-list {
+  margin-bottom: 10px;
+}
+
+.alert-info {
+  overflow-y: scroll;
+  height: 470px;
+}
+
+.well{
+  position: fixed;
+  top: 0px;
+  left: 100px;
+  width: 400px;
+}
+
+.well h1 {
+  font-family: 'Roboto Slab';
+  font-weight: 300;
+}
+
+.well h1 .light {
+  font-weight: 100;
+  margin-left: 100px;
+}
