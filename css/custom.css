@@ -29,6 +29,8 @@ canvas {-ms-touch-action: double-tap-zoom;}
 
 .item-list {
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(137, 184, 255);
 }
 
 .alert-info {
