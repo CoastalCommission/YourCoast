@@ -139,9 +139,24 @@ var MapsLib = {
         select: MapsLib.locationColumn,
         where:  whereClause
       },
-      styleId: 2,
-      templateId: 2
+      // info windows contain location metadata
+      suppressInfoWindows:false
     });
+
+    google.maps.event.addListener(MapsLib.searchrecords, 'click', function(e) {
+      // Change the content of the InfoWindow
+      e.infoWindowHtml = "<p>Name: <strong>" + e.row['NAME'].value + "</strong></p>"
+                          + "<p>Description: <strong>" + e.row['DESCRIPTION'].value + "</strong></p>"
+                          + "<p>Phone Number: <strong>" + e.row['PHONE'].value + "</strong></p>"
+                          + "<p>Fee: <strong>" + e.row['FEE'].value + "</strong></p>"
+                          + "<p>Parking: <strong>" + e.row['PARKING'].value + "</strong></p>";
+
+      // If the delivery == yes, add content to the window
+      // if (e.row['delivery'].value == 'yes') {
+      //   e.infoWindowHtml += "Delivers!";
+      // }
+    });
+
     MapsLib.searchrecords.setMap(map);
     MapsLib.getCount(whereClause);
     MapsLib.getList(whereClause);
@@ -276,6 +291,7 @@ var MapsLib = {
           </div>"
         results.append(template);
       }
+      // console.log(data);
     }
     results.fadeIn();
   },
