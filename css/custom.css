@@ -137,11 +137,13 @@ canvas {-ms-touch-action: double-tap-zoom;}
 .well h1 {
   font-family: 'Roboto Slab';
   font-weight: 300;
+  margin-left: 20px;
+  -webkit-margin-before: -8px;
 }
 
 .well h1 .light {
   font-weight: 100;
-  margin-left: 100px;
+  margin-left: 120px;
 }
 
 .googft-info-window {
