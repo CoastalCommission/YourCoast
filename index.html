@@ -17,9 +17,14 @@
     <![endif]-->
   </head>
   <body>
-        <div id='map_canvas'></div>
+    <div id='map_canvas'></div>
 
     <div class='well'>
+      <div id="nav-menu-control">
+        <a href="#" id="mobile-nav-toggle" class="menu-icon">&#9776;</a>
+      </div>
+
+
       <h1>California Coastal<br><span class="light">Access Map</span></h1>
 
       <div class="input-group">
@@ -129,6 +134,18 @@
                   return false;
               }
           });
+
+          if ($(window).width() <= 480) {
+            $(".well").addClass("hide-nav");
+
+            $("#mobile-nav-toggle").click(function(){
+              if ($(".well").hasClass("show-nav")) {
+                $(".well").removeClass("show-nav").addClass("hide-nav");
+              } else {
+                $(".well").removeClass("hide-nav").addClass("show-nav");
+              }
+            });
+          }
         });
       //]]>
     </script>
