@@ -1,3 +1,92 @@
+/* Icons */
+@font-face {
+  font-family: 'coastal-access';
+  src:url('../icons/fonts/coastal-access.eot?-41ycoh');
+  src:url('../icons/fonts/coastal-access.eot?#iefix-41ycoh') format('embedded-opentype'),
+    url('../icons/fonts/coastal-access.woff?-41ycoh') format('woff'),
+    url('../icons/fonts/coastal-access.ttf?-41ycoh') format('truetype'),
+    url('../icons/fonts/coastal-access.svg?-41ycoh#coastal-access') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'coastal-access';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 32px !important;
+  width: 32px;
+  clear: right;
+  float: left;
+  margin: 1px 10px;
+  color: #43A345;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.disabled {
+  color: #E94D43;
+}
+
+.icon-fee:before {
+  content: "\e600";
+}
+.icon-parking:before {
+  content: "\e601";
+}
+.icon-disabled:before {
+  content: "\e602";
+}
+.icon-visitor-center:before {
+  content: "\e603";
+}
+.icon-restroom:before {
+  content: "\e604";
+}
+.icon-fishing:before {
+  content: "\e605";
+}
+.icon-boating:before {
+  content: "\e606";
+}
+
+/*.icon-fee {
+  content: " ";
+  padding: 1px;
+}
+.icon-parking {
+  content: " ";
+  padding: 1px;
+}
+.icon-disabled {
+  content: " ";
+  padding: 1px;
+}
+.icon-visitor-center {
+  content: " ";
+  padding: 1px;
+}
+.icon-restroom {
+  content: " ";
+  padding: 1px;
+}
+.icon-fishing {
+  content: " ";
+  padding: 1px;
+}
+.icon-boating {
+  content: " ";
+  padding: 1px;
+}*/
+
+
+
 a { color: #4B58A6; }
 a:hover { color: #4B58A6; }
 
@@ -53,4 +142,10 @@ canvas {-ms-touch-action: double-tap-zoom;}
 .well h1 .light {
   font-weight: 100;
   margin-left: 100px;
+}
+
+.googft-info-window {
+  min-height: 140px !important;
+  display: block;
+  margin: auto;
 }

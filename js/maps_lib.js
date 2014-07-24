@@ -139,22 +139,69 @@ var MapsLib = {
         select: MapsLib.locationColumn,
         where:  whereClause
       },
-      // info windows contain location metadata
+      styleId:3,
+      templateId:5,
+      // ensures InfoWindows open
       suppressInfoWindows:false
     });
 
     google.maps.event.addListener(MapsLib.searchrecords, 'click', function(e) {
       // Change the content of the InfoWindow
-      e.infoWindowHtml = "<p>Name: <strong>" + e.row['NAME'].value + "</strong></p>"
+      e.infoWindowHtml = "<div class='googft-info-window'><h4 style='text-align:center;'>" + e.row['NAME'].value + "</h4>"
                           + "<p>Description: <strong>" + e.row['DESCRIPTION'].value + "</strong></p>"
-                          + "<p>Phone Number: <strong>" + e.row['PHONE'].value + "</strong></p>"
-                          + "<p>Fee: <strong>" + e.row['FEE'].value + "</strong></p>"
-                          + "<p>Parking: <strong>" + e.row['PARKING'].value + "</strong></p>";
+                          + "<p>Phone Number: <strong>" + e.row['PHONE'].value + "</strong></p>";
+                          // + "<p>Fee: <strong>" + e.row['FEE'].value + "</strong></p>"
+                          // + "<p>Parking: <strong>" + e.row['PARKING'].value + "</strong></p>"
+                          // + "<p>Disabled: <strong>" + e.row['DISABLED'].value + "</strong></p>"
+                          // + "<p>Visitor Center: <strong>" + e.row['VISTOR_CTR'].value + "</strong></p>"
+                          // + "<p>Restrooms: <strong>" + e.row['RESTROOMS'].value + "</strong></p>"
+                          // + "<p>Picnic Area: <strong>" + e.row['PCNC_AREA'].value + "</strong></p>"
+                          // + "<p>Campground: <strong>" + e.row['CAMPGROUND'].value + "</strong></p>"
+                          // + "<p>Fishing: <strong>" + e.row['FISHING'].value + "</strong></p>"
+                          // + "<p>Boating: <strong>" + e.row['BOATING'].value + "</strong></p>";
 
-      // If the delivery == yes, add content to the window
-      // if (e.row['delivery'].value == 'yes') {
-      //   e.infoWindowHtml += "Delivers!";
-      // }
+      // The Ifs
+      if (e.row['FEE'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-fee'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-fee disabled'></div>";
+      }
+
+      if (e.row['PARKING'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-parking'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-parking disabled'></div>";
+      }
+
+      if (e.row['DISABLED'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-disabled'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-disabled disabled'></div>";
+      }
+
+      if (e.row['VISTOR_CTR'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-visitor-center'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-visitor-center disabled'></div>";
+      }
+
+      if (e.row['RESTROOMS'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-restroom'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-restroom disabled'></div>";
+      }
+
+      if (e.row['FISHING'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-fishing'></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-fishing disabled'></div>";
+      }
+
+      if (e.row['BOATING'].value == 'Yes') {
+        e.infoWindowHtml += "<div class='icon icon-boating'></div></div>";
+      } else {
+        e.infoWindowHtml += "<div class='icon icon-boating disabled'></div></div>";
+      }
     });
 
     MapsLib.searchrecords.setMap(map);
