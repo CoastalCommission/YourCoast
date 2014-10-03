@@ -150,6 +150,7 @@ canvas {-ms-touch-action: double-tap-zoom;}
   font-weight: 300;
   margin-left: 20px;
   -webkit-margin-before: -8px;
+  color: #468847;
 }
 
 .well h1 .light {
