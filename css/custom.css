@@ -160,12 +160,18 @@ canvas {-ms-touch-action: double-tap-zoom;}
 
 .googft-info-window {
   min-height: 140px !important;
+  overflow: auto;
   display: block;
   margin: auto;
 }
 
+label {
+  width: 100%;
+}
+
 #search_radius {
 	height: 39px;
+  width: 70%;
 }
 
 #nav-menu-control {

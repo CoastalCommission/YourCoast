@@ -199,56 +199,57 @@ var MapsLib = {
       // Change the content of the InfoWindow
       e.infoWindowHtml = "<div class='googft-info-window'> <h4 style='text-align:center;'>" + e.row['NameMobileWeb'].value + "</h4>";
 
-      // The Ifs
+      // Display values if they exist
       if (e.row['DescriptionMobileWeb'].value) {
-        e.infoWindowHtml += "<p>Description: <strong>" + e.row['DescriptionMobileWeb'].value + "</strong></p>";
+        e.infoWindowHtml += "<p><strong>" + e.row['DescriptionMobileWeb'].value + "</strong></p>";
+      }
+
+      if (e.row['LocationMobileWeb'].value) {
+        e.infoWindowHtml += "<p>Location: <strong>" + e.row['LocationMobileWeb'].value + "</strong></p>";
       }
 
       if (e.row['PHONE_NMBR'].value) {
         e.infoWindowHtml += "<p>Phone Number: <strong>" + e.row['PHONE_NMBR'].value + "</strong></p>";
       }
 
-      if (e.row['FEE'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-fee'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-fee disabled'></div>";
-      }
+      if (   e.row['FEE'].value == 'Yes'
+          || e.row['PARKING'].value == 'Yes'
+          || e.row['DSABLDACSS'].value == 'Yes'
+          || e.row['VISTOR_CTR'].value == 'Yes'
+          || e.row['RESTROOMS'].value == 'Yes'
+          || e.row['FISHING'].value == 'Yes'
+          || e.row['BOATING'].value == 'Yes') {
+        e.infoWindowHtml += "<ul style=\"margin: 0px 0px 20px -20px\">";
+          if (e.row['FEE'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Fee</li>";
+          }
 
-      if (e.row['PARKING'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-parking'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-parking disabled'></div>";
-      }
+          if (e.row['PARKING'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Parking</li>";
+          }
 
-      if (e.row['DSABLDACSS'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-disabled'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-disabled disabled'></div>";
-      }
+          if (e.row['DSABLDACSS'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Disabled Access</li>";
+          }
 
-      if (e.row['VISTOR_CTR'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-visitor-center'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-visitor-center disabled'></div>";
-      }
+          if (e.row['VISTOR_CTR'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Visitor Center</li>";
+          }
 
-      if (e.row['RESTROOMS'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-restroom'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-restroom disabled'></div>";
-      }
+          if (e.row['RESTROOMS'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Restrooms</li>";
+          }
 
-      if (e.row['FISHING'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-fishing'></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-fishing disabled'></div>";
-      }
+          if (e.row['FISHING'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Fishing</li>";
+          }
 
-      if (e.row['BOATING'].value == 'Yes') {
-        e.infoWindowHtml += "<div class='icon icon-boating'></div></div>";
-      } else {
-        e.infoWindowHtml += "<div class='icon icon-boating disabled'></div></div>";
+          if (e.row['BOATING'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Boating</li>";
+          }
+        e.infoWindowHtml += "</ul>";
       }
+      
     });
 
     MapsLib.searchrecords.setMap(map);
