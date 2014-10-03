@@ -21,7 +21,7 @@ var MapsLib = {
 
   //the encrypted Table ID of your Fusion Table (found under File => About)
   //NOTE: numeric IDs will be depricated soon
-  fusionTableId:      "1JNHQsT8wD-f4aieDzz614g1jtPfp0gpkfwya0ws",
+  fusionTableId:      "1HCOIEnj3VpLHmJtiOQ_5P0N_ZFslh1w_Xf_mepmK",
 
   //*New Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
   //*Important* this key is for demonstration purposes. please register your own.
@@ -32,13 +32,13 @@ var MapsLib = {
   //example: locationColumn:     "'my location'",
   locationColumn:     "LATITUDE",
 
-  map_centroid:       new google.maps.LatLng(37.8197, -122.4786), //center that your map defaults to
+  map_centroid:       new google.maps.LatLng(37.632711, -122.572511), //center that your map defaults to
   locationScope:      "california",      //geographical area appended to all address searches
-  recordName:         "result",       //for showing number of results
-  recordNamePlural:   "results",
+  recordName:         "location",       //for showing number of results
+  recordNamePlural:   "locations",
 
-  searchRadius:       805,            //in meters ~ 1/2 mile
-  defaultZoom:        10,             //zoom level when map is loaded (bigger is more zoomed in)
+  searchRadius:       3220,            //in meters ~ 1/2 mile
+  defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
   addrMarkerImage:    'images/blue-pushpin.png',
   currentPinpoint:    null,
 
@@ -197,20 +197,17 @@ var MapsLib = {
 
     google.maps.event.addListener(MapsLib.searchrecords, 'click', function(e) {
       // Change the content of the InfoWindow
-      e.infoWindowHtml = "<div class='googft-info-window'><h4 style='text-align:center;'>" + e.row['NAME'].value + "</h4>"
-                          + "<p>Description: <strong>" + e.row['DESCRIPTION'].value + "</strong></p>"
-                          + "<p>Phone Number: <strong>" + e.row['PHONE'].value + "</strong></p>";
-                          // + "<p>Fee: <strong>" + e.row['FEE'].value + "</strong></p>"
-                          // + "<p>Parking: <strong>" + e.row['PARKING'].value + "</strong></p>"
-                          // + "<p>Disabled: <strong>" + e.row['DISABLED'].value + "</strong></p>"
-                          // + "<p>Visitor Center: <strong>" + e.row['VISTOR_CTR'].value + "</strong></p>"
-                          // + "<p>Restrooms: <strong>" + e.row['RESTROOMS'].value + "</strong></p>"
-                          // + "<p>Picnic Area: <strong>" + e.row['PCNC_AREA'].value + "</strong></p>"
-                          // + "<p>Campground: <strong>" + e.row['CAMPGROUND'].value + "</strong></p>"
-                          // + "<p>Fishing: <strong>" + e.row['FISHING'].value + "</strong></p>"
-                          // + "<p>Boating: <strong>" + e.row['BOATING'].value + "</strong></p>";
+      e.infoWindowHtml = "<div class='googft-info-window'> <h4 style='text-align:center;'>" + e.row['NameMobileWeb'].value + "</h4>";
 
       // The Ifs
+      if (e.row['DescriptionMobileWeb'].value) {
+        e.infoWindowHtml += "<p>Description: <strong>" + e.row['DescriptionMobileWeb'].value + "</strong></p>";
+      }
+
+      if (e.row['PHONE_NMBR'].value) {
+        e.infoWindowHtml += "<p>Phone Number: <strong>" + e.row['PHONE_NMBR'].value + "</strong></p>";
+      }
+
       if (e.row['FEE'].value == 'Yes') {
         e.infoWindowHtml += "<div class='icon icon-fee'></div>";
       } else {
@@ -223,7 +220,7 @@ var MapsLib = {
         e.infoWindowHtml += "<div class='icon icon-parking disabled'></div>";
       }
 
-      if (e.row['DISABLED'].value == 'Yes') {
+      if (e.row['DSABLDACSS'].value == 'Yes') {
         e.infoWindowHtml += "<div class='icon icon-disabled'></div>";
       } else {
         e.infoWindowHtml += "<div class='icon icon-disabled disabled'></div>";
@@ -351,14 +348,14 @@ var MapsLib = {
     if (numRows == 1)
     name = MapsLib.recordName;
     $( "#result_box" ).fadeOut(function() {
-        $( "#result_count" ).html(MapsLib.addCommas(numRows) + " " + name + " found");
+        $( "#result_count" ).html("<span class='center-text'>" + MapsLib.addCommas(numRows) + " " + name + " found</span>");
       });
     $( "#result_box" ).fadeIn();
   },
 
 
   getList: function(whereClause) {
-    var selectColumns = "NAME, DESCRIPTION, PHONE";
+    var selectColumns = "NameMobileWeb, DescriptionMobileWeb, PHONE_NMBR";
     MapsLib.query(selectColumns, whereClause, "MapsLib.displayList");
   },
 
@@ -376,16 +373,18 @@ var MapsLib = {
     }
     else {
       for (var row in data) {
-        template = "\
-          <div class='row-fluid item-list'>\
-            <div class='span12'>\
-              <strong>" + data[row][0] + "</strong>\
-              <br />\
-              " + data[row][1] + "\
-              <br />\
-              " + data[row][2] + "\
-            </div>\
-          </div>"
+        if(data[row][0]) {
+          template = "\
+            <div class='row-fluid item-list'>\
+              <div class='span12'>\
+                <strong>" + data[row][0] + "</strong>\
+                <br />\
+                " + data[row][1] + "\
+                <br />\
+                " + data[row][2] + "\
+              </div>\
+            </div>"
+          }
         results.append(template);
       }
       // console.log(data);
