@@ -10,6 +10,9 @@
  *
  */
 
+// stores all returned markers
+ var markers = [];
+
 // Enable the visual refresh
 google.maps.visualRefresh = true;
 
@@ -212,13 +215,26 @@ var MapsLib = {
         e.infoWindowHtml += "<p>Phone Number: <strong>" + e.row['PHONE_NMBR'].value + "</strong></p>";
       }
 
-      if (   e.row['FEE'].value == 'Yes'
-          || e.row['PARKING'].value == 'Yes'
-          || e.row['DSABLDACSS'].value == 'Yes'
-          || e.row['VISTOR_CTR'].value == 'Yes'
-          || e.row['RESTROOMS'].value == 'Yes'
-          || e.row['FISHING'].value == 'Yes'
-          || e.row['BOATING'].value == 'Yes') {
+      if (   e.row['FEE'].value         == 'Yes'
+          || e.row['PARKING'].value     == 'Yes'
+          || e.row['DSABLDACSS'].value  == 'Yes'
+          || e.row['RESTROOMS'].value   == 'Yes'
+          || e.row['VISTOR_CTR'].value  == 'Yes'
+          || e.row['PCNC_AREA'].value   == 'Yes'
+          || e.row['CAMPGROUND'].value  == 'Yes'
+          || e.row['SNDY_BEACH'].value  == 'Yes'
+          || e.row['RKY_SHORE'].value   == 'Yes'
+          || e.row['DUNES'].value       == 'Yes'
+          || e.row['BLUFF'].value       == 'Yes'
+          || e.row['STRS_BEACH'].value  == 'Yes'
+          || e.row['PTH_BEACH'].value   == 'Yes'
+          || e.row['BLFTP_TRLS'].value  == 'Yes'
+          || e.row['BLFTP_PRK'].value   == 'Yes'
+          || e.row['WLDLFE_VWG'].value  == 'Yes'
+          || e.row['TIDEPOOL'].value    == 'Yes'
+          || e.row['VOLLEYBALL'].value  == 'Yes'
+          || e.row['FISHING'].value     == 'Yes'
+          || e.row['BOATING'].value     == 'Yes') {
         e.infoWindowHtml += "<ul style=\"margin: 0px 0px 20px -20px\">";
           if (e.row['FEE'].value == 'Yes') {
             e.infoWindowHtml += "<li>Fee</li>";
@@ -229,15 +245,67 @@ var MapsLib = {
           }
 
           if (e.row['DSABLDACSS'].value == 'Yes') {
-            e.infoWindowHtml += "<li>Disabled Access</li>";
-          }
-
-          if (e.row['VISTOR_CTR'].value == 'Yes') {
-            e.infoWindowHtml += "<li>Visitor Center</li>";
+            e.infoWindowHtml += "<li>Disabled access</li>";
           }
 
           if (e.row['RESTROOMS'].value == 'Yes') {
             e.infoWindowHtml += "<li>Restrooms</li>";
+          }
+
+          if (e.row['VISTOR_CTR'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Visitor center</li>";
+          }
+
+          if (e.row['PCNC_AREA'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Picnic area</li>";
+          }
+
+          if (e.row['CAMPGROUND'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Campground</li>";
+          }
+
+          if (e.row['SNDY_BEACH'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Sandy beach</li>";
+          }
+
+          if (e.row['RKY_SHORE'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Rocky shore</li>";
+          }
+
+          if (e.row['DUNES'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Dunes</li>";
+          }
+
+          if (e.row['BLUFF'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Bluff</li>";
+          }
+
+          if (e.row['STRS_BEACH'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Stairs to beach</li>";
+          }
+
+          if (e.row['PTH_BEACH'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Path to beach</li>";
+          }
+
+          if (e.row['BLFTP_TRLS'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Blufftop trails</li>";
+          }
+
+          if (e.row['BLFTP_PRK'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Blufftop parking</li>";
+          }
+
+          if (e.row['WLDLFE_VWG'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Wildlife viewing</li>";
+          }
+
+          if (e.row['TIDEPOOL'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Tidepools</li>";
+          }
+
+          if (e.row['VOLLEYBALL'].value == 'Yes') {
+            e.infoWindowHtml += "<li>Volleyball</li>";
           }
 
           if (e.row['FISHING'].value == 'Yes') {
@@ -250,6 +318,10 @@ var MapsLib = {
         e.infoWindowHtml += "</ul>";
       }
       
+    });
+
+    google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
     });
 
     MapsLib.searchrecords.setMap(map);
