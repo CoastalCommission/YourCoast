@@ -211,12 +211,12 @@ and (max-device-width : 480px) {
   .well.show-nav {
     -webkit-transform: translateZ(0) translateX(-100px);
     transform: translateZ(0) translateX(-100px);
-    max-height: 100vh;
+    max-height: 94vh;
   }
 
   .alert-info {
     /*max-height: 200px;*/
-    height: 25vh;
+    height: 28vh;
   }
 
   .well.hide-nav {
