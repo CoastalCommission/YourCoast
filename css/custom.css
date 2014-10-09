@@ -135,7 +135,8 @@ canvas {-ms-touch-action: double-tap-zoom;}
 
 .alert-info {
   overflow-y: scroll;
-  height: 470px;
+  /*height: 470px;*/
+  max-height: 40vh;
 }
 
 .well{
@@ -143,6 +144,7 @@ canvas {-ms-touch-action: double-tap-zoom;}
   top: 0px;
   left: 100px;
   width: 400px;
+  max-height: 95vh;
 }
 
 .well h1 {
