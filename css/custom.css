@@ -212,6 +212,7 @@ and (max-device-width : 480px) {
     -webkit-transform: translateZ(0) translateX(-100px);
     transform: translateZ(0) translateX(-100px);
     max-height: 94vh;
+    transition: all 0.5s ease;
   }
 
   .alert-info {
@@ -222,6 +223,7 @@ and (max-device-width : 480px) {
   .well.hide-nav {
     -webkit-transform: translateZ(0) translateX(-380px);
     transform: translateZ(0) translateX(-380px);
+    transition: all 0.5s ease;
   }
 
   .well #mobile-nav-toggle {
