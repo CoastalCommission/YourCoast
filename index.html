@@ -60,7 +60,7 @@
         <div class="span-6 col-md-6">
           <a class='btn btn-default btn-block' id='reset' href='#'>
             <i class='glyphicon glyphicon-repeat'></i>
-            Reset
+            Refresh
           </a>
         </div> <!-- end .col-md-6 -->
       </div> <!-- end .row -->
@@ -145,6 +145,10 @@
                 $(".well").removeClass("hide-nav").addClass("show-nav");
               }
             });
+          }
+
+          function myClick(id){
+              google.maps.event.trigger(markers[id], 'click');
           }
         });
       //]]>

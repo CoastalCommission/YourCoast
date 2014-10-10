@@ -320,9 +320,9 @@ var MapsLib = {
       
     });
 
-    google.maps.event.addListener(map, 'click', function() {
-        infowindow.close();
-    });
+    // google.maps.event.addListener(document.getElementById('map_canvas'), 'click', function() {
+    //     infowindow.close();
+    // });
 
     MapsLib.searchrecords.setMap(map);
     MapsLib.getCount(whereClause);
@@ -435,7 +435,13 @@ var MapsLib = {
   displayList: function(json) {
     MapsLib.handleError(json);
     var data = json["rows"];
+    console.log(data);
     var template = "";
+
+    /////////////////////////// for (var i = 0; i < data.length; i++) {
+    ///////////////////////////   markers.push(data[row]);
+    ///////////////////////////   console.log(markers);
+    /////////////////////////// };
 
     var results = $("#results_list");
     results.hide().empty(); //hide the existing list and empty it out first
@@ -447,14 +453,23 @@ var MapsLib = {
     else {
       for (var row in data) {
         if(data[row][0]) {
+          // template = "\
+          //   <div class='row-fluid item-list'>\
+          //     <div class='span12'>\
+          //       <strong>\
+          //         <a href=\"#\" onclick=\"myClick(" + data.indexOf() + ");\">" + data[row][0] + "</a>\
+          //       </strong>\
+          //       <br />\
+          //       " + data[row][1] + "\
+          //     </div>\
+          //   </div>"
+
           template = "\
             <div class='row-fluid item-list'>\
               <div class='span12'>\
                 <strong>" + data[row][0] + "</strong>\
                 <br />\
                 " + data[row][1] + "\
-                <br />\
-                " + data[row][2] + "\
               </div>\
             </div>"
           }
