@@ -37,8 +37,8 @@ var MapsLib = {
 
   map_centroid:       new google.maps.LatLng(37.632711, -122.572511), //center that your map defaults to
   locationScope:      "california",      //geographical area appended to all address searches
-  recordName:         "location",       //for showing number of results
-  recordNamePlural:   "locations",
+  recordName:         "Result",       //for showing number of results
+  recordNamePlural:   "Results",
 
   searchRadius:       3220,            //in meters ~ 1/2 mile
   defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
@@ -64,7 +64,7 @@ var MapsLib = {
       			 },
       			 {"featureType":"road.highway",
       			 	"stylers":[
-      			 		{"hue":"#0099FF"},
+      			 		{"hue":"#ffd54f"},
       			 		{"saturation":-20},
       			 		{"lightness":36.4},
       			 		{"gamma":1}
@@ -87,16 +87,14 @@ var MapsLib = {
       			 	]
       			 },
       			 {"featureType":"water",
-      			 	"stylers":[
-      			 		{"hue":"#00B6FF"},
-      			 		{"saturation":4.2},
-      			 		{"lightness":-63.4},
-      			 		{"gamma":1}
-      			 	]
+              "elementType":"all",
+              "stylers":[
+                {"color":"#29b6f6"}
+              ]
       			 },
       			 {"featureType":"poi",
       			 	"stylers":[
-      			 		{"hue":"#9FFF00"},
+      			 		{"hue":"#5af158"},
       			 		{"saturation":0},
       			 		{"lightness":0},
       			 		{"gamma":1}
@@ -420,10 +418,9 @@ var MapsLib = {
     var name = MapsLib.recordNamePlural;
     if (numRows == 1)
     name = MapsLib.recordName;
-    $( "#result_box" ).fadeOut(function() {
-        $( "#result_count" ).html("<span class='center-text'>" + MapsLib.addCommas(numRows) + " " + name + " found</span>");
-      });
-    $( "#result_box" ).fadeIn();
+    $( "#result_count" ).fadeIn(function() {
+      $( "#result_count" ).html(MapsLib.addCommas(numRows));
+    });
   },
 
 
