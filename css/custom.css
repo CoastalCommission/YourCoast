@@ -158,7 +158,7 @@ canvas {-ms-touch-action: double-tap-zoom;}
   -webkit-margin-before: -8px;
   -webkit-margin-after: 0px;
   color: #1de9b6;
-  background-color: #303641;
+  background-color: rgba(48, 54, 65, 0.95);
   padding: 15px;
   border-bottom: 1px solid #00FFBF;
   border-radius: 0px;
@@ -185,6 +185,10 @@ canvas {-ms-touch-action: double-tap-zoom;}
 
 .panel-body {
   background-color: rgba(48, 54, 65, 0.12);
+}
+
+.panel-group {
+  opacity: 0.95;
 }
 
 .panel-group .panel {
