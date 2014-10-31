@@ -88,9 +88,9 @@
 
 .btn.btn-default {
   background-image: none;
-  background-color: transparent;
-  color: rgba(48, 54, 65, 0.88);
-  border: 1px solid rgba(48, 54, 65, 0.88);
+  background-color: rgba(48, 54, 65, 0.88);
+  color: white;
+  border-bottom: 1px solid black;
   border-radius: 0px;
 }
 
