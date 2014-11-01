@@ -88,7 +88,7 @@
 
 .btn.btn-default {
   background-image: none;
-  background-color: rgba(48, 54, 65, 0.88);
+  background-color: rgba(48, 54, 65, 1);
   color: white;
   border-bottom: 1px solid black;
   border-radius: 0px;
@@ -169,9 +169,11 @@ canvas {-ms-touch-action: double-tap-zoom;}
 }
 
 .panel-default>.panel-heading {
-  background-color: rgba(48, 54, 65, 0.88);
+  background-color: rgba(70, 76, 84, 1);
   border-radius: 0px;
   border-bottom: 2px solid #000000;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  z-index: 99999999;
 }
 
 .panel-default>.panel-heading h4.panel-title {
@@ -184,15 +186,15 @@ canvas {-ms-touch-action: double-tap-zoom;}
 }
 
 .panel-body {
-  background-color: rgba(48, 54, 65, 0.12);
-}
-
-.panel-group {
-  opacity: 0.95;
+  background-color: rgba(211, 211, 211, 1);
+  margin-left: 4px;
+  margin-right: 4px;
+  z-index: 1;
 }
 
 .panel-group .panel {
   border-radius: 0px;
+  background-color: transparent;
 }
 
 .panel-default {

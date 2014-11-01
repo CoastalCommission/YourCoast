@@ -16,43 +16,60 @@
 // Enable the visual refresh
 google.maps.visualRefresh = true;
 
+// construct MapsLib library namespace
 var MapsLib = MapsLib || {};
+
 var MapsLib = {
-
-  //Setup section - put your Fusion Table details here
-  //Using the v1 Fusion Tables API. See https://developers.google.com/fusiontables/docs/v1/migration_guide for more info
-
-  //the encrypted Table ID of your Fusion Table (found under File => About)
-  //NOTE: numeric IDs will be depricated soon
+  // the encrypted Table ID (found under File => About)
   fusionTableId:      "1HCOIEnj3VpLHmJtiOQ_5P0N_ZFslh1w_Xf_mepmK",
 
   //*New Fusion Tables Requirement* API key. found at https://code.google.com/apis/console/
   //*Important* this key is for demonstration purposes. please register your own.
   googleApiKey:       "AIzaSyA3FQFrNr5W2OEVmuENqhb2MBB2JabdaOY",
 
-  //name of the location column in your Fusion Table.
-  //NOTE: if your location column name has spaces in it, surround it with single quotes
-  //example: locationColumn:     "'my location'",
+  // lat,long column
   locationColumn:     "LATITUDE",
 
-  map_centroid:       new google.maps.LatLng(37.632711, -122.572511), //center that your map defaults to
-  locationScope:      "california",      //geographical area appended to all address searches
-  recordName:         "Result",       //for showing number of results
+  //center that your map defaults to
+  map_centroid:       new google.maps.LatLng(37.632711, -122.572511),
+
+  // geographical area appended to all address searches
+  locationScope:      "california",
+
+  // for showing number of results      
+  recordName:         "Result",
   recordNamePlural:   "Results",
 
-  searchRadius:       3220,            //in meters ~ 1/2 mile
-  defaultZoom:        11,             //zoom level when map is loaded (bigger is more zoomed in)
+  // in meters ~ 1/2 mile
+  searchRadius:       3220,
+
+  // default zoom level (bigger == more zoom)
+  defaultZoom:        11,
+
+  // search epicenter icon 
   addrMarkerImage:    'images/blue-pushpin.png',
+
   currentPinpoint:    null,
 
   initialize: function() {
+    // default result count
     $( "#result_count" ).html("");
 
+    // access geocoder
     geocoder = new google.maps.Geocoder();
+
+    // config
     var myOptions = {
+      // set zoom
       zoom: MapsLib.defaultZoom,
+
+      // set center
       center: MapsLib.map_centroid,
+
+      // set base map
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+      // set base map custom styles
       styles: [
       			{"featureType":"landscape",
       			    "stylers":[
@@ -100,8 +117,10 @@ var MapsLib = {
       			 		{"gamma":1}
       			 	]
       			 }
-      		] // end map styles
+      		]
     };
+
+    // inject new map into DOM container using our set options
     map = new google.maps.Map($("#map_canvas")[0],myOptions);
 
     // maintains map centerpoint for responsive design
@@ -109,17 +128,22 @@ var MapsLib = {
         MapsLib.calculateCenter();
     });
 
+    // listen for window resize events & center based on new size
     google.maps.event.addDomListener(window, 'resize', function() {
         map.setCenter(MapsLib.map_centroid);
     });
 
+    // set search results to nothing by default
     MapsLib.searchrecords = null;
 
     //reset filters
     $("#search_address").val(MapsLib.convertToPlainString($.address.parameter('address')));
     var loadRadius = MapsLib.convertToPlainString($.address.parameter('radius'));
-    if (loadRadius != "") $("#search_radius").val(loadRadius);
-    else $("#search_radius").val(MapsLib.searchRadius);
+    if (loadRadius != "") {
+      $("#search_radius").val(loadRadius);
+    } else {
+      $("#search_radius").val(MapsLib.searchRadius);
+    }
     $(":checkbox").prop("checked", "checked");
     $("#result_box").hide();
     
@@ -143,8 +167,9 @@ var MapsLib = {
     //-------end of custom filters--------
 
     if (address != "") {
-      if (address.toLowerCase().indexOf(MapsLib.locationScope) == -1)
+      if (address.toLowerCase().indexOf(MapsLib.locationScope) == -1) {
         address = address + " " + MapsLib.locationScope;
+      }
 
       geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
@@ -153,7 +178,7 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(14);
+          map.setZoom(12);
 
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint,
@@ -291,7 +316,7 @@ var MapsLib = {
           }
 
           if (e.row['BLFTP_PRK'].value == 'Yes') {
-            e.infoWindowHtml += "<li>Blufftop parking</li>";
+            e.infoWindowHtml += "<li>Blufftop park</li>";
           }
 
           if (e.row['WLDLFE_VWG'].value == 'Yes') {
@@ -328,12 +353,15 @@ var MapsLib = {
   },
 
   clearSearch: function() {
-    if (MapsLib.searchrecords != null)
+    if (MapsLib.searchrecords != null) {
       MapsLib.searchrecords.setMap(null);
-    if (MapsLib.addrMarker != null)
+    }
+    if (MapsLib.addrMarker != null) {
       MapsLib.addrMarker.setMap(null);
-    if (MapsLib.searchRadiusCircle != null)
+    }
+    if (MapsLib.searchRadiusCircle != null) {
       MapsLib.searchRadiusCircle.setMap(null);
+    }
   },
 
   findMe: function() {
