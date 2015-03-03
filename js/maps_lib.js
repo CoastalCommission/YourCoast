@@ -67,7 +67,7 @@ var MapsLib = {
       center: MapsLib.map_centroid,
 
       // set base map
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeId: google.maps.MapTypeId.ROAD,
 
       // set base map custom styles
       styles: [
@@ -106,7 +106,7 @@ var MapsLib = {
       			 {"featureType":"water",
               "elementType":"all",
               "stylers":[
-                {"color":"#29b6f6"}
+                {"color":"#B5D8FF"}
               ]
       			 },
       			 {"featureType":"poi",
