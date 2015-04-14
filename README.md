@@ -1,4 +1,4 @@
-# California Coastal Access Map
+# [CalCoastAccess](http://xachmoreno.github.io/ca-coastal-access-map/)
 Explore, Search and geolocate your way to any California Coastal Access destination
 
 [![Searchable Map Template screenshot](https://raw.github.com/xachmoreno/ca-coastal-access-map/coastal/images/ca-coastal-access-map-preview.png)](http://xachmoreno.github.io/ca-coastal-access-map/)
