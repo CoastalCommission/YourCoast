@@ -81,58 +81,56 @@ var MapsLib = {
 
       // set base map custom styles
       styles: [
-            {
-              "markerOptions": {
-                "iconName": "large_green"
-              }
-            },
-            {"featureType":"landscape",
-      			    "stylers":[
-	      			    {"hue":"#F1FF00"},
-	      			    {"saturation":-27.4},
-	      			    {"lightness":9.4},
-	      			    {"gamma":1}
-      			    ]
-      			 },
-      			 {"featureType":"road.highway",
-      			 	"stylers":[
-      			 		{"hue":"#ffd54f"},
-      			 		{"saturation":-20},
-      			 		{"lightness":36.4},
-      			 		{"gamma":1}
-      			 	]
-      			 },
-      			 {"featureType":"road.arterial",
-      			 	"stylers":[
-      			 		{"hue":"#00FF4F"},
-      			 		{"saturation":0},
-      			 		{"lightness":0},
-      			 		{"gamma":1}
-      			 	]
-      			 },
-      			 {"featureType":"road.local",
-      			 	"stylers":[
-      			 		{"hue":"#FFB300"},
-      			 		{"saturation":-38},
-      			 		{"lightness":11.2},
-      			 		{"gamma":1}
-      			 	]
-      			 },
-      			 {"featureType":"water",
-              "elementType":"all",
-              "stylers":[
-                {"color":"#B5D8FF"}
+                {"featureType":"landscape",
+                    "stylers":[
+                        {"hue":"#F1FF00"},
+                        {"saturation":-27.4},
+                        {"lightness":9.4},
+                        {"gamma":1}
+                    ]
+                 },
+                 {"featureType":"road.highway",
+                  "stylers":[
+                    {"hue":"#ffd54f"},
+                    {"saturation":-20},
+                    {"lightness":36.4},
+                    {"gamma":1}
+                  ]
+                 },
+                 {"featureType":"road.arterial",
+                  "stylers":[
+                    {"hue":"#00FF4F"},
+                    {"saturation":0},
+                    {"lightness":0},
+                    {"gamma":1}
+                  ]
+                 },
+                 {"featureType":"road.local",
+                  "stylers":[
+                    {"hue":"#FFB300"},
+                    {"saturation":-38},
+                    {"lightness":11.2},
+                    {"gamma":1}
+                  ]
+                 },
+                 {"featureType":"water",
+                      "elementType":"geometry.fill",
+                      "stylers":[
+                          {"color":"#81D4FA"},
+                          {
+                              "visibility": "on"
+                          }
+                      ]
+                 },
+                 {"featureType":"poi",
+                  "stylers":[
+                    {"hue":"#5af158"},
+                    {"saturation":0},
+                    {"lightness":0},
+                    {"gamma":1}
+                  ]
+                 }
               ]
-      			 },
-      			 {"featureType":"poi",
-      			 	"stylers":[
-      			 		{"hue":"#5af158"},
-      			 		{"saturation":0},
-      			 		{"lightness":0},
-      			 		{"gamma":1}
-      			 	]
-      			 }
-      		]
     };
 
     // inject new map into DOM container using our set options
@@ -193,7 +191,7 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(12);
+          map.setZoom(13);
 
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint,
@@ -237,7 +235,7 @@ var MapsLib = {
     });
 
     google.maps.event.addListener(MapsLib.searchrecords, 'click', function(e) {
-      console.log(e);
+      console.log(MapsLib.searchrecords);
 
       // Change the content of the InfoWindow
       e.infoWindowHtml = "<div class='googft-info-window'>" +
@@ -556,16 +554,23 @@ var MapsLib = {
                                 "</div>";
           }
 
-          if (e.row['Photo_1'].value != null) {
+
+
+          if ((/^http:\/\//.test(e.row['Photo_1'].value))) {
             e.infoWindowHtml += "<div class='row gutters margin-top'>" +
                                     "<div class='column-4'>" +
                                         "<a href='#' data-featherlight='" + e.row['Photo_1'].value + "'>" +
                                           "<img src='" + e.row['Photo_1'].value + "' alt='' />" +
                                         "</a>" +
                                     "</div>";
+          } else {
+            e.infoWindowHtml += "<div class='row'>" +
+                                    "<p class='center-text'><strong>StreetView image coming soon!</strong></p>" +
+                                    "<p class='center-text'>If you have a photo of this location you'd like added, please email <a href='mailto:web@coastal.ca.gov'>web@coastal.ca.gov</a>" +
+                               "</div> <!-- end .row -->";
           }
 
-          if (e.row['Photo_2'].value != null) {
+          if ((/^http:\/\//.test(e.row['Photo_2'].value))) {
             e.infoWindowHtml += "<div class='column-4'>" +
                                     "<a href='#' data-featherlight='" + e.row['Photo_2'].value + "'>" +
                                       "<img src='" + e.row['Photo_2'].value + "' alt='' />" +
@@ -573,7 +578,7 @@ var MapsLib = {
                                 "</div>";
           }
 
-          if (e.row['Photo_3'].value != null) {
+          if ((/^http:\/\//.test(e.row['Photo_3'].value))) {
             e.infoWindowHtml += "<div class='column-4'>" +
                                     "<a href='#' data-featherlight='" + e.row['Photo_3'].value + "'>" +
                                       "<img src='" + e.row['Photo_3'].value + "' alt='' />" +
@@ -581,12 +586,12 @@ var MapsLib = {
                                 "</div>";
           }
 
-          if (   e.row['Photo_2'].value != null
-              || e.row['Photo_3'].value != null) {
+          if (   (/^http:\/\//.test(e.row['Photo_2'].value))
+              || (/^http:\/\//.test(e.row['Photo_3'].value))) {
             e.infoWindowHtml += "</div> <!-- end .row -->";
           }
 
-          if (e.row['Photo_4'].value != null) {
+          if ((/^http:\/\//.test(e.row['Photo_4'].value))) {
             e.infoWindowHtml += "<div class='row gutters'>" +
                                   "<div class='column-4'>" +
                                     "<a href='#' data-featherlight='" + e.row['Photo_4'].value + "'>" +
@@ -704,7 +709,7 @@ var MapsLib = {
 
 
   getList: function(whereClause) {
-    var selectColumns = "NameMobileWeb, Index";
+    var selectColumns = "NameMobileWeb, Index, LIST_ORDER";
     MapsLib.query(selectColumns, whereClause, "MapsLib.displayList");
   },
 
@@ -1104,16 +1109,21 @@ var MapsLib = {
                             "</div>";
       }
 
-      if (photo1 != null) {
+      if ((/^http:\/\//.test(photo1))) {
         selectedLocHTML += "<div class='row gutters margin-top'>" +
                                 "<div class='column-4'>" +
                                     "<a href='#' data-featherlight='" + photo1 + "'>" +
                                       "<img src='" + photo1 + "' alt='' />" +
                                     "</a>" +
                                 "</div>";
+      } else {
+        selectedLocHTML += "<div class='row'>" +
+                                "<p class='center-text'><strong>StreetView image coming soon!</strong></p>" +
+                                "<p class='center-text'>If you have a photo of this location you'd like added, please email <a href='mailto:web@coastal.ca.gov'>web@coastal.ca.gov</a>" +
+                           "</div> <!-- end .row -->";
       }
 
-      if (photo2 != null) {
+      if ((/^http:\/\//.test(photo2))) {
         selectedLocHTML += "<div class='column-4'>" +
                                 "<a href='#' data-featherlight='" + photo2 + "'>" +
                                   "<img src='" + photo2 + "' alt='' />" +
@@ -1121,7 +1131,7 @@ var MapsLib = {
                             "</div>";
       }
 
-      if (photo3 != null) {
+      if ((/^http:\/\//.test(photo3))) {
         selectedLocHTML += "<div class='column-4'>" +
                                 "<a href='#' data-featherlight='" + photo3 + "'>" +
                                   "<img src='" + photo3 + "' alt='' />" +
@@ -1129,12 +1139,12 @@ var MapsLib = {
                             "</div>";
       }
 
-      if (   photo2 != null
-          || photo3 != null) {
+      if (   (/^http:\/\//.test(photo2))
+          || (/^http:\/\//.test(photo3))) {
         selectedLocHTML += "</div> <!-- end .row -->";
       }
 
-      if (photo4 != null) {
+      if ((/^http:\/\//.test(photo4))) {
         selectedLocHTML += "<div class='row gutters'>" +
                               "<div class='column-4'>" +
                                 "<a href='#' data-featherlight='" + photo4 + "'>" +
