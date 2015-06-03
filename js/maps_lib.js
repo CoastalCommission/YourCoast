@@ -37,14 +37,14 @@ var MapsLib = {
   recordName:         "Result",
   recordNamePlural:   "Results",
 
-  // in meters ~ 1/2 mile
-  searchRadius:       3220,
+  // in meters - 25mi - http://www.freemaptools.com/radius-around-point.htm
+  searchRadius:       40233,
 
   // default zoom level (bigger == more zoom)
   defaultZoom:        6,
 
   // search geo epicenter icon 
-  addrMarkerImage:    'images/blue-pushpin.png',
+  addrMarkerImage:    'http://google.com/mapfiles/ms/micons/red-pushpin.png',
 
   // geo epicenter
   currentPinpoint:    null,
@@ -61,6 +61,10 @@ var MapsLib = {
 
     // config
     var myOptions = {
+      // limit min/max zoom
+      // minZoom: 6,
+      // maxZoom: 2,
+
       // set zoom
       zoom: MapsLib.defaultZoom,
 
@@ -77,7 +81,7 @@ var MapsLib = {
       },
 
       // set base map
-      mapTypeId: google.maps.MapTypeId.ROAD,
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
 
       // set base map custom styles
       styles: [
@@ -191,7 +195,7 @@ var MapsLib = {
           $.address.parameter('address', encodeURIComponent(address));
           $.address.parameter('radius', encodeURIComponent(MapsLib.searchRadius));
           map.setCenter(MapsLib.currentPinpoint);
-          map.setZoom(13);
+          map.setZoom(10);
 
           MapsLib.addrMarker = new google.maps.Marker({
             position: MapsLib.currentPinpoint,
@@ -231,11 +235,16 @@ var MapsLib = {
       styleId:3,
       templateId:5,
       // ensures InfoWindows open
-      suppressInfoWindows:false
+      suppressInfoWindows:false,
+      styles: [{ 
+        markerOptions: {
+          iconName: "small_yellow"
+        }
+      }]
     });
 
     google.maps.event.addListener(MapsLib.searchrecords, 'click', function(e) {
-      console.log(MapsLib.searchrecords);
+      // console.log(MapsLib.searchrecords);
 
       // Change the content of the InfoWindow
       e.infoWindowHtml = "<div class='googft-info-window'>" +
@@ -284,12 +293,42 @@ var MapsLib = {
                                 "<i class='fa fa-phone'></i>" +
                               "</div>" +
                               "<div class='column-11'>" +
-                                "<strong>" +
-                                  e.row['PHONE_NMBR'].value +
-                                "</strong>" +
+                                "<a href='tel:" + e.row['PHONE_NMBR'].value + "'>" +
+                                  "<strong>" +
+                                    e.row['PHONE_NMBR'].value +
+                                  "</strong>" +
+                                "</a>" +
                               "</div>" +
                             "</div>";
       }
+
+      e.infoWindowHtml += "<div class='row gutters'>" +
+                              "<div class='column-1'>" +
+                                "<i class='fa fa-car'></i>" +
+                              "</div>" +
+                              "<div class='column-11'>" +
+                                "<a href='https://www.google.com/maps/dir/Current+Location/" + e.row['LATITUDE'].value + "," + e.row['LONGITUDE'].value + "' target='_blank'>" +
+                                  "<strong>" +
+                                    "Directions" +
+                                  "</strong>" +
+                                "</a>" +
+                              "</div>" +
+                            "</div>";
+
+      if (e.row['Bch_whlchr'].value) {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-wheelchair'></i>" +
+                                        "</div>" +
+                                        "<div class='column-11'>" +
+                                          "<strong>" +
+                                            "Beach Wheelchairs available at " + e.row['Bch_whlchr'].value +
+                                          "</strong>" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+      e.infoWindowHtml += "<br>";
 
       if (   e.row['FEE'].value         == 'Yes'
           || e.row['PARKING'].value     == 'Yes'
@@ -301,306 +340,388 @@ var MapsLib = {
           || e.row['SNDY_BEACH'].value  == 'Yes'
           || e.row['RKY_SHORE'].value   == 'Yes'
           || e.row['DUNES'].value       == 'Yes'
-          || e.row['BLUFF'].value       == 'Yes'
-          || e.row['STRS_BEACH'].value  == 'Yes'
-          || e.row['PTH_BEACH'].value   == 'Yes'
-          || e.row['BLFTP_TRLS'].value  == 'Yes'
-          || e.row['BLFTP_PRK'].value   == 'Yes'
-          || e.row['WLDLFE_VWG'].value  == 'Yes'
-          || e.row['TIDEPOOL'].value    == 'Yes'
-          || e.row['VOLLEYBALL'].value  == 'Yes'
-          || e.row['FISHING'].value     == 'Yes'
-          || e.row['BOATING'].value     == 'Yes') {
-        // e.infoWindowHtml += "<ul style='margin: 0px 0px 20px -20px'>";
-          if (e.row['FEE'].value == 'Yes') {
+          || e.row['BLUFF'].value       == 'Yes') {
             e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-money'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Fee" +
-                                    "</div>" +
-                                "</div>";
+                                  "<div class='column-6'>";
+      }
+
+                if (e.row['FEE'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-money'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Fee" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['PARKING'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-car'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Parking" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['DSABLDACSS'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-wheelchair'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Disabled Access" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['RESTROOMS'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-female'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Restrooms" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['VISTOR_CTR'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-flag'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Visitor Center" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['PCNC_AREA'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-cutlery'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Picnic Area" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['CAMPGROUND'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-tree'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Campground" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['SNDY_BEACH'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-check'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Sandy Shore" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['RKY_SHORE'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-check'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Rocky Shore" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['DUNES'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-check'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Dunes" +
+                                          "</div>" +
+                                      "</div>";
+                }
+
+                if (e.row['BLUFF'].value == 'Yes') {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                          "<div class='column-1'>" +
+                                              "<i class='fa fa-check'></i>" +
+                                          "</div>" +
+                                          "<div class='column-10 push-1'>" +
+                                              "Bluffs" +
+                                          "</div>" +
+                                      "</div>";
+                }
+          if (   e.row['FEE'].value         == 'Yes'
+              || e.row['PARKING'].value     == 'Yes'
+              || e.row['DSABLDACSS'].value  == 'Yes'
+              || e.row['RESTROOMS'].value   == 'Yes'
+              || e.row['VISTOR_CTR'].value  == 'Yes'
+              || e.row['PCNC_AREA'].value   == 'Yes'
+              || e.row['CAMPGROUND'].value  == 'Yes'
+              || e.row['SNDY_BEACH'].value  == 'Yes'
+              || e.row['RKY_SHORE'].value   == 'Yes'
+              || e.row['DUNES'].value       == 'Yes'
+              || e.row['BLUFF'].value       == 'Yes') {
+            e.infoWindowHtml += "</div> <!-- end .column-6 -->";
           }
 
-          if (e.row['PARKING'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-car'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Parking" +
-                                    "</div>" +
-                                "</div>";
+          if ( e.row['STRS_BEACH'].value  != 'Yes'
+            && e.row['PTH_BEACH'].value   != 'Yes'
+            && e.row['BLFTP_TRLS'].value  != 'Yes'
+            && e.row['BLFTP_PRK'].value   != 'Yes'
+            && e.row['WLDLFE_VWG'].value  != 'Yes'
+            && e.row['TIDEPOOL'].value    != 'Yes'
+            && e.row['VOLLEYBALL'].value  != 'Yes'
+            && e.row['FISHING'].value     != 'Yes'
+            && e.row['BOATING'].value     != 'Yes') {
+              e.infoWindowHtml += "</div> <!-- end .row -->";
+          }
+            
+
+          if ( e.row['STRS_BEACH'].value  == 'Yes'
+            || e.row['PTH_BEACH'].value   == 'Yes'
+            || e.row['BLFTP_TRLS'].value  == 'Yes'
+            || e.row['BLFTP_PRK'].value   == 'Yes'
+            || e.row['WLDLFE_VWG'].value  == 'Yes'
+            || e.row['TIDEPOOL'].value    == 'Yes'
+            || e.row['VOLLEYBALL'].value  == 'Yes'
+            || e.row['FISHING'].value     == 'Yes'
+            || e.row['BOATING'].value     == 'Yes') {
+              e.infoWindowHtml += "<div class='column-6'>";
           }
 
-          if (e.row['DSABLDACSS'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-wheelchair'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Disabled Access" +
-                                    "</div>" +
-                                "</div>";
+              if (e.row['STRS_BEACH'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Stairs to Beach" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['PTH_BEACH'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Path to Beach" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['BLFTP_TRLS'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Blufftop Trails" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['BLFTP_PRK'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Blufftop Park" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['WLDLFE_VWG'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-binoculars'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Wildlife Viewing" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['TIDEPOOL'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Tidepools" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['VOLLEYBALL'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-futbol-o'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Volleyball" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['FISHING'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-check'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Fishing" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['BOATING'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-ship'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Boating" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['DOG_FRIENDLY'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-paw'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Dog Friendly" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+              if (e.row['EZ4STROLLERS'].value == 'Yes') {
+                e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-1'>" +
+                                            "<i class='fa fa-child'></i>" +
+                                        "</div>" +
+                                        "<div class='column-10 push-1'>" +
+                                            "Stroller Friendly" +
+                                        "</div>" +
+                                    "</div>";
+              }
+
+          if ( e.row['STRS_BEACH'].value  == 'Yes'
+            || e.row['PTH_BEACH'].value   == 'Yes'
+            || e.row['BLFTP_TRLS'].value  == 'Yes'
+            || e.row['BLFTP_PRK'].value   == 'Yes'
+            || e.row['WLDLFE_VWG'].value  == 'Yes'
+            || e.row['TIDEPOOL'].value    == 'Yes'
+            || e.row['VOLLEYBALL'].value  == 'Yes'
+            || e.row['FISHING'].value     == 'Yes'
+            || e.row['BOATING'].value     == 'Yes') {
+              e.infoWindowHtml += "</div> <!-- end .column-6 -->" +
+                              "</div> <!-- end .row -->";
           }
+            
 
-          if (e.row['RESTROOMS'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-female'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Restrooms" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['VISTOR_CTR'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-flag'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Visitor Center" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['PCNC_AREA'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-cutlery'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Picnic Area" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['CAMPGROUND'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-leaf'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Campground" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['SNDY_BEACH'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Sandy Shore" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['RKY_SHORE'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Rocky Shore" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['DUNES'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Dunes" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['BLUFF'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Bluffs" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['STRS_BEACH'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Stairs to Beach" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['PTH_BEACH'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Path to Beach" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['BLFTP_TRLS'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Blufftop Trails" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['BLFTP_PRK'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Blufftop Park" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['WLDLFE_VWG'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-eye'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Wildlife Viewing" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['TIDEPOOL'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Tidepools" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['VOLLEYBALL'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-futbol-o'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Vollyball" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['FISHING'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-check'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Fishing" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['BOATING'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-ship'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Boating" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['DOG_FRIENDLY'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-paw'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Dog Friendly" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-          if (e.row['EZ4STROLLERS'].value == 'Yes') {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                    "<div class='column-1'>" +
-                                        "<i class='fa fa-child'></i>" +
-                                    "</div>" +
-                                    "<div class='column-11'>" +
-                                        "Stroller Friendly" +
-                                    "</div>" +
-                                "</div>";
-          }
-
-
-
-          if ((/^http:\/\//.test(e.row['Photo_1'].value))) {
+          if(   (/^http:\/\//.test(e.row['Photo_1'].value))
+             && !(/^http:\/\//.test(e.row['Photo_2'].value))) {
             e.infoWindowHtml += "<div class='row gutters margin-top'>" +
-                                    "<div class='column-4'>" +
+                                    "<div class='column-10 push-1'>" +
                                         "<a href='#' data-featherlight='" + e.row['Photo_1'].value + "'>" +
                                           "<img src='" + e.row['Photo_1'].value + "' alt='' />" +
                                         "</a>" +
-                                    "</div>";
-          } else {
-            e.infoWindowHtml += "<div class='row'>" +
-                                    "<p class='center-text'><strong>StreetView image coming soon!</strong></p>" +
-                                    "<p class='center-text'>If you have a photo of this location you'd like added, please email <a href='mailto:web@coastal.ca.gov'>web@coastal.ca.gov</a>" +
-                               "</div> <!-- end .row -->";
-          }
-
-          if ((/^http:\/\//.test(e.row['Photo_2'].value))) {
-            e.infoWindowHtml += "<div class='column-4'>" +
-                                    "<a href='#' data-featherlight='" + e.row['Photo_2'].value + "'>" +
-                                      "<img src='" + e.row['Photo_2'].value + "' alt='' />" +
-                                    "</a>" +
-                                "</div>";
-          }
-
-          if ((/^http:\/\//.test(e.row['Photo_3'].value))) {
-            e.infoWindowHtml += "<div class='column-4'>" +
-                                    "<a href='#' data-featherlight='" + e.row['Photo_3'].value + "'>" +
-                                      "<img src='" + e.row['Photo_3'].value + "' alt='' />" +
-                                    "</a>" +
-                                "</div>";
-          }
-
-          if (   (/^http:\/\//.test(e.row['Photo_2'].value))
-              || (/^http:\/\//.test(e.row['Photo_3'].value))) {
-            e.infoWindowHtml += "</div> <!-- end .row -->";
-          }
-
-          if ((/^http:\/\//.test(e.row['Photo_4'].value))) {
-            e.infoWindowHtml += "<div class='row gutters'>" +
-                                  "<div class='column-4'>" +
-                                    "<a href='#' data-featherlight='" + e.row['Photo_4'].value + "'>" +
-                                      "<img src='" + e.row['Photo_4'].value + "' alt='' />" +
-                                    "</a>" +
-                                  "</div>" +
+                                    "</div> <!-- end .column-10 -->" +
                                 "</div> <!-- end .row -->";
-          }
-      }      
+        } else {
+
+              if(   (/^http:\/\//.test(e.row['Photo_1'].value))
+                 && (/^http:\/\//.test(e.row['Photo_2'].value))
+                 && !(/^http:\/\//.test(e.row['Photo_3'].value))) {
+                e.infoWindowHtml += "<div class='row gutters margin-top'>" +
+                                        "<div class='column-6'>" +
+                                            "<a href='#' data-featherlight='" + e.row['Photo_1'].value + "'>" +
+                                              "<img src='" + e.row['Photo_1'].value + "' alt='' />" +
+                                            "</a>" +
+                                        "</div>";
+
+                e.infoWindowHtml += "<div class='column-6'>" +
+                                        "<a href='#' data-featherlight='" + e.row['Photo_2'].value + "'>" +
+                                          "<img src='" + e.row['Photo_2'].value + "' alt='' />" +
+                                        "</a>" +
+                                    "</div>" +
+                                    "</div>";
+              } else {
+                  if ((/^http:\/\//.test(e.row['Photo_1'].value))) {
+                e.infoWindowHtml += "<div class='row gutters margin-top'>" +
+                                        "<div class='column-4'>" +
+                                            "<a href='#' data-featherlight='" + e.row['Photo_1'].value + "'>" +
+                                              "<img src='" + e.row['Photo_1'].value + "' alt='' />" +
+                                            "</a>" +
+                                        "</div>";
+              } else {
+                e.infoWindowHtml += "<div class='row margin-top'>" +
+                                        "<a href='javascript:void(0)' onclick='MapsLib.openStreetView(" + e.row['LATITUDE'].value + "," + e.row['LONGITUDE'].value +")'>" +
+                                          "<img src='https://maps.googleapis.com/maps/api/streetview?size=300x150&location=" + e.row['LATITUDE'].value + "," + e.row['LONGITUDE'].value + "&fov=90&heading=270&pitch=10'" +
+                                        "</a>" +
+                                     "</div> <!-- end .row -->";
+                }
+
+                if ((/^http:\/\//.test(e.row['Photo_2'].value))) {
+                  e.infoWindowHtml += "<div class='column-4'>" +
+                                          "<a href='#' data-featherlight='" + e.row['Photo_2'].value + "'>" +
+                                            "<img src='" + e.row['Photo_2'].value + "' alt='' />" +
+                                          "</a>" +
+                                      "</div>";
+                }
+
+                if ((/^http:\/\//.test(e.row['Photo_3'].value))) {
+                  e.infoWindowHtml += "<div class='column-4'>" +
+                                          "<a href='#' data-featherlight='" + e.row['Photo_3'].value + "'>" +
+                                            "<img src='" + e.row['Photo_3'].value + "' alt='' />" +
+                                          "</a>" +
+                                      "</div>";
+                }
+
+                if (   (/^http:\/\//.test(e.row['Photo_2'].value))
+                    || (/^http:\/\//.test(e.row['Photo_3'].value))) {
+                  e.infoWindowHtml += "</div> <!-- end .row -->";
+                }
+
+                if ((/^http:\/\//.test(e.row['Photo_4'].value))) {
+                  e.infoWindowHtml += "<div class='row gutters'>" +
+                                        "<div class='column-4'>" +
+                                          "<a href='#' data-featherlight='" + e.row['Photo_4'].value + "'>" +
+                                            "<img src='" + e.row['Photo_4'].value + "' alt='' />" +
+                                          "</a>" +
+                                        "</div>" +
+                                      "</div> <!-- end .row -->";
+                }
+              }
+        }       
+    });
+
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        if(map.getZoom()>9){
+            MapsLib.searchrecords.setOptions({styles: [{markerOptions:{ iconName:"large_yellow"}},]});
+        } else {
+            MapsLib.searchrecords.setOptions({styles: [{markerOptions:{ iconName:"small_yellow"}},]});
+        }
     });
 
     MapsLib.searchrecords.setMap(map);
@@ -729,10 +850,8 @@ var MapsLib = {
       for (var row in data) {
         if(data[row][0]) {
           template = "\
-              <li>\
-                <strong>\
+              <li class='semi-bold'>\
                   <a href=\"#\" onclick=\"MapsLib.openMarkerByIndex(" + data[row][1] + ");\">" + data[row][0] + "</a>\
-                </strong>\
               </li>"
           }
         results.append(template);
@@ -777,6 +896,7 @@ var MapsLib = {
     MapsLib.query("*", whereClause, "MapsLib.openSelectedInfoWindow");
   },
 
+
   openSelectedInfoWindow: function(json) {
       MapsLib.infoWindow = new google.maps.InfoWindow({});
 
@@ -812,6 +932,7 @@ var MapsLib = {
           photo2      = json["rows"][0][36],
           photo3      = json["rows"][0][37],
           photo4      = json["rows"][0][38],
+          bchwheelchr = json["rows"][0][39],
           position    = new google.maps.LatLng(lat, long);
 
       var selectedLocHTML = "<div class='googft-info-window'>" +
@@ -827,338 +948,500 @@ var MapsLib = {
                                 "</div>" +
                               "</div>";
 
-      if (description) {
-        selectedLocHTML += "<div class='row gutters'>" +
-                              "<div class='column-1'>" +
-                                "<i class='fa fa-info'></i>" +
-                              "</div>" +
-                              "<div class='column-11'>" +
-                                "<strong>" +
-                                  description +
-                                "</strong>" +
-                              "</div>" +
-                            "</div>";
-      }
-
-      if (location) {
-        selectedLocHTML += "<div class='row gutters'>" +
-                              "<div class='column-1'>" +
-                                "<i class='fa fa-map-marker'></i>" +
-                              "</div>" +
-                              "<div class='column-11'>" +
-                                "<strong>" +
-                                  location +
-                                "</strong>" +
-                              "</div>" +
-                            "</div>";
-      }
-
-      if (phone) {
-        selectedLocHTML += "<div class='row gutters'>" +
-                              "<div class='column-1'>" +
-                                "<i class='fa fa-phone'></i>" +
-                              "</div>" +
-                              "<div class='column-11'>" +
-                                "<strong>" +
-                                  phone +
-                                "</strong>" +
-                              "</div>" +
-                            "</div>";
-      }
-
-
-      if (fee == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
+        if (description) {
+          selectedLocHTML += "<div class='row gutters'>" +
                                 "<div class='column-1'>" +
-                                    "<i class='fa fa-money'></i>" +
+                                  "<i class='fa fa-info'></i>" +
                                 "</div>" +
                                 "<div class='column-11'>" +
-                                    "Fee" +
+                                  "<strong>" +
+                                    description +
+                                  "</strong>" +
                                 "</div>" +
-                            "</div>";
-      }
+                              "</div>";
+        }
 
-      if (parking == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
+        if (location) {
+          selectedLocHTML += "<div class='row gutters'>" +
                                 "<div class='column-1'>" +
-                                    "<i class='fa fa-car'></i>" +
+                                  "<i class='fa fa-map-marker'></i>" +
                                 "</div>" +
                                 "<div class='column-11'>" +
-                                    "Parking" +
+                                  "<strong>" +
+                                    location +
+                                  "</strong>" +
                                 "</div>" +
-                            "</div>";
-      }
+                              "</div>";
+        }
 
-      if (disabled == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
+        if (phone) {
+          selectedLocHTML += "<div class='row gutters'>" +
                                 "<div class='column-1'>" +
-                                    "<i class='fa fa-wheelchair'></i>" +
+                                  "<i class='fa fa-phone'></i>" +
                                 "</div>" +
                                 "<div class='column-11'>" +
-                                    "Disabled Access" +
+                                  "<a href='tel:" + phone + "'>" +
+                                    "<strong>" +
+                                      phone +
+                                    "</strong>" +
+                                  "</a>" +
                                 "</div>" +
-                            "</div>";
-      }
+                              "</div>";
+        }
 
-      if (restrooms == 'Yes') {
         selectedLocHTML += "<div class='row gutters'>" +
                                 "<div class='column-1'>" +
-                                    "<i class='fa fa-female'></i>" +
+                                  "<i class='fa fa-car'></i>" +
                                 "</div>" +
                                 "<div class='column-11'>" +
-                                    "Restrooms" +
+                                  "<a href='https://www.google.com/maps/dir/Current+Location/" + lat + "," + long + "' target='_blank'>" +
+                                    "<strong>" +
+                                      "Directions" +
+                                    "</strong>" +
+                                  "</a>" +
                                 "</div>" +
-                            "</div>";
-      }
+                              "</div>";
 
-      if (viscenter == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-flag'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Visitor Center" +
-                                "</div>" +
-                            "</div>";
-      }
+        if (bchwheelchr) {
+          selectedLocHTML += "<div class='row gutters'>" +
+                                  "<div class='column-1'>" +
+                                      "<i class='fa fa-wheelchair'></i>" +
+                                  "</div>" +
+                                  "<div class='column-11'>" +
+                                    "<strong>" +
+                                      "Beach Wheelchairs available at " + bchwheelchr +
+                                    "</strong>" +
+                                  "</div>" +
+                              "</div>";
+        }
 
-      if (picnic == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-cutlery'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Picnic Area" +
-                                "</div>" +
-                            "</div>";
-      }
+        selectedLocHTML += "<br>";
 
-      if (camping == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-leaf'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Campground" +
-                                "</div>" +
-                            "</div>";
-      }
+        if (    fee       == 'Yes'
+             || parking   == 'Yes'
+             || disabled  == 'Yes'
+             || restrooms == 'Yes'
+             || viscenter == 'Yes'
+             || picnic    == 'Yes'
+             || camping   == 'Yes'
+             || sandy     == 'Yes'
+             || rocky     == 'Yes'
+             || dunes     == 'Yes'
+             || bluff     == 'Yes') {
+              selectedLocHTML += "<div class='row gutters'>" +
+                                    "<div class='column-6'>";
+        }
 
-      if (sandy == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Sandy Shore" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (fee == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-money'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Fee" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (rocky == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Rocky Shore" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (parking == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-car'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Parking" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (dunes == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Dunes" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (disabled == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-wheelchair'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Disabled Access" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (bluff == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Bluffs" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (restrooms == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-female'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Restrooms" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (stairs == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Stairs to Beach" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (viscenter == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-flag'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Visitor Center" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (path == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Path to Beach" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (picnic == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-cutlery'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Picnic Area" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (blufftrails == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Blufftop Trails" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (camping == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-tree'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Campground" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (bluffpark == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Blufftop Park" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (sandy == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Sandy Shore" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (animalview == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-eye'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Wildlife Viewing" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (rocky == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Rocky Shore" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (tidepool == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Tidepools" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (dunes == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Dunes" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (volleyball == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-futbol-o'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Vollyball" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (bluff == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Bluffs" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (fishing == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-check'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Fishing" +
-                                "</div>" +
-                            "</div>";
-      }
+            if (    fee       == 'Yes'
+             || parking   == 'Yes'
+             || disabled  == 'Yes'
+             || restrooms == 'Yes'
+             || viscenter == 'Yes'
+             || picnic    == 'Yes'
+             || camping   == 'Yes'
+             || sandy     == 'Yes'
+             || rocky     == 'Yes'
+             || dunes     == 'Yes'
+             || bluff     == 'Yes') {
+              selectedLocHTML += "</div> <!-- end .column-6 -->";
+            }
+              
+            if ( stairs      != 'Yes'
+              && path        != 'Yes'
+              && blufftrails != 'Yes'
+              && bluffpark   != 'Yes'
+              && animalview  != 'Yes'
+              && tidepool    != 'Yes'
+              && volleyball  != 'Yes'
+              && fishing     != 'Yes'
+              && boating     != 'Yes'
+              && dogfriend   != 'Yes'
+              && strollers   != 'Yes') {
+                selectedLocHTML += "</div> <!-- end .row -->";
+            }
 
-      if (boating == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-ship'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Boating" +
-                                "</div>" +
-                            "</div>";
-      }
+            if ( stairs      == 'Yes'
+              || path        == 'Yes'
+              || blufftrails == 'Yes'
+              || bluffpark   == 'Yes'
+              || animalview  == 'Yes'
+              || tidepool    == 'Yes'
+              || volleyball  == 'Yes'
+              || fishing     == 'Yes'
+              || boating     == 'Yes'
+              || dogfriend   == 'Yes'
+              || strollers   == 'Yes') {
+                selectedLocHTML += "<div class='column-6'>";
+            }
 
-      if (dogfriend == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-paw'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Dog Friendly" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (stairs == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Stairs to Beach" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (strollers == 'Yes') {
-        selectedLocHTML += "<div class='row gutters'>" +
-                                "<div class='column-1'>" +
-                                    "<i class='fa fa-child'></i>" +
-                                "</div>" +
-                                "<div class='column-11'>" +
-                                    "Stroller Friendly" +
-                                "</div>" +
-                            "</div>";
-      }
+                  if (path == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Path to Beach" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if ((/^http:\/\//.test(photo1))) {
-        selectedLocHTML += "<div class='row gutters margin-top'>" +
-                                "<div class='column-4'>" +
-                                    "<a href='#' data-featherlight='" + photo1 + "'>" +
-                                      "<img src='" + photo1 + "' alt='' />" +
-                                    "</a>" +
-                                "</div>";
-      } else {
-        selectedLocHTML += "<div class='row'>" +
-                                "<p class='center-text'><strong>StreetView image coming soon!</strong></p>" +
-                                "<p class='center-text'>If you have a photo of this location you'd like added, please email <a href='mailto:web@coastal.ca.gov'>web@coastal.ca.gov</a>" +
-                           "</div> <!-- end .row -->";
-      }
+                  if (blufftrails == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Blufftop Trails" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if ((/^http:\/\//.test(photo2))) {
-        selectedLocHTML += "<div class='column-4'>" +
-                                "<a href='#' data-featherlight='" + photo2 + "'>" +
-                                  "<img src='" + photo2 + "' alt='' />" +
-                                "</a>" +
-                            "</div>";
-      }
+                  if (bluffpark == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Blufftop Park" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if ((/^http:\/\//.test(photo3))) {
-        selectedLocHTML += "<div class='column-4'>" +
-                                "<a href='#' data-featherlight='" + photo3 + "'>" +
-                                  "<img src='" + photo3 + "' alt='' />" +
-                                "</a>" +
-                            "</div>";
-      }
+                  if (animalview == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-binoculars'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Wildlife Viewing" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if (   (/^http:\/\//.test(photo2))
-          || (/^http:\/\//.test(photo3))) {
-        selectedLocHTML += "</div> <!-- end .row -->";
-      }
+                  if (tidepool == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Tidepools" +
+                                            "</div>" +
+                                        "</div>";
+                  }
 
-      if ((/^http:\/\//.test(photo4))) {
-        selectedLocHTML += "<div class='row gutters'>" +
-                              "<div class='column-4'>" +
-                                "<a href='#' data-featherlight='" + photo4 + "'>" +
-                                  "<img src='" + photo4 + "' alt='' />" +
-                                "</a>" +
-                              "</div>" +
-                            "</div> <!-- end .row -->";
-      }
+                  if (volleyball == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-futbol-o'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Volleyball" +
+                                            "</div>" +
+                                        "</div>";
+                  }
+
+                  if (fishing == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-check'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Fishing" +
+                                            "</div>" +
+                                        "</div>";
+                  }
+
+                  if (boating == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-ship'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Boating" +
+                                            "</div>" +
+                                        "</div>";
+                  }
+
+                  if (dogfriend == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-paw'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Dog Friendly" +
+                                            "</div>" +
+                                        "</div>";
+                  }
+
+                  if (strollers == 'Yes') {
+                    selectedLocHTML += "<div class='row gutters'>" +
+                                            "<div class='column-1'>" +
+                                                "<i class='fa fa-child'></i>" +
+                                            "</div>" +
+                                            "<div class='column-10 push-1'>" +
+                                                "Stroller Friendly" +
+                                            "</div>" +
+                                        "</div>";
+                  }
+
+            if ( stairs      == 'Yes'
+              || path        == 'Yes'
+              || blufftrails == 'Yes'
+              || bluffpark   == 'Yes'
+              || animalview  == 'Yes'
+              || tidepool    == 'Yes'
+              || volleyball  == 'Yes'
+              || fishing     == 'Yes'
+              || boating     == 'Yes'
+              || dogfriend   == 'Yes'
+              || strollers   == 'Yes') {
+                selectedLocHTML += "</div> <!-- end .column-6 -->" +
+                                  "</div> <!-- end .row -->";
+            }
+              
+
+        if(   (/^http:\/\//.test(photo1))
+           && !(/^http:\/\//.test(photo2))) {
+            selectedLocHTML += "<div class='row gutters margin-top'>" +
+                                    "<div class='column-10 push-1'>" +
+                                        "<a href='#' data-featherlight='" + photo1 + "'>" +
+                                          "<img src='" + photo1 + "' alt='' />" +
+                                        "</a>" +
+                                    "</div> <!-- end .column-10 -->" +
+                                "</div> <!-- end .row -->";
+        } else {
+          if(   (/^http:\/\//.test(photo1))
+             && (/^http:\/\//.test(photo2))
+             && !(/^http:\/\//.test(photo3))) {
+            selectedLocHTML += "<div class='row gutters margin-top'>" +
+                                    "<div class='column-6'>" +
+                                        "<a href='#' data-featherlight='" + photo1 + "'>" +
+                                          "<img src='" + photo1 + "' alt='' />" +
+                                        "</a>" +
+                                    "</div>";
+
+                selectedLocHTML += "<div class='column-6'>" +
+                                        "<a href='#' data-featherlight='" + photo2 + "'>" +
+                                          "<img src='" + photo2 + "' alt='' />" +
+                                        "</a>" +
+                                    "</div>" +
+                                  "</div> <!-- end .googft-info-window -->";
+          } else {
+            if ((/^http:\/\//.test(photo1))) {
+              selectedLocHTML += "<div class='row gutters margin-top'>" +
+                                      "<div class='column-4'>" +
+                                          "<a href='#' data-featherlight='" + photo1 + "'>" +
+                                            "<img src='" + photo1 + "' alt='' />" +
+                                          "</a>" +
+                                      "</div>";
+            } else {
+              selectedLocHTML += "<div class='row margin-top'>" +
+                                      "<a href='javascript:void(0)' onclick='MapsLib.openStreetView(" + lat + "," + long +")'>" +
+                                        "<img src='https://maps.googleapis.com/maps/api/streetview?size=300x150&location=" + lat + "," + long + "&fov=90&heading=270&pitch=10'" +
+                                      "</a>" +
+                                   "</div> <!-- end .row -->";
+            }
+
+            if ((/^http:\/\//.test(photo2))) {
+              selectedLocHTML += "<div class='column-4'>" +
+                                      "<a href='#' data-featherlight='" + photo2 + "'>" +
+                                        "<img src='" + photo2 + "' alt='' />" +
+                                      "</a>" +
+                                  "</div>";
+            }
+
+            if ((/^http:\/\//.test(photo3))) {
+              selectedLocHTML += "<div class='column-4'>" +
+                                      "<a href='#' data-featherlight='" + photo3 + "'>" +
+                                        "<img src='" + photo3 + "' alt='' />" +
+                                      "</a>" +
+                                  "</div>";
+            }
+
+            if (   (/^http:\/\//.test(photo2))
+                || (/^http:\/\//.test(photo3))) {
+              selectedLocHTML += "</div> <!-- end .row -->";
+            }
+
+            if ((/^http:\/\//.test(photo4))) {
+              selectedLocHTML += "<div class='row gutters'>" +
+                                    "<div class='column-4'>" +
+                                      "<a href='#' data-featherlight='" + photo4 + "'>" +
+                                        "<img src='" + photo4 + "' alt='' />" +
+                                      "</a>" +
+                                    "</div>" +
+                                  "</div> <!-- end .row -->";
+            }
+          }
+        }
+
+        
+
+      
 
       MapsLib.infoWindow.setOptions({
         content: selectedLocHTML,
         position: position
       });
       MapsLib.infoWindow.open(map);
+  },
+
+
+  openStreetView: function(latitude, longitude) {
+    var latitude  = latitude,
+        longitude = longitude;
+
+    selectedPosition = new google.maps.LatLng(latitude, longitude);
+
+  // Note: constructed panorama objects have visible: true
+  // set by default.
+  var panoOptions = {
+    position: selectedPosition,
+    addressControlOptions: {
+      position: google.maps.ControlPosition.BOTTOM_CENTER
+    },
+    linksControl: true,
+    panControl: true,
+    zoomControlOptions: {
+      style: google.maps.ZoomControlStyle.SMALL
+    },
+    enableCloseButton: true
+  };
+
+  var panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('map_canvas'), panoOptions);
   }
   
   //-----end of custom functions-------

@@ -5,7 +5,7 @@
 <!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
   <head>
-    <title>Ca. Coastal Commission</title>
+    <title>AccessYourCoast</title>
 
     <!-- meta -->
     <meta charset="utf-8">
@@ -13,140 +13,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Author" content="State of California - Ca. Coastal Commission">
 
-    <!-- owl carousel-->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//owl-carousel/owl.theme.css">
-
-    <!-- toggle switch -->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/toggle-switch.css">
-
-    <!-- animate -->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/animate.css">
-
-    <!-- concise -->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/concise.css">
-
-    <!-- font awesome -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-    <!-- featherlight lightbox -->
-        <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/noelboss/featherlight/1.2.3/release/featherlight.min.css">
-
-    <!-- google local search -->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/search_gss.css" media="screen, projection, print, tv" type="text/css" />
-
-    <!-- ca state template -->
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/ca_master.css">
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/ca_department.css">
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/navigation_2_level.css">
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/content_2_column.css">
-    <link rel="stylesheet" href="http://www.coastal.ca.gov//css/color_scheme_06_sac.css">
+    <!-- all.min -->
+    <link rel="stylesheet" href="/css/all.min.css">
 
     <style>
       @media only screen 
         and (min-device-width: 300px) 
         and (max-device-width: 736px) { 
           #calcoastaccess .row {
-            /*display: table;*/
-          }
-
-          #calcoastaccess .page-header {
-            padding: 0 0 29px 0;
+            display: table;
           }
 
           #calcoastaccess .page-header h1 {
-            font-size: 27px;
+            font-size: 58px;
             text-align: center;
-            margin: 5px 0 0 0;
+            margin: 0;
           }
 
           #calcoastaccess .column-2 {
             width: 100%;
-            /*display: table-footer-group;*/
-          }
-
-          #calcoastaccess #search-and-radius {
-            display: block;
-            margin: auto;
-            width: 93%;
-            margin-top: 0px;
-          }
-
-          #calcoastaccess #search-and-radius .column-10 {
-            width: 100%;
-          }
-
-          #calcoastaccess #search-and-radius .column-1 {
-            width: 8.33333333333%;
-            float: right;
-            margin-top: -28px;
-            margin-right: 16px;
-          }
-
-          #calcoastaccess #search_address {
-
-          }
-
-          #calcoastaccess #search_radius {
-            border-bottom-color: rgb(255, 235, 59);
-            color: white; 
-            padding-bottom: 10px;
-            background-color: rgb(77, 127, 178);
-          }
-
-          #calcoastaccess #find_me {
-            margin-top: -13px;
-            margin-right: 21px;
-            float: right;
-            display: block;
+            display: table-footer-group;
           }
 
           #calcoastaccess .result-list {
-            height: 20vh !important;
+            
           }
 
           #calcoastaccess .column-9.pull-over-page-header {
-              width: 97%;
-              margin: auto;
-              margin-top: -50px;
+            width: 90%;
+            display: table-header-group;
+            margin: auto;
           }
 
-          #calcoastaccess h4#feedback {
-            display: none;
-          }
+          
 
           #calcoastaccess #map_canvas {
               height: 58vh !important;
           }
-
-          .margin-top {
-            margin-top: 10px;
-            margin-bottom: 10px;
-          }
-
-          #made-by {
-            display: none;
-          }
       }
 
       #calcoastaccess h4#feedback {
-        margin-top: 26px;
-        text-align: right;
+        
       } 
 
-      #search-and-radius {
-        margin-top: -40px;
-      }
 
-      #feedback-form {
+
+      #feedback-form,
+      #more-info {
         display: none;
       }
 
-      #feedback-form.featherlight-inner {
+      #feedback-form.featherlight-inner,
+      #more-info.featherlight-inner {
         display: block;
       }
 
-      #calcoastaccess .fa-heart {
+      #more-info.featherlight-inner {
+        max-width: 400px;
+      }
+
+      #calcoastaccess #footerInfo {
+        min-height: 100%;
+      }
+
+      #calcoastaccess #footerInfo h4 {
+        margin-top: 0;
+      }
+
+      #calcoastaccess #footerInfo h4 i.fa {
+        padding-right: 10px;
+      }
+
+      .fa-heart {
         display: inline-block;
         position: relative;
         top: .2em;
@@ -159,20 +97,35 @@
                 animation: love .5s infinite linear alternate-reverse;
       }
 
+      #calcoastaccess .dark-blue-background a {
+        text-decoration: none;
+      }
+
       #calcoastaccess .dark-blue-background {
         box-shadow: 0 3px 5px rgba(0,0,0,.26);
         -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.26);
+        position: relative;
       }
 
       #calcoastaccess .dark-blue-background img {
-        height: 45px;
-        width: 45px;
+        height: 40px;
+        width: 40px;
         border-radius: 50%;
         background-color: rgba(40, 53, 147, 1);
         display: block;
         margin: auto;
         margin-bottom: -22px;
-        float: none;
+        position: relative;
+        margin-bottom: -22px;
+      }
+
+      #calcoastaccess #foot-logo {
+          width: 9.5%;
+          display: inline;
+          clear: both;
+          float: left;
+          opacity: 0.5;
+          margin: 0 10px;
       }
 
       @-webkit-keyframes love {
@@ -188,78 +141,72 @@
     </style>
 
     <!-- modernizr -->
-    <script src="http://www.coastal.ca.gov//javascript/modernizr.2.3.8.custom.js"></script>
+    <script src="/javascript/modernizr.2.3.8.custom.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-      <!--[if lt IE 9]>
-        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
 
   <body>
 
     <div class="container grey-background" id="calcoastaccess">
-      <!-- <div class="row overflow-visible animated fadeInDown">
+      <div class="row overflow-visible">
         <div class="column-12 dark-blue-background">
-          <a href="#">
-            <h1 class="white-text light center-text no-margin margin-top">California Coastal Commission</h1>
+          <a href="http://www.coastal.ca.gov">
+            <h2 class="white-text light center-text no-margin no-border no-padding">California Coastal Commission</h2>
             <img src="http://www.coastal.ca.gov/images/ca-coastal-commission-logo.png" alt="CCC Logo" class="fab center"/>
           </a>
         </div>
-      </div> -->
+      </div>
 
-      <div class="row overflow-visible animated fadeInDown">
+      <div class="row overflow-visible">
         <div class="column-12 page-header blue-background">
-          <div class="row" id="header">
+          <div class="row">
             <div class="column-4 push-2">
-              <h1 class="light slab">Cal<span class="medium">Coast</span>Access</h1>
-            </div> <!-- end .column-4 -->
-
-            <div class="column-1 push-6">
-              <a href="#" data-featherlight="#feedback-form">
-                <h4 class="yellow-text medium" id="feedback"><i class="fa fa-bullhorn flipped-text"></i>  feedback</h4>
-              </a>
-            </div> <!-- end .column-1 -->
+              <img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
+              <h1 class="medium slab">Access<span class="light">Your</span>Coast</h1>
+            </div> <!-- end .column-3 -->
           </div> <!-- end .row -->
         </div> <!-- end .column-12 -->
       </div> <!-- end .row -->
 
       <div class="row gutters overflow-visible">
         <div class="column-2">
-          <div id="search-and-radius">
-            <div class="row overflow-visible">
-              <div class="column-10 push-1">
-                <input class='form-control' id='search_address' placeholder='Search' type='text' />
-              </div> <!-- end .column-10 -->
+          <div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location within California to find the nearby Public Access locations" data-position="right">
+            <div class="column-10 push-1">
+              <input class='form-control' id='search_address' placeholder='Search' type='text' />
+            </div> <!-- end .column-10 -->
 
-              <div class="column-1">
-                <a id='search' href='#'>
-                  <i class='fa fa-search yellow-text'></i>
-                </a>
-              </div> <!-- end .column-1 -->
-            </div> <!-- end .row -->
+            <div class="column-1">
+              <a id='search' href='#'>
+                <i class='fa fa-search yellow-text'></i>
+              </a>
+            </div> <!-- end .column-1 -->
+          </div> <!-- end .row -->
 
-            <div class="row margin-top overflow-visible">
-              <div class="column-10 push-1">
-                <select id='search_radius'>
-                  <option value='805'>1/2 mile radius</option>
-                  <option value='1610'>1 mile radius</option>
-                  <option value='3220'>2 mile radius</option>
-                  <option value='6440'>4 mile radius</option>
-                  <option value='12880'>8 mile radius</option>
-                </select>
-              </div> <!-- end .column-10 -->
+          <div class="row margin-top overflow-visible" data-intro="Search radius can be set by selecting your desired distance" data-position="right">
+            <div class="column-10 push-1">
+              <select id='search_radius'>
+                <option value='1609'>1 mile radius</option>
+                <option value='8046'>5 mile radius</option>
+                <option value='16093'>10 mile radius</option>
+                <option value='40233' selected>25 mile radius</option>
+                <option value='80467'>50 mile radius</option>
+                <option value='160934'>100 mile radius</option>
+              </select>
+            </div> <!-- end .column-10 -->
 
-              <div class="column-1">
-                <a id='reset' href='#'>
-                  <i class='fa fa-refresh blue-text'></i>
-                </a>
-              </div> <!-- end .column-1 -->
-            </div> <!-- end .row -->   
-          </div> <!-- end #search-and-radius -->      
+            <div class="column-1">
+              <a id='reset' href='#'>
+                <i class='fa fa-refresh blue-text'></i>
+              </a>
+            </div> <!-- end .column-1 -->
+          </div> <!-- end .row -->         
 
-          <div class="row margin-top" id="result-row">
-            <div class="column-11 push-1">
+          <div class="row margin-top">
+            <div class="column-11 push-1" data-intro="Search results can be clicked to open any location" data-position="right">
               <!-- Results <small>(<span id='result_count'></span>)</small> -->
 
               <div class="result-list">
@@ -272,34 +219,70 @@
         </div> <!-- end .column-2 -->
 
         <div class="column-9 pull-over-page-header">
-          <div class="card margin-top full-bleed animated fadeInUp">
+          <div class="card margin-top animated fadeInUp">
             <div class="card-body">
               <div id='map_canvas'></div>
             </div> <!-- end .card-body -->
           </div> <!-- end .card -->
 
-          <h4 class="medium blue-text center-text" id="made-by">Made with <i class="fa fa-heart"></i> by the <span class="medium"><a href="http://www.coastal.ca.gov" class="blue-text">Ca Coastal Commission</a></span></h4>
+          <div class="row animated fadeInDown" id="footerInfo">
+            <div class="column-2">
+              <a href="#" data-featherlight="#feedback-form">
+                <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="fa fa-bullhorn"></i>  feedback</h4>
+              </a>
+            </div> <!-- end .column-2 -->
+
+            <div class="column-8">
+              <a href="#" id="helpOverlay">
+                <h4 class="medium blue-text center-text no-padding pull-up"><i class="fa fa-life-ring"></i> help</h4>
+              </a>
+            </div> <!-- end .column-8 -->
+
+            <div class="column-2">
+              <a href="#" data-featherlight="#more-info">
+                <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="fa fa-info"></i>  about</h4>
+              </a>
+            </div> <!-- end .column-2 -->
+          </div> <!-- end .row -->
         </div> <!-- end .column-9 -->
 
-        <div class="column-1">
+        <div class="column-1" data-intro="Geolocate yourself to find Public Access locations near you" data-position="left">
           <a id='find_me' href='#'><button class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button></a>
         </div> <!-- end .column-1 -->
       </div> <!-- end .row -->
+
+      
     </div> <!-- end .container -->
 
     <div id="feedback-form" class="">
       <iframe src="https://docs.google.com/forms/d/10UlT3JDgaxdKk5DyXyHdmGWHlLovSpoCMGBu0QWRTRk/viewform?embedded=true" width="760" height="700" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
     </div> <!-- # feedback-form -->
 
+    <div id="more-info" class="white-background">
+
+      <h1 class="slab blue-text center-text medium">Hello there!</h1>
+
+      <p class="intro-text center-text">AccessYourCoast has been constructed and is maintained by the California Coastal Commission. The data is a publicly available open data set of all California Coastal Access locations and their respective attributes, hosted by <a href="https://www.google.com/fusiontables/DataSource?docid=1HCOIEnj3VpLHmJtiOQ_5P0N_ZFslh1w_Xf_mepmK#rows:id=1" target="_blank">Google FusionTables</a>.</p>
+
+      <p class="intro-text center-text">Location and attribute data are collected primarily from entries in the statewide <a href="http://www.ucpress.edu/book.php?isbn=9780520278172" target="_blank">California Coastal Access Guide: Seventh Edition</a> (2014), and the 4-book set of regional <a href="http://www.ucpress.edu/series.php?ser=ecc" target="_blank">Experience the California Coast</a> guides (2005, 2007, 2009, 2012), all published by the University of California Press.<!-- AccessYourCoast was built atop several Open Source projects including <a href="https://github.com/derekeder/FusionTable-Map-Template" target="_blank">FusionTable-Map-Template</a>, <a href="https://github.com/jquery/jquery">jQuery</a>, <a href="https://github.com/noelboss/featherlight" target="_blank">featherlight</a> &amp; several APIs including Google Maps, Google FusionTables, Google Maps StreetView &amp; HTML5 Geolocation. --></p>
+
+      <h2 class="blue-text slab no-border medium center-text">Thanks!</h2>
+
+      <h4 class="medium blue-text center-text no-padding">made with <i class="fa fa-heart"></i> by the <span class="medium"><a href="http://www.coastal.ca.gov" class="blue-text" target="_blank">Ca Coastal Commission</a></span></h4>
+    </div> <!-- # feedback-form -->
+
     <!-- jquery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.transition.min.js"></script> -->
-    <!-- featherlight box -->
-    <script src="//cdn.rawgit.com/noelboss/featherlight/1.2.3/release/featherlight.min.js"></script>
+
     <script type="text/javascript" src="js/jquery.address.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&v=3.14?key=AIzaSyAx3mZAAx_JC8C3Xww3xXPDaT3bG5_8BhY"></script>
     <script type="text/javascript" src="js/jquery.geocomplete.min.js"></script>
     <script type="text/javascript" src="js/maps_lib.js"></script>
+    <!-- featherlight box -->
+    <script src="//cdn.rawgit.com/noelboss/featherlight/1.2.3/release/featherlight.min.js"></script>
+    <!-- chardin.js tour/help -->
+    <script src="/javascript/chardinjs.min.js"></script>
     <script type='text/javascript'>
       //<![CDATA[
         $(window).resize(function () {
@@ -308,10 +291,21 @@
         
           $('#map_canvas').css('height', (h - offsetTop));
         }).resize();
+
         
         $(function() {
+          var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(32.543521, -117.124895), // south-west
+            new google.maps.LatLng(41.967659, -117.927246) // north-east
+          );
+
           MapsLib.initialize();
-          $("#search_address").geocomplete();
+          $("#search_address").geocomplete({
+            // map: "#map_canvas",
+            country: "us",
+            // types: ["geocode", "establishment"],
+            bounds: true
+          });
 
           $(':checkbox').click(function(){
             MapsLib.doSearch();
@@ -348,20 +342,22 @@
               }
           });
 
-          // mobile DOM changes
-          if ($(window).width() <= 736) {
-            // move search & radius controls above the map
-            $('#search-and-radius').insertAfter($('#header'));
+          if ($(window).width() <= 480) {
+            $(".well").addClass("hide-nav");
 
-            // move results below the map
-            $('#result-row').insertAfter($('.card'));
-
-            // move fab above results
-            $('#find_me').insertBefore($('#result-row'));
+            $("#mobile-nav-toggle").click(function(){
+              if ($(".well").hasClass("show-nav")) {
+                $(".well").removeClass("show-nav").addClass("hide-nav");
+              } else {
+                $(".well").removeClass("hide-nav").addClass("show-nav");
+              }
+            });
           }
         });
 
-        
+        $('#helpOverlay').click(function() {
+          $('body').chardinJs('start');
+        });
       //]]>
     </script>
   </body>
