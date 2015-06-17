@@ -1,11 +1,203 @@
-<ul>
-	<li ng-repeat="location in locations">
-		{{ location.NameMobileWeb }}
+<style>
+  @media only screen 
+    and (min-device-width: 300px) 
+    and (max-device-width: 736px) { 
+      #calcoastaccess .row {
+        display: table;
+      }
 
-		<ul>
-			<li>
-				{{ location.LONGITUDE }} / {{ location.LATITUDE }}
+      #calcoastaccess .page-header h1 {
+        font-size: 58px;
+        text-align: center;
+        margin: 0;
+      }
+
+      #calcoastaccess .column-2 {
+        width: 100%;
+        display: table-footer-group;
+      }
+
+      #calcoastaccess .result-list {
+        
+      }
+
+      #calcoastaccess .column-9.pull-over-page-header {
+        width: 90%;
+        display: table-header-group;
+        margin: auto;
+      }
+
+     
+  }
+
+  #calcoastaccess h4#feedback {
+    
+  } 
+
+  .angular-google-map-container { 
+  	height: 75vh !important;
+  }
+
+  #calcoastaccess #search_address {
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#FEEA3B, #FEEA3B) no-repeat, bottom center linear-gradient(#FEEA3B, #FEEA3B) repeat-x, bottom right linear-gradient(#FEEA3B, #FEEA3B) no-repeat;
+    background-size: 2px 6px, 2px 2px, 2px 6px;
+  }
+
+  #calcoastaccess #search_radius {
+    padding: 8px 8px 6px 8px;
+    position: relative;
+    display: block;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#4D7FB2, #4D7FB2) no-repeat, bottom center linear-gradient(#4D7FB2, #4D7FB2) repeat-x, bottom right linear-gradient(#4D7FB2, #4D7FB2) no-repeat;
+    background-size: 2px 6px, 2px 2px, 2px 6px;
+  }
+
+  #feedback-form,
+  #more-info {
+    display: none;
+  }
+
+  #feedback-form.featherlight-inner,
+  #more-info.featherlight-inner {
+    display: block;
+  }
+
+  #more-info.featherlight-inner {
+    max-width: 600px;
+  }
+
+  #calcoastaccess #footerInfo {
+    min-height: 100%;
+  }
+
+  #calcoastaccess #footerInfo h4 {
+    margin-top: 0;
+  }
+
+  #calcoastaccess #footerInfo h4 i.fa {
+    padding-right: 10px;
+  }
+
+  .fa-heart {
+    display: inline-block;
+    position: relative;
+    top: .2em;
+    /*font-size: 1.4em;*/
+    -webkit-transform: scale(.9);
+       -moz-transform: scale(.9);
+            transform: scale(.9);
+    -webkit-animation: love .5s infinite linear alternate-reverse;
+       -moz-animation: love .5s infinite linear alternate-reverse;
+            animation: love .5s infinite linear alternate-reverse;
+  }
+
+  #calcoastaccess .dark-blue-background a {
+    text-decoration: none;
+  }
+
+  #calcoastaccess .dark-blue-background {
+    box-shadow: 0 3px 5px rgba(0,0,0,.26);
+    -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.26);
+    position: relative;
+  }
+
+  #calcoastaccess .dark-blue-background img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: rgba(40, 53, 147, 1);
+    display: block;
+    margin: auto;
+    margin-bottom: -22px;
+    position: relative;
+    margin-bottom: -22px;
+  }
+
+  #calcoastaccess #foot-logo {
+      width: 9.5%;
+      display: inline;
+      clear: both;
+      float: left;
+      opacity: 0.5;
+      margin: 0 10px;
+  }
+
+  @-webkit-keyframes love {
+      to {-webkit-transform: scale(1.2);}
+  }
+
+  @-moz-keyframes love {
+      to {-moz-transform: scale(1.2);}
+  }
+  @keyframes love {
+      to {transform: scale(1.2);}
+  }
+</style>
+
+<div class="row gutters overflow-visible">
+	<div class="column-2">
+		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location within California to find the nearby Public Access locations" data-position="right">
+			<div class="column-10 push-1">
+				<input ng-model='search' class='form-control' id='search_address' placeholder='Search' type='text' autofocus />
+			</div> <!-- end .column-10 -->
+
+			<div class="column-1">
+				<a id='search' href='#'>
+					<i class='fa fa-search yellow-text'></i>
+				</a>
+			</div> <!-- end .column-1 -->
+		</div> <!-- end .row -->
+
+		<div class="row margin-top overflow-visible">
+			<div class="column-10 push-1">
+				<select id='search_radius'>
+					<option value='1609'>1 mile radius</option>
+					<option value='8046'>5 mile radius</option>
+					<option value='16093'>10 mile radius</option>
+					<option value='40233' selected>25 mile radius</option>
+					<option value='80467'>50 mile radius</option>
+					<option value='160934'>100 mile radius</option>
+				</select>
+			</div> <!-- end .column-10 -->
+
+			<div class="column-1">
+				<a id='reset' href='#'>
+					<i class='fa fa-refresh blue-text'></i>
+				</a>
+			</div> <!-- end .column-1 -->
+		</div> <!-- end .row -->        
+
+		<ul class="unstyled-list result-list margin-top">
+			<li ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search">
+				<a ng-href="openAndSearchFor({{ location.ID }})" alt="{{ location.NameMobileWeb }}">
+					{{ location.NameMobileWeb }}
+				</a>
 			</li>
 		</ul>
-	</li>
-</ul>
+	</div> <!-- end .column-2 -->
+
+	<div class="column-9 pull-over-page-header">
+		<div class="card margin-top animated fadeInUp">
+			<div class="card-body">
+				<ui-gmap-google-map center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas'>
+					<ui-gmap-markers models="map.locations" 
+        									 idkey="'ID'"
+        									 coords="'coords'"
+                           doCluster="true"
+                           clusterOptions="map.options.cluster">
+					</ui-gmap-markers>
+				</ui-gmap-google-map>
+			</div> <!-- end .card-body -->
+		</div> <!-- end .card -->
+	</div> <!-- end .column-9 -->
+
+	<div class="column-1">
+		<button ng-click="geolocate()" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
+	</div> <!-- end .column-1 -->
+</div> <!-- end .row -->

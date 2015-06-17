@@ -4,10 +4,39 @@
 		<title>YourCoast</title>
 
 		<!-- css -->
+    	<link rel="stylesheet" href="http://www.coastal.ca.gov/css/all.min.css">
 
+
+    	<!-- modernizr -->
+		<script src="http://www.coastal.ca.gov/javascript/modernizr.2.3.8.custom.js"></script>
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
 	</head>
 	<body ng-app="yourCoast">
-		<div class="container">
+		<div class="container grey-background" id="calcoastaccess">
+			<div class="row overflow-visible">
+				<div class="column-12 dark-blue-background">
+					<a href="http://www.coastal.ca.gov">
+						<h2 class="white-text light center-text no-margin no-border no-padding">California Coastal Commission</h2>
+						<img src="http://www.coastal.ca.gov/images/ca-coastal-commission-logo.png" alt="CCC Logo" class="fab center"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="row overflow-visible">
+				<div class="column-12 page-header blue-background">
+					<div class="row">
+						<div class="column-4 push-2">
+							<img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
+							<h1 class="medium slab"><span class="light">Your</span>Coast</h1>
+						</div> <!-- end .column-3 -->
+					</div> <!-- end .row -->
+				</div> <!-- end .column-12 -->
+			</div> <!-- end .row -->
+
 			<ui-view></ui-view>
 		</div> <!-- end .container -->
 
@@ -15,6 +44,8 @@
 		<script src="/bower_components/angular/angular.js"></script>
 		<script src="/bower_components/angular-resource/angular-resource.js"></script>
 		<script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="/bower_components/lodash/lodash.js"></script>
+		<script src="/bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
 
 		<script src="/yourCoast.js"></script>
 		<script src="/views/map/map.js"></script>
