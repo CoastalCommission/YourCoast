@@ -175,7 +175,7 @@
 
 		<ul class="unstyled-list result-list margin-top">
 			<li ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search">
-				<a ng-href="openAndSearchFor({{ location.ID }})" alt="{{ location.NameMobileWeb }}">
+				<a ng-click="openInfoWindow(location)" alt="{{ location.NameMobileWeb }}">
 					{{ location.NameMobileWeb }}
 				</a>
 			</li>
@@ -185,12 +185,201 @@
 	<div class="column-9 pull-over-page-header">
 		<div class="card margin-top animated fadeInUp">
 			<div class="card-body">
-				<ui-gmap-google-map center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas'>
+				<ui-gmap-google-map options="map.options.custom" center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas'>
 					<ui-gmap-markers models="map.locations" 
-        									 idkey="'ID'"
-        									 coords="'coords'"
+                           idkey="'ID'"
+                           coords="'coords'"
+                           labelContent="'NameMobileWeb'"
                            doCluster="true"
-                           clusterOptions="map.options.cluster">
+                           clusterOptions="map.options.cluster"
+                           click="openInfoWindow">
+
+            <ui-gmap-window coords="map.selectedMarker.coords" show="map.selectedMarker.show" options="map.options.infowindow" closeClick="closeInfoWindow()">
+                <div class="googft-info-window">
+                  <h4 class="center-text blue-text slab medium no-border">{{ map.selectedMarker.NameMobileWeb }}</h4>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-info'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.DescriptionMobileWeb }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-map-marker'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.LocationMobileWeb }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-phone'></i>
+                    </div>
+
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.PHONE_NUMBER }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-car'></i>
+                    </div>
+
+                    <div class='column-11'>
+                      <a href='https://www.google.com/maps/dir/Current+Location/{{ map.selectedMarker.LATITUDE }},{{ map.selectedMarker.LONGITUDE}}' target='_blank'>
+                        <strong>
+                          Directions
+                        </strong>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-wheelchair'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.Bch_whlchr }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-money'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.FEE }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-car'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.PARKING }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-wheelchair'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.DSABLDACSS }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-female'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.RESTROOMS }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-flag'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.VISTOR_CTR }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-cutlery'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.PCNC_AREA }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-tree'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.CAMPGROUND }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.SNDY_BEACH }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.SKY_SHORE }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.DUNES }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.BLUFF }}
+                      </strong>
+                    </div>
+                  </div>
+
+                </div>
+            </ui-gmap-window>  
 					</ui-gmap-markers>
 				</ui-gmap-google-map>
 			</div> <!-- end .card-body -->
