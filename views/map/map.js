@@ -241,6 +241,11 @@ angular.module('yourCoast.map', [])
 			});
 		}
 
+		$scope.helpOverlay = function helpOverlay() {
+				console.log("HELP!");
+				$('body').chardinJs('start');
+		}
+
 		// if($stateParams.locationName) {
 		// 	AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
 		// 		console.log(location[0]);

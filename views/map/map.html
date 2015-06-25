@@ -236,14 +236,11 @@ body,
 
 </style>
 
-<div class="row gutters overflow-visible"
-     ng-intro-method="StartIntroTour"
-     ng-intro-options="IntroOptions"
-     ng-intro-autostart="true">
+<div class="row gutters overflow-visible">
 	<div class="column-2">
-		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location within California to find the nearby Public Access locations" data-position="right">
+		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location to find the nearby Public Access locations" data-position="right">
 			<div class="column-10 push-1">
-				<input ng-model='search' class='form-control' id='search_address' placeholder='Search' type='text' autofocus />
+				<input ng-model='search' class='form-control' id='search_address' placeholder='Search' type='text' />
 			</div> <!-- end .column-10 -->
 
 			<div class="column-1">
@@ -253,15 +250,17 @@ body,
 			</div> <!-- end .column-1 -->
 		</div> <!-- end .row -->
 
-		<ul class="unstyled-list result-list margin-top">
-			<a ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search"
-         ng-click="openInfoWindow(location)"
-         alt="{{ location.NameMobileWeb }}">
-        <li>
-					{{ location.NameMobileWeb }}
-				</li>
-			</a>
-		</ul>
+    <div class="row" data-intro="Search results can be clicked to open any location" data-position="right">
+  		<ul class="unstyled-list result-list margin-top">
+  			<a ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search"
+           ng-click="openInfoWindow(location)"
+           alt="{{ location.NameMobileWeb }}">
+          <li>
+  					{{ location.NameMobileWeb }}
+  				</li>
+  			</a>
+  		</ul>
+    </div> <!-- end .row -->
 	</div> <!-- end .column-2 -->
 
 	<div class="column-9 pull-over-page-header">
@@ -602,9 +601,29 @@ body,
 				</ui-gmap-google-map>
 			</div> <!-- end .card-body -->
 		</div> <!-- end .card -->
+
+    <div class="row gutters" id="footerInfo">
+      <div class="column-2">
+        <a href="#" data-featherlight="#feedback-form">
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="fa fa-bullhorn"></i>  feedback</h4>
+        </a>
+      </div> <!-- end .column-2 -->
+
+      <div class="column-8">
+        <a href="#" id="helpOverlay" ng-click="helpOverlay()">
+          <h4 class="medium blue-text center-text no-padding pull-up"><i class="fa fa-life-ring"></i> help</h4>
+        </a>
+      </div> <!-- end .column-8 -->
+
+      <div class="column-2">
+        <a href="#" data-featherlight="#more-info">
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="fa fa-info"></i>  about</h4>
+        </a>
+      </div> <!-- end .column-2 -->
+    </div> <!-- end .row -->
 	</div> <!-- end .column-9 -->
 
-	<div class="column-1">
+	<div class="column-1" data-intro="Geolocate yourself to find the nearby Public Access locations" data-position="left">
 		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
 	</div> <!-- end .column-1 -->
 </div> <!-- end .row -->
