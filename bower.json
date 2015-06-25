@@ -15,7 +15,5 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "angular-intro.js": "~1.2.4"
-  }
+  "dependencies": {}
 }

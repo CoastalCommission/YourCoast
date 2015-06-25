@@ -233,9 +233,13 @@ body,
   @keyframes love {
       to {transform: scale(1.2);}
   }
+
 </style>
 
-<div class="row gutters overflow-visible">
+<div class="row gutters overflow-visible"
+     ng-intro-method="StartIntroTour"
+     ng-intro-options="IntroOptions"
+     ng-intro-autostart="true">
 	<div class="column-2">
 		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location within California to find the nearby Public Access locations" data-position="right">
 			<div class="column-10 push-1">
@@ -601,6 +605,6 @@ body,
 	</div> <!-- end .column-9 -->
 
 	<div class="column-1">
-		<button ng-click="geolocate()" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
+		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
 	</div> <!-- end .column-1 -->
 </div> <!-- end .row -->

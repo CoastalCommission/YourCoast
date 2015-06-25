@@ -57,7 +57,7 @@ angular.module('yourCoast.map', [])
     						   }
     						   )
     };
-    						
+
 
 	return locationsAPI;
 }])
@@ -153,7 +153,33 @@ angular.module('yourCoast.map', [])
 							dragend: function (maps, eventName, args) {},
 							zoom_changed: function (maps, eventName, args) {}
                         };
-
+	$scope.IntroOptions = {
+        steps:[
+	        {
+	            element: document.querySelector('#search_address'),
+	            intro: "Search for a location to find your Public Access locations",
+							position: 'right'
+	        },
+	        {
+	            element: document.querySelectorAll('#geolocate'),
+	            intro: "Or geolocate yourself to find your nearby Public Access locations",
+	            position: 'left'
+	        },
+	        {
+	            element: document.querySelectorAll('.result-list'),
+	            intro: 'Search results can be clicked to open any location',
+	            position: 'left'
+	        }
+        ],
+        showStepNumbers: false,
+        showBullets: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<strong>Next!</strong>',
+        prevLabel: '<span style="color:green">Previous</span>',
+        skipLabel: 'Exit',
+        doneLabel: 'Thanks'
+    };
 
 	if("geolocation" in navigator) {
 		$scope.geolocate = function geolocate() {
