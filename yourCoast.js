@@ -12,4 +12,4 @@ angular.module('yourCoast', ['ngResource',
         v: '3.17',
         libraries: 'weather,geometry,places'
     });
-})
+});
