@@ -4,35 +4,66 @@ angular.module('yourCoast.map', [])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-		$stateProvider.state('map', {
-			url: '/map',
-			templateUrl: '/views/map/map.html',
-			controller: 'mapController'
-		});
+		$stateProvider
+			.state('map', {
+				url: '/map',
+				templateUrl: '/views/map/map.html',
+				controller: 'mapController'
+			})
+
+			.state('location', {
+				url: '/map/location/:locationID',
+				templateUrl: '/views/map/map.html',
+				controller: 'mapController'
+			});
+
 
 		$urlRouterProvider.otherwise('/map');
 }])
 
 
-.factory('AccessLocationsAPI', ['$resource', function($resource) {
-  var remoteSearchURL = 'http://localhost:7000/access/v1/locations',
+.factory('AccessLocationsAPI', ['$resource', '$stateParams', '$filter', function($resource, $stateParams, $filter) {
+  var remoteBaseURL = 'http://localhost:333/access/v1/locations',
 
-    locationsAPI   = $resource(remoteSearchURL,
-	                            {},
-	                            {
-	                              getAllLocations: {
-	                                method: 'GET',
-	                                isArray: true,
-	                                cache: true
-	                              }
-	                            }
-	                           );
+    locationsAPI   = {
+    	getAllLocations: $resource(remoteBaseURL,
+		                            {},
+		                            {
+		                            	query: {
+			                                method: 'GET',
+			                                isArray: true,
+			                                cache: true
+		                            	}
+		                            }),
 
-  return locationsAPI;
+    	getLocationByID: $resource(remoteBaseURL + '/' + $stateParams.locationID,
+		                            {},
+		                            {
+		                            	query: {
+			                                method: 'GET',
+			                                isArray: true,
+			                                cache: true
+		                            	}
+		                            }),
+
+    	getLocationByName: $resource(remoteBaseURL + '/' + $stateParams.locationName,
+    						   {},
+    						   {
+    						   		query: {
+    						   			method: 'GET',
+    						   			isArray: true,
+    						   			cache: true
+    						   		}
+    						   }
+    						   )
+    };
+    						
+
+	return locationsAPI;
 }])
 
 
-.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', function($scope, AccessLocationsAPI, uiGmapGoogleMapApi) {
+.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams) {
 	$scope.map = {};
 	$scope.map.locations = [];
 	$scope.map.locations.coords = {};
@@ -45,7 +76,16 @@ angular.module('yourCoast.map', [])
 							},
 							zoom: 6,
 							cluster: {
-								minimumClusterSize : 10
+								minimumClusterSize : 10,
+								zoomOnClick: true,
+								clusterStyles: [
+									{
+										textColor: 'white',
+										url: 'icons/m3.png',
+										height: 50,
+										width: 50
+									}
+								]
 							},
 							custom: {
 								panControl: false,
@@ -133,7 +173,7 @@ angular.module('yourCoast.map', [])
 
 
 	uiGmapGoogleMapApi.then(function(maps) {
-		AccessLocationsAPI.getAllLocations().$promise.then(function(promisedLocations) {
+		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
 			$scope.map.locations = promisedLocations;
 
 			angular.forEach(promisedLocations, function(location) {
@@ -147,7 +187,7 @@ angular.module('yourCoast.map', [])
 
 		$scope.openInfoWindow = function openInfoWindow(marker) {
 			// from from map, else from sidebar
-			if(marker.model) {
+			if("model" in marker) {
 				$scope.map.selectedMarker      = marker.model;
 				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
 			} else {
@@ -159,5 +199,35 @@ angular.module('yourCoast.map', [])
 		$scope.closeInfoWindow = function closeInfoWindow() {
 			$scope.map.selectedMarker.show = false;
 		};
+
+		if($stateParams.locationID) {
+			AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+				console.log(location[0]);
+				$scope.openInfoWindow(location[0]);
+
+				angular.forEach(location, function(location) {
+					// add coords obj to each location
+					location.coords = {
+						latitude: location.LATITUDE,
+						longitude: location.LONGITUDE
+					};
+				});
+			});
+		}
+
+		if($stateParams.locationName) {
+			AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+				console.log(location[0]);
+				$scope.openInfoWindow(location[0]);
+
+				angular.forEach(location, function(location) {
+					// add coords obj to each location
+					location.coords = {
+						latitude: location.LATITUDE,
+						longitude: location.LONGITUDE
+					};
+				});
+			});
+		}
     });
 }]);

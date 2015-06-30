@@ -1,4 +1,97 @@
 <style>
+#calcoastaccess #search_address {
+  display: block;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: 2px solid rgb(255, 235, 59);
+  padding-bottom: 5px;
+  width: 100%;
+  font-size: 16px;
+}
+
+#calcoastaccess #search,
+#calcoastaccess #reset {
+  margin-left: 20px;
+  margin-top: -5px;
+  position: absolute;
+  font-size: 20px;
+}
+
+#calcoastaccess #search_address:focus {
+  box-shadow: none;
+    outline-color: transparent;
+}
+
+#calcoastaccess #search_radius {
+  width: 100%;
+  background-color: rgb(229, 229, 229);
+  border: none;
+  border-bottom: 2px solid rgb(77, 127, 178);
+}
+
+#calcoastaccess .result-list,
+.scroll-list {
+  height: 62vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-right: 10px;
+}
+
+#calcoastaccess .result-list li {
+  background-color: rgb(229, 229, 229);
+}
+
+#calcoastaccess .result-list li:hover {
+  background-color: rgb(214, 214, 214);
+}
+
+#calcoastaccess .result-list::-webkit-scrollbar-track,
+.scroll-list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+  background-color: #F5F5F5;
+}
+
+#calcoastaccess .result-list::-webkit-scrollbar,
+.scroll-list::-webkit-scrollbar  {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+#calcoastaccess .result-list::-webkit-scrollbar-thumb,
+.scroll-list::-webkit-scrollbar-thumb  {
+  background-color: #4D7FB2;
+}
+
+#calcoastaccess ::-webkit-input-placeholder {
+   color: white;
+}
+
+#calcoastaccess :-moz-placeholder { /* Firefox 18- */
+   color: white;  
+}
+
+#calcoastaccess ::-moz-placeholder {  /* Firefox 19+ */
+   color: white;  
+}
+
+#calcoastaccess :-ms-input-placeholder {  
+   color: white;  
+}
+
+.chardinjs-helper-layer.chardinjs-right,
+.chardinjs-helper-layer.chardinjs-top {
+   border: none; 
+}
+
+.featherlight:last-of-type {
+  background: rgba(26, 112, 141, 0.8);
+}
+
+.chardinjs-overlay {
+  background: rgb(26, 112, 141);
+}
+
   @media only screen 
     and (min-device-width: 300px) 
     and (max-device-width: 736px) { 
@@ -56,6 +149,14 @@
     border: none;
     background: bottom left linear-gradient(#4D7FB2, #4D7FB2) no-repeat, bottom center linear-gradient(#4D7FB2, #4D7FB2) repeat-x, bottom right linear-gradient(#4D7FB2, #4D7FB2) no-repeat;
     background-size: 2px 6px, 2px 2px, 2px 6px;
+  }
+
+  #calcoastaccess .info-window-content {
+      width: 300px !important;
+  }
+
+  #calcoastaccess .info-window-content h4 {
+      font-size: 17px;
   }
 
   #feedback-form,
@@ -174,33 +275,36 @@
 		</div> <!-- end .row -->        
 
 		<ul class="unstyled-list result-list margin-top">
-			<li ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search">
-				<a ng-click="openInfoWindow(location)" alt="{{ location.NameMobileWeb }}">
+			<a ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search"
+         ng-click="openInfoWindow(location)"
+         alt="{{ location.NameMobileWeb }}">
+        <li>
 					{{ location.NameMobileWeb }}
-				</a>
-			</li>
+				</li>
+			</a>
 		</ul>
 	</div> <!-- end .column-2 -->
 
 	<div class="column-9 pull-over-page-header">
 		<div class="card margin-top animated fadeInUp">
 			<div class="card-body">
-				<ui-gmap-google-map options="map.options.custom" center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas'>
+				<ui-gmap-google-map options="map.options.custom" center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas' class="fix-map-imgs">
 					<ui-gmap-markers models="map.locations" 
                            idkey="'ID'"
                            coords="'coords'"
+                           labelVisible="true"
                            labelContent="'NameMobileWeb'"
+                           labelClass="marker_labels"
                            doCluster="true"
                            clusterOptions="map.options.cluster"
                            click="openInfoWindow">
-
             <ui-gmap-window coords="map.selectedMarker.coords" show="map.selectedMarker.show" options="map.options.infowindow" closeClick="closeInfoWindow()">
-                <div class="googft-info-window">
+                <div class="info-window-content">
                   <h4 class="center-text blue-text slab medium no-border">{{ map.selectedMarker.NameMobileWeb }}</h4>
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-info'></i>
+                      <i class='fa fa-info blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -211,7 +315,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-map-marker'></i>
+                      <i class='fa fa-map-marker blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -220,9 +324,9 @@
                     </div>
                   </div>
 
-                  <div class='row gutters'>
+                  <div ng-show="map.selectedMarker.PHONE_NUMBER" class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-phone'></i>
+                      <i class='fa fa-phone blue-text'></i>
                     </div>
 
                     <div class='column-11'>
@@ -234,7 +338,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-car'></i>
+                      <i class='fa fa-car blue-text'></i>
                     </div>
 
                     <div class='column-11'>
@@ -248,7 +352,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-wheelchair'></i>
+                      <i class='fa fa-wheelchair blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -259,7 +363,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-money'></i>
+                      <i class='fa fa-money blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -270,7 +374,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-car'></i>
+                      <i class='fa fa-car blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -292,7 +396,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-female'></i>
+                      <i class='fa fa-female blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -303,7 +407,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-flag'></i>
+                      <i class='fa fa-flag blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -314,7 +418,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-cutlery'></i>
+                      <i class='fa fa-cutlery blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -325,7 +429,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-tree'></i>
+                      <i class='fa fa-tree blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -336,7 +440,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-check'></i>
+                      <i class='fa fa-check blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -347,7 +451,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-check'></i>
+                      <i class='fa fa-check blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -358,7 +462,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-check'></i>
+                      <i class='fa fa-check blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -369,7 +473,7 @@
 
                   <div class='row gutters'>
                     <div class='column-1'>
-                      <i class='fa fa-check'></i>
+                      <i class='fa fa-check blue-text'></i>
                     </div>
                     <div class='column-11'>
                       <strong>
@@ -378,8 +482,143 @@
                     </div>
                   </div>
 
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.STRS_BEACH }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.PTH_BEACH }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.BLFTP_TRLS }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.BLFTP_PRK }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.WLDLFE_VWG }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.TIDEPOOL }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-futbol-o blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.VOLLEYBALL }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-check blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.FISHING }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-ship blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.BOATING }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-paw blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.DOG_FRIENDLY }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row gutters'>
+                    <div class='column-1'>
+                      <i class='fa fa-child blue-text'></i>
+                    </div>
+                    <div class='column-11'>
+                      <strong>
+                        {{ map.selectedMarker.EZ4STROLLERS }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class='column-4'>
+                      <img ng-src='{{ map.selectedMarker.Photo_1 }}' alt='{{ map.selectedMarker.NameMobileWeb }}'/>
+                    </div> <!-- end .column-4 -->
+
+                    <div class='column-4'>
+                      <img ng-src='{{ map.selectedMarker.Photo_2 }}' alt='{{ map.selectedMarker.NameMobileWeb }}'/>
+                    </div> <!-- end .column-4 -->
+
+                    <div class='column-4'>
+                      <img ng-src='{{ map.selectedMarker.Photo_3 }}' alt='{{ map.selectedMarker.NameMobileWeb }}'/>
+                    </div> <!-- end .column-4 -->
+                  </div> <!-- end .row -->
+
                 </div>
-            </ui-gmap-window>  
+            </ui-gmap-window>
 					</ui-gmap-markers>
 				</ui-gmap-google-map>
 			</div> <!-- end .card-body -->
