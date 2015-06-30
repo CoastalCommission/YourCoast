@@ -56,9 +56,9 @@ angular.module('yourCoast.map', [])
     						   		}
     						   }
 								)
-								,
-
-			// getWeatherByLatLong: $resource('api.openweathermap.org/data/2.5/weather?lat=' + $scope.map.selectedMarker.latitude + '&lon=' + $scope.map.selectedMarker.longitude,
+			// 					,
+			//
+			// getWeatherByLatLong: $resource('api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude,
     	// 					   {},
     	// 					   {
     	// 					   		query: {
@@ -272,37 +272,20 @@ angular.module('yourCoast.map', [])
 				$scope.map.locations           = promisedLocations;
 				$scope.map.selectedMarker.show = false;
 			}
-		});
 
+			if($stateParams.locationID) {
+				AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+					$scope.openLocationPanel(location[0]);
 
-		if($stateParams.locationID) {
-			AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
-				console.log(location[0]);
-				$scope.openInfoWindow(location[0]);
-
-				angular.forEach(location, function(location) {
-					// add coords obj to each location
-					location.coords = {
-						latitude: location.LATITUDE,
-						longitude: location.LONGITUDE
-					};
+					angular.forEach(location, function(location) {
+						// add coords obj to each location
+						location.coords = {
+							latitude: location.LATITUDE,
+							longitude: location.LONGITUDE
+						};
+					});
 				});
-			});
-		}
-
-		// if($stateParams.locationName) {
-		// 	AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
-		// 		console.log(location[0]);
-		// 		$scope.openInfoWindow(location[0]);
-
-		// 		angular.forEach(location, function(location) {
-		// 			// add coords obj to each location
-		// 			location.coords = {
-		// 				latitude: location.LATITUDE,
-		// 				longitude: location.LONGITUDE
-		// 			};
-		// 		});
-		// 	});
-		// }
+			}
+		});
   });
 }]);
