@@ -3,6 +3,7 @@
 angular.module('yourCoast', ['ngResource',
 							 'ui.router',
 							 'uiGmapgoogle-maps',
+							 'ngDialog',
 							 'yourCoast.map'
 							])
 

@@ -55,7 +55,19 @@ angular.module('yourCoast.map', [])
     						   			cache: true
     						   		}
     						   }
-    						   )
+								)
+								,
+
+			// getWeatherByLatLong: $resource('api.openweathermap.org/data/2.5/weather?lat=' + $scope.map.selectedMarker.latitude + '&lon=' + $scope.map.selectedMarker.longitude,
+    	// 					   {},
+    	// 					   {
+    	// 					   		query: {
+    	// 					   			method: 'GET',
+    	// 					   			isArray: true,
+    	// 					   			cache: true
+    	// 					   		}
+    	// 					   }
+			// 					)
     };
 
 
@@ -63,7 +75,7 @@ angular.module('yourCoast.map', [])
 }])
 
 
-.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams) {
+.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', 'ngDialog', function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams, ngDialog) {
 	$scope.map = {};
 	$scope.map.locations = [];
 	$scope.map.locations.coords = {};
@@ -148,38 +160,32 @@ angular.module('yourCoast.map', [])
 										]
 							}
 						 };
-	$scope.map.events = {
-							tilesloaded: function (maps, eventName, args) {},
-							dragend: function (maps, eventName, args) {},
-							zoom_changed: function (maps, eventName, args) {}
-                        };
-	$scope.IntroOptions = {
-        steps:[
-	        {
-	            element: document.querySelector('#search_address'),
-	            intro: "Search for a location to find your Public Access locations",
-							position: 'right'
-	        },
-	        {
-	            element: document.querySelectorAll('#geolocate'),
-	            intro: "Or geolocate yourself to find your nearby Public Access locations",
-	            position: 'left'
-	        },
-	        {
-	            element: document.querySelectorAll('.result-list'),
-	            intro: 'Search results can be clicked to open any location',
-	            position: 'left'
-	        }
-        ],
-        showStepNumbers: false,
-        showBullets: false,
-        exitOnOverlayClick: true,
-        exitOnEsc:true,
-        nextLabel: '<strong>Next!</strong>',
-        prevLabel: '<span style="color:green">Previous</span>',
-        skipLabel: 'Exit',
-        doneLabel: 'Thanks'
-    };
+	$scope.map.locationList = [];
+
+	$scope.openHelp = function helpOverlay() {
+			$('body').chardinJs('start');
+	}
+
+	$scope.openFeedback = function openFeedback() {
+			ngDialog.open({
+					template: 'views/dialog/feedback.html'
+			});
+	}
+
+	$scope.openAbout = function openAbout() {
+			ngDialog.open({
+					template: 'views/dialog/about.html'
+			});
+	}
+
+	$scope.openPhoto = function openPhoto(photo) {
+			ngDialog.open({
+					template: "<img src='" + photo + "' style='width:100%'/>",
+					plain: true
+			});
+
+			console.log(photo);
+	}
 
 	if("geolocation" in navigator) {
 		$scope.geolocate = function geolocate() {
@@ -201,6 +207,7 @@ angular.module('yourCoast.map', [])
 	uiGmapGoogleMapApi.then(function(maps) {
 		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
 			$scope.map.locations = promisedLocations;
+			$scope.map.locationList = promisedLocations;
 
 			angular.forEach(promisedLocations, function(location) {
 				// add coords obj to each location
@@ -209,22 +216,64 @@ angular.module('yourCoast.map', [])
 					longitude: location.LONGITUDE
 				};
 			});
+
+			$scope.openInfoWindow = function openInfoWindow(marker) {
+				// from from map, else from sidebar
+				if("model" in marker) {
+					$scope.map.selectedMarker = marker.model;
+					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
+				} else {
+					$scope.map.selectedMarker = marker;
+					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
+				}
+			}
+
+			$scope.closeInfoWindow = function closeInfoWindow() {
+				$scope.map.selectedMarker.show = false;
+			};
+
+			$scope.openLocationPanel = function openLocationPanel(marker) {
+				if("model" in marker) {
+					$scope.map.selectedMarker = marker.model;
+				} else {
+					$scope.map.selectedMarker = marker;
+				}
+
+				console.log($scope.map.selectedMarker);
+
+				$scope.map.locations           = [$scope.map.selectedMarker];
+				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
+
+				if($scope.map.selectedMarker != null) {
+					$scope.map.selectedMarker.mapFifty = !$scope.map.selectedMarker.mapFifty;
+				}
+
+
+				$scope.map.options.center      = {
+					latitude: $scope.map.selectedMarker.LATITUDE - 0.22,
+					longitude: $scope.map.selectedMarker.LONGITUDE
+				};
+
+				$scope.map.options.zoom = 10;
+
+				console.log($scope.map.options.center);
+
+				// var locationPanel       = $('#LocationPanel'),
+				//  		locationPanelHeight = locationPanel.height(),
+				// 		mapContainer        = $('.angular-google-map-container'),
+				// 		mapContainerHeight  = mapContainer.height();
+				//
+				// console.log(locationPanelHeight + ', ' + mapContainerHeight);
+				// mapContainer.height(mapContainerHeight - locationPanelHeight);
+			}
+
+			$scope.closeLocationPanel = function closeLocationPanel() {
+				$scope.map.selectedMarker      = [];
+				$scope.map.locations           = promisedLocations;
+				$scope.map.selectedMarker.show = false;
+			}
 		});
 
-		$scope.openInfoWindow = function openInfoWindow(marker) {
-			// from from map, else from sidebar
-			if("model" in marker) {
-				$scope.map.selectedMarker      = marker.model;
-				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
-			} else {
-				$scope.map.selectedMarker      = marker;
-				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
-			}
-		}
-
-		$scope.closeInfoWindow = function closeInfoWindow() {
-			$scope.map.selectedMarker.show = false;
-		};
 
 		if($stateParams.locationID) {
 			AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
@@ -241,11 +290,6 @@ angular.module('yourCoast.map', [])
 			});
 		}
 
-		$scope.helpOverlay = function helpOverlay() {
-				console.log("HELP!");
-				$('body').chardinJs('start');
-		}
-
 		// if($stateParams.locationName) {
 		// 	AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
 		// 		console.log(location[0]);
@@ -260,5 +304,5 @@ angular.module('yourCoast.map', [])
 		// 		});
 		// 	});
 		// }
-    });
+  });
 }]);
