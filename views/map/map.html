@@ -320,8 +320,7 @@ body,
           </div> <!-- end .row -->
 
           <div class="row cyan-background padding" ng-show='map.selectedMarker.DescriptionMobileWeb ||  map.selectedMarker.LocationMobileWeb'>
-            <p class="white-text intro-text slab">
-              {{ map.selectedMarker.DescriptionMobileWeb }} near {{ map.selectedMarker.LocationMobileWeb }}
+            <p class="white-text intro-text slab" ng-bind-html="map.selectedMarker.DescriptionMobileWeb + ' near ' + map.selectedMarker.LocationMobileWeb | linky:'_blank'">
             </p>
           </div> <!-- end .row -->
 

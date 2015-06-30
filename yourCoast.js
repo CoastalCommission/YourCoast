@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('yourCoast', ['ngResource',
-							 'ui.router',
-							 'uiGmapgoogle-maps',
-							 'ngDialog',
-							 'yourCoast.map'
-							])
+														 'ngSanitize',
+														 'ui.router',
+														 'uiGmapgoogle-maps',
+														 'ngDialog',
+														 'yourCoast.map'
+														])
 
 .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
@@ -13,4 +14,10 @@ angular.module('yourCoast', ['ngResource',
         v: '3.17',
         libraries: 'weather,geometry,places'
     });
-});
+})
+
+.filter('trust', ['$sce', function($sce){
+		return function(text) {
+			return $sce.trustAsHtml(text);
+		};
+}]);
