@@ -7,13 +7,21 @@ angular.module('yourCoast.map', [])
 		$stateProvider
 			.state('map', {
 				url: '/map',
+<<<<<<< HEAD
 				templateUrl: '/views/map/map.html',
+=======
+				templateUrl: 'views/map/map.html',
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 				controller: 'mapController'
 			})
 
 			.state('location', {
 				url: '/map/location/:locationID',
+<<<<<<< HEAD
 				templateUrl: '/views/map/map.html',
+=======
+				templateUrl: 'views/map/map.html',
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 				controller: 'mapController'
 			});
 
@@ -23,7 +31,11 @@ angular.module('yourCoast.map', [])
 
 
 .factory('AccessLocationsAPI', ['$resource', '$stateParams', '$filter', function($resource, $stateParams, $filter) {
+<<<<<<< HEAD
   var remoteBaseURL = 'http://localhost:333/access/v1/locations',
+=======
+  var remoteBaseURL = 'http://sf7144d.coastal.ca.gov:333/access/v1/locations',
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 
     locationsAPI   = {
     	getAllLocations: $resource(remoteBaseURL,
@@ -57,7 +69,11 @@ angular.module('yourCoast.map', [])
     						   }
     						   )
     };
+<<<<<<< HEAD
     						
+=======
+
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 
 	return locationsAPI;
 }])
@@ -153,7 +169,33 @@ angular.module('yourCoast.map', [])
 							dragend: function (maps, eventName, args) {},
 							zoom_changed: function (maps, eventName, args) {}
                         };
-
+	$scope.IntroOptions = {
+        steps:[
+	        {
+	            element: document.querySelector('#search_address'),
+	            intro: "Search for a location to find your Public Access locations",
+							position: 'right'
+	        },
+	        {
+	            element: document.querySelectorAll('#geolocate'),
+	            intro: "Or geolocate yourself to find your nearby Public Access locations",
+	            position: 'left'
+	        },
+	        {
+	            element: document.querySelectorAll('.result-list'),
+	            intro: 'Search results can be clicked to open any location',
+	            position: 'left'
+	        }
+        ],
+        showStepNumbers: false,
+        showBullets: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<strong>Next!</strong>',
+        prevLabel: '<span style="color:green">Previous</span>',
+        skipLabel: 'Exit',
+        doneLabel: 'Thanks'
+    };
 
 	if("geolocation" in navigator) {
 		$scope.geolocate = function geolocate() {
@@ -215,6 +257,7 @@ angular.module('yourCoast.map', [])
 			});
 		}
 
+<<<<<<< HEAD
 		if($stateParams.locationName) {
 			AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
 				console.log(location[0]);
@@ -229,5 +272,26 @@ angular.module('yourCoast.map', [])
 				});
 			});
 		}
+=======
+		$scope.helpOverlay = function helpOverlay() {
+				console.log("HELP!");
+				$('body').chardinJs('start');
+		}
+
+		// if($stateParams.locationName) {
+		// 	AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+		// 		console.log(location[0]);
+		// 		$scope.openInfoWindow(location[0]);
+
+		// 		angular.forEach(location, function(location) {
+		// 			// add coords obj to each location
+		// 			location.coords = {
+		// 				latitude: location.LATITUDE,
+		// 				longitude: location.LONGITUDE
+		// 			};
+		// 		});
+		// 	});
+		// }
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
     });
 }]);

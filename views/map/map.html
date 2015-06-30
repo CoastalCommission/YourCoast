@@ -1,4 +1,14 @@
 <style>
+<<<<<<< HEAD
+=======
+
+html,
+body,
+.container {
+    height: 100%;
+}
+
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 #calcoastaccess #search_address {
   display: block;
   background-color: transparent;
@@ -10,14 +20,19 @@
   font-size: 16px;
 }
 
+<<<<<<< HEAD
 #calcoastaccess #search,
 #calcoastaccess #reset {
+=======
+#calcoastaccess #search {
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
   margin-left: 20px;
   margin-top: -5px;
   position: absolute;
   font-size: 20px;
 }
 
+<<<<<<< HEAD
 #calcoastaccess #search_address:focus {
   box-shadow: none;
     outline-color: transparent;
@@ -33,6 +48,11 @@
 #calcoastaccess .result-list,
 .scroll-list {
   height: 62vh;
+=======
+#calcoastaccess .result-list,
+.scroll-list {
+  height: 68vh;
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 10px;
@@ -68,6 +88,7 @@
 }
 
 #calcoastaccess :-moz-placeholder { /* Firefox 18- */
+<<<<<<< HEAD
    color: white;  
 }
 
@@ -77,11 +98,26 @@
 
 #calcoastaccess :-ms-input-placeholder {  
    color: white;  
+=======
+   color: white;
+}
+
+#calcoastaccess ::-moz-placeholder {  /* Firefox 19+ */
+   color: white;
+}
+
+#calcoastaccess :-ms-input-placeholder {
+   color: white;
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 }
 
 .chardinjs-helper-layer.chardinjs-right,
 .chardinjs-helper-layer.chardinjs-top {
+<<<<<<< HEAD
    border: none; 
+=======
+   border: none;
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 }
 
 .featherlight:last-of-type {
@@ -92,9 +128,15 @@
   background: rgb(26, 112, 141);
 }
 
+<<<<<<< HEAD
   @media only screen 
     and (min-device-width: 300px) 
     and (max-device-width: 736px) { 
+=======
+  @media only screen
+    and (min-device-width: 300px)
+    and (max-device-width: 736px) {
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
       #calcoastaccess .row {
         display: table;
       }
@@ -111,7 +153,7 @@
       }
 
       #calcoastaccess .result-list {
-        
+
       }
 
       #calcoastaccess .column-9.pull-over-page-header {
@@ -120,14 +162,14 @@
         margin: auto;
       }
 
-     
+
   }
 
   #calcoastaccess h4#feedback {
-    
-  } 
 
-  .angular-google-map-container { 
+  }
+
+  .angular-google-map-container {
   	height: 75vh !important;
   }
 
@@ -239,13 +281,14 @@
   @keyframes love {
       to {transform: scale(1.2);}
   }
+
 </style>
 
 <div class="row gutters overflow-visible">
 	<div class="column-2">
-		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location within California to find the nearby Public Access locations" data-position="right">
+		<div class="row overflow-visible" style="margin-top: -40px;" data-intro="Search for a location to find the nearby Public Access locations" data-position="right">
 			<div class="column-10 push-1">
-				<input ng-model='search' class='form-control' id='search_address' placeholder='Search' type='text' autofocus />
+				<input ng-model='search' class='form-control' id='search_address' placeholder='Search' type='text' />
 			</div> <!-- end .column-10 -->
 
 			<div class="column-1">
@@ -255,6 +298,7 @@
 			</div> <!-- end .column-1 -->
 		</div> <!-- end .row -->
 
+<<<<<<< HEAD
 		<div class="row margin-top overflow-visible">
 			<div class="column-10 push-1">
 				<select id='search_radius'>
@@ -283,13 +327,30 @@
 				</li>
 			</a>
 		</ul>
+=======
+    <div class="row" data-intro="Search results can be clicked to open any location" data-position="right">
+  		<ul class="unstyled-list result-list margin-top">
+  			<a ng-repeat="location in map.locations | orderBy:'LIST_ORDER' | filter:search"
+           ng-click="openInfoWindow(location)"
+           alt="{{ location.NameMobileWeb }}">
+          <li>
+  					{{ location.NameMobileWeb }}
+  				</li>
+  			</a>
+  		</ul>
+    </div> <!-- end .row -->
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
 	</div> <!-- end .column-2 -->
 
 	<div class="column-9 pull-over-page-header">
 		<div class="card margin-top animated fadeInUp">
 			<div class="card-body">
 				<ui-gmap-google-map options="map.options.custom" center='map.options.center' zoom='map.options.zoom' draggable='true' id='map_canvas' class="fix-map-imgs">
+<<<<<<< HEAD
 					<ui-gmap-markers models="map.locations" 
+=======
+					<ui-gmap-markers models="map.locations"
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
                            idkey="'ID'"
                            coords="'coords'"
                            labelVisible="true"
@@ -623,9 +684,29 @@
 				</ui-gmap-google-map>
 			</div> <!-- end .card-body -->
 		</div> <!-- end .card -->
+
+    <div class="row gutters" id="footerInfo">
+      <div class="column-2">
+        <a href="#" data-featherlight="#feedback-form">
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="fa fa-bullhorn"></i>  feedback</h4>
+        </a>
+      </div> <!-- end .column-2 -->
+
+      <div class="column-8">
+        <a href="#" id="helpOverlay" ng-click="helpOverlay()">
+          <h4 class="medium blue-text center-text no-padding pull-up"><i class="fa fa-life-ring"></i> help</h4>
+        </a>
+      </div> <!-- end .column-8 -->
+
+      <div class="column-2">
+        <a href="#" data-featherlight="#more-info">
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="fa fa-info"></i>  about</h4>
+        </a>
+      </div> <!-- end .column-2 -->
+    </div> <!-- end .row -->
 	</div> <!-- end .column-9 -->
 
-	<div class="column-1">
-		<button ng-click="geolocate()" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
+	<div class="column-1" data-intro="Geolocate yourself to find the nearby Public Access locations" data-position="left">
+		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
 	</div> <!-- end .column-1 -->
 </div> <!-- end .row -->

@@ -12,4 +12,8 @@ angular.module('yourCoast', ['ngResource',
         v: '3.17',
         libraries: 'weather,geometry,places'
     });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 762604718dcb0847a2842941560fdac1b591f75f
