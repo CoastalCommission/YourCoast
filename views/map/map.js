@@ -214,6 +214,12 @@ angular.module('yourCoast.map', [])
 			});
 	}
 
+	$scope.openShare = function openShare() {
+			ngDialog.open({
+					template: 'views/dialog/share.html'
+			});
+	}
+
 	$scope.openPhoto = function openPhoto(photo) {
 			ngDialog.open({
 					template: "<img src='" + photo + "' style='width:100%'/>",
@@ -238,7 +244,6 @@ angular.module('yourCoast.map', [])
 	} else {
 		$scope.feedback = "Sorry, your browser doesn't support geolocation."
 	}
-
 
 	uiGmapGoogleMapApi.then(function(maps) {
 		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {

@@ -23,7 +23,7 @@
 
 			<div class="column-1">
 				<a id='search' href='#'>
-					<i class='fa fa-search yellow-text'></i>
+					<i class='material-icons yellow-text'>search</i>
 				</a>
 			</div> <!-- end .column-1 -->
 		</div> <!-- end .row -->
@@ -78,9 +78,11 @@
 
           <div class="row overflow-visible">
             <div class="column-1 push-11">
-              <button class="fab mdc-bg-light-blue-900 pull-up">
-                <i class="fa fa-share yellow-text"></i>
-              </button>
+              <a href="#" ng-click="openShare()">
+                <button class="fab mdc-bg-light-blue-900 pull-up">
+                  <i class="material-icons yellow-text">share</i>
+                </button>
+              </a>
             </div> <!-- end .column-1 -->
           </div> <!-- end .row -->
 
@@ -449,25 +451,25 @@
     <div class="row gutters" id="footerInfo">
       <div class="column-2">
         <a href="#" ng-click="openFeedback()">
-          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="fa fa-bullhorn"></i>  feedback</h4>
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="material-icons">feedback</i>  feedback</h4>
         </a>
       </div> <!-- end .column-2 -->
 
       <div class="column-8">
         <a href="#" id="helpOverlay" ng-click="openHelp()">
-          <h4 class="medium blue-text center-text no-padding pull-up"><i class="fa fa-life-ring"></i> help</h4>
+          <h4 class="medium blue-text center-text no-padding pull-up"><i class="material-icons">help</i> help</h4>
         </a>
       </div> <!-- end .column-8 -->
 
       <div class="column-2">
         <a href="#" ng-click="openAbout()">
-          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="fa fa-info"></i>  about</h4>
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="material-icons">info</i>  about</h4>
         </a>
       </div> <!-- end .column-2 -->
     </div> <!-- end .row -->
 	</div> <!-- end .column-8 -->
 
 	<div class="column-1" data-intro="Geolocate yourself to find the nearby Public Access locations" data-position="left">
-		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="fa fa-crosshairs"></i></button>
+		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="material-icons">my_location</i></button>
 	</div> <!-- end .column-1 -->
 </div> <!-- end .row -->
