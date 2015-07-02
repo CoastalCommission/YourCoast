@@ -5,13 +5,15 @@
 
 		<!-- meta -->
 		<meta name="theme-color" content="#283593">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 		<!-- css -->
   	<link rel="stylesheet" href="http://www.coastal.ca.gov/css/all.min.css">
+		<link rel="stylesheet" href="bower_components/material-design-color-palette/css/material-design-color-palette.min.css">
 		<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.min.css">
 		<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.min.css">
-
 		<link rel="stylesheet" href="bower_components/chardin.js/chardinjs.css">
+		<link rel="stylesheet" href="css/custom.css">
 
     <!-- modernizr -->
 		<script src="http://www.coastal.ca.gov/javascript/modernizr.2.3.8.custom.js"></script>
@@ -23,25 +25,14 @@
 	</head>
 	<body ng-app="yourCoast">
 		<div class="container grey-background" id="calcoastaccess">
-			<div class="row overflow-visible">
-				<div class="column-12 dark-blue-background">
+			<div class="row overflow-visible" id="ccc">
+				<div class="column-12 mdc-bg-light-blue-900">
 					<a href="http://www.coastal.ca.gov">
 						<h2 class="white-text light center-text no-margin no-border no-padding">California Coastal Commission</h2>
-						<img src="http://www.coastal.ca.gov/images/ca-coastal-commission-logo.png" alt="CCC Logo" class="fab center"/>
+						<img src="http://www.coastal.ca.gov/images/ca-coastal-commission-logo.png" alt="CCC Logo" class="mdc-bg-light-blue-900 fab center"/>
 					</a>
 				</div>
 			</div>
-
-			<div class="row overflow-visible">
-				<div class="column-12 page-header blue-background">
-					<div class="row">
-						<div class="column-4 push-2">
-							<img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
-							<h1 class="medium slab"><span class="light">Your</span>Coast</h1>
-						</div> <!-- end .column-3 -->
-					</div> <!-- end .row -->
-				</div> <!-- end .column-12 -->
-			</div> <!-- end .row -->
 
 			<ui-view>
 			</ui-view>

@@ -11,8 +11,14 @@ angular.module('yourCoast.map', [])
 				controller: 'mapController'
 			})
 
-			.state('location', {
-				url: '/map/location/:locationID',
+			.state('location-id', {
+				url: '/map/location/id/:locationID',
+				templateUrl: 'views/map/map.html',
+				controller: 'mapController'
+			})
+
+			.state('location-name', {
+				url: '/map/location/name/:locationName',
 				templateUrl: 'views/map/map.html',
 				controller: 'mapController'
 			});
@@ -23,59 +29,64 @@ angular.module('yourCoast.map', [])
 
 
 .factory('AccessLocationsAPI', ['$resource', '$stateParams', '$filter', function($resource, $stateParams, $filter) {
-  var remoteBaseURL = 'http://sf7144d.coastal.ca.gov:333/access/v1/locations',
+  if($stateParams.locationName) {
+		var correctedName = $stateParams.locationName.replace(/-/g, ' ');
+		console.log(correctedName);
+	}
 
-    locationsAPI   = {
-    	getAllLocations: $resource(remoteBaseURL,
-		                            {},
-		                            {
-		                            	query: {
-			                                method: 'GET',
-			                                isArray: true,
-			                                cache: true
-		                            	}
-		                            }),
+	var remoteBaseURL  = 'http://10.10.1.84:3333/access/v1/locations',
 
-    	getLocationByID: $resource(remoteBaseURL + '/' + $stateParams.locationID,
-		                            {},
-		                            {
-		                            	query: {
-			                                method: 'GET',
-			                                isArray: true,
-			                                cache: true
-		                            	}
-		                            }),
+	    locationsAPI   = {
+	    	getAllLocations: $resource(remoteBaseURL,
+			                            {},
+			                            {
+			                            	query: {
+				                                method: 'GET',
+				                                isArray: true,
+				                                cache: true
+			                            	}
+			                            }),
 
-    	getLocationByName: $resource(remoteBaseURL + '/' + $stateParams.locationName,
-    						   {},
-    						   {
-    						   		query: {
-    						   			method: 'GET',
-    						   			isArray: true,
-    						   			cache: true
-    						   		}
-    						   }
-								)
-			// 					,
-			//
-			// getWeatherByLatLong: $resource('api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude,
-    	// 					   {},
-    	// 					   {
-    	// 					   		query: {
-    	// 					   			method: 'GET',
-    	// 					   			isArray: true,
-    	// 					   			cache: true
-    	// 					   		}
-    	// 					   }
-			// 					)
-    };
+	    	getLocationByID: $resource(remoteBaseURL + '/id/' + $stateParams.locationID,
+			                            {},
+			                            {
+			                            	query: {
+				                                method: 'GET',
+				                                isArray: true,
+				                                cache: true
+			                            	}
+			                            }),
 
+	    	getLocationByName: $resource(remoteBaseURL + '/name/' + correctedName,
+										    						   {},
+										    						   {
+										    						   		query: {
+										    						   			method: 'GET',
+										    						   			isArray: true,
+										    						   			cache: true
+										    						   		}
+										    						   }
+																		)
+				// 														,
+				//
+				// getWeatherByLatLong: $resource('http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude,
+				// 																{},
+				// 																{
+				// 																		query: {
+				// 																			method: 'GET',
+				// 																			isArray: true,
+				// 																			cache: true
+				// 																		}
+				// 																}
+				// 															)
+	    };
 
 	return locationsAPI;
 }])
 
 
-.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', 'ngDialog', function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams, ngDialog) {
+.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', 'ngDialog',
+											function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams, ngDialog) {
 	$scope.map = {};
 	$scope.map.locations = [];
 	$scope.map.locations.coords = {};
@@ -90,18 +101,23 @@ angular.module('yourCoast.map', [])
 							cluster: {
 								minimumClusterSize : 10,
 								zoomOnClick: true,
-								clusterStyles: [
+								styles: [
 									{
-										textColor: 'white',
-										url: 'icons/m3.png',
-										height: 50,
-										width: 50
+	                    url: "icons/m3.png",
+											width:70,
+											height:70,
+											textColor: 'white',
+											textSize: 14,
+											fontFamily: 'Open Sans'
 									}
-								]
+								],
+								averageCenter: true,
+								clusterClass: 'cluster-icon',
+								icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
 							},
 							custom: {
 								panControl: false,
-								scaleControl: false,
+								tilt: 0,
 								zoomControl: true,
 								scaleControl: true,
 								streetViewControl: true,
@@ -160,7 +176,27 @@ angular.module('yourCoast.map', [])
 										]
 							}
 						 };
+	$scope.map.events = {
+		tilesloaded: function (map, eventName, originalEventArgs) {
+			var panoLocation = new google.maps.LatLng($scope.map.selectedMarker.LATITUDE, $scope.map.selectedMarker.LONGITUDE);
+			var panoramaOptions = {
+				position: panoLocation,
+				pov: {
+					heading: 30,
+					pitch: 5,
+					zoom: 1
+				}
+			};
+			var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+			map.setStreetView(panorama);
+		}
+	},
 	$scope.map.locationList = [];
+	$scope.menuActive = false;
+
+	$scope.toggleMenu = function toggleMenu() {
+		$scope.menuActive = !$scope.menuActive;
+	}
 
 	$scope.openHelp = function helpOverlay() {
 			$('body').chardinJs('start');
@@ -196,7 +232,7 @@ angular.module('yourCoast.map', [])
 					$scope.map.options.zoom = 12;
 				});
 
-				console.log($scope.map);
+				$scope.closeLocationPanel();
 			});
 		}
 	} else {
@@ -206,7 +242,7 @@ angular.module('yourCoast.map', [])
 
 	uiGmapGoogleMapApi.then(function(maps) {
 		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
-			$scope.map.locations = promisedLocations;
+			$scope.map.locations    = promisedLocations;
 			$scope.map.locationList = promisedLocations;
 
 			angular.forEach(promisedLocations, function(location) {
@@ -233,6 +269,9 @@ angular.module('yourCoast.map', [])
 			};
 
 			$scope.openLocationPanel = function openLocationPanel(marker) {
+				$scope.map.selectedMarker = [];
+				$scope.toggleMenu();
+
 				if("model" in marker) {
 					$scope.map.selectedMarker = marker.model;
 				} else {
@@ -248,23 +287,17 @@ angular.module('yourCoast.map', [])
 					$scope.map.selectedMarker.mapFifty = !$scope.map.selectedMarker.mapFifty;
 				}
 
+				// AccessLocationsAPI.getWeatherByLatLong.query().then(function(promisedWeatherData) {
+				// 	$scope.weather = promisedWeatherData;
+				// });
+				// console.log($scope.weather);
 
 				$scope.map.options.center      = {
-					latitude: $scope.map.selectedMarker.LATITUDE - 0.22,
+					latitude: $scope.map.selectedMarker.LATITUDE - 0.11,
 					longitude: $scope.map.selectedMarker.LONGITUDE
 				};
 
-				$scope.map.options.zoom = 10;
-
-				console.log($scope.map.options.center);
-
-				// var locationPanel       = $('#LocationPanel'),
-				//  		locationPanelHeight = locationPanel.height(),
-				// 		mapContainer        = $('.angular-google-map-container'),
-				// 		mapContainerHeight  = mapContainer.height();
-				//
-				// console.log(locationPanelHeight + ', ' + mapContainerHeight);
-				// mapContainer.height(mapContainerHeight - locationPanelHeight);
+				$scope.map.options.zoom = 11;
 			}
 
 			$scope.closeLocationPanel = function closeLocationPanel() {
@@ -275,6 +308,18 @@ angular.module('yourCoast.map', [])
 
 			if($stateParams.locationID) {
 				AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+					$scope.openLocationPanel(location[0]);
+
+					angular.forEach(location, function(location) {
+						// add coords obj to each location
+						location.coords = {
+							latitude: location.LATITUDE,
+							longitude: location.LONGITUDE
+						};
+					});
+				});
+			} else if($stateParams.locationName) {
+				AccessLocationsAPI.getLocationByName.query().$promise.then(function(location) {
 					$scope.openLocationPanel(location[0]);
 
 					angular.forEach(location, function(location) {

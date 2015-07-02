@@ -1,311 +1,406 @@
-/* Icons */
-@font-face {
-  font-family: 'coastal-access';
-  src:url('../icons/fonts/coastal-access.eot?-41ycoh');
-  src:url('../icons/fonts/coastal-access.eot?#iefix-41ycoh') format('embedded-opentype'),
-    url('../icons/fonts/coastal-access.woff?-41ycoh') format('woff'),
-    url('../icons/fonts/coastal-access.ttf?-41ycoh') format('truetype'),
-    url('../icons/fonts/coastal-access.svg?-41ycoh#coastal-access') format('svg');
-  font-weight: normal;
-  font-style: normal;
+html,
+body,
+.container {
+    min-height: 100% !important;
+    height: 100% !important;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-  font-family: 'coastal-access';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  font-size: 32px !important;
-  width: 32px;
-  clear: right;
-  float: left;
-  margin: 1px 10px;
-  /*color: #43A345;*/
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.disabled {
-  color: #E94D43;
-  display: none;
-}
-
-.icon-fee:before {
-  content: "\e600";
-}
-.icon-parking:before {
-  content: "\e601";
-}
-.icon-disabled:before {
-  content: "\e602";
-}
-.icon-visitor-center:before {
-  content: "\e603";
-}
-.icon-restroom:before {
-  content: "\e604";
-}
-.icon-fishing:before {
-  content: "\e605";
-}
-.icon-boating:before {
-  content: "\e606";
-}
-
-/*.icon-fee {
-  content: " ";
-  padding: 1px;
-}
-.icon-parking {
-  content: " ";
-  padding: 1px;
-}
-.icon-disabled {
-  content: " ";
-  padding: 1px;
-}
-.icon-visitor-center {
-  content: " ";
-  padding: 1px;
-}
-.icon-restroom {
-  content: " ";
-  padding: 1px;
-}
-.icon-fishing {
-  content: " ";
-  padding: 1px;
-}
-.icon-boating {
-  content: " ";
-  padding: 1px;
-}*/
-
-.btn.btn-default {
-  background-image: none;
-  background-color: rgba(48, 54, 65, 1);
-  color: white;
-  border-bottom: 1px solid black;
-  border-radius: 0px;
-}
-
-#search_address {
-  margin: 0 10px;
-  width: 93%;
-}
-
-a { color: #4B58A6; }
-a:hover { color: #4B58A6; }
-
-#map_canvas img {
-  max-width: none;
-}
-
-.filter-box { 
-  height: 15px; 
-  width: 15px;  
-  display: inline-block;
-  *border-right-width: 2px;
-  *border-bottom-width: 2px;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box; 
-}
-
-.filter-yellow { background-color: #FBF358; }
-.filter-green { background-color: #00E13C; }
-.filter-blue { background-color: #5781FC; }
-.filter-purple { background-color: #7C54FB; }
-.filter-red { background-color: #FB6353; }
-
-canvas {-ms-touch-action: double-tap-zoom;}
-
-.item-list {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(48, 54, 65, 0.3);;
-}
-
-.result-list {
-  overflow-y: scroll;
-  /*height: 470px;*/
-  max-height: 40vh;
-}
-
-.well{
-  position: fixed;
-  top: 0px;
-  left: 100px;
-  width: 400px;
-  max-height: 95vh;
-  padding: 7px 0px 0px 0px;
-  background-color: transparent;
-  border-width: 0px;
-}
-
-.well h1 {
-  font-family: 'Lato';
-  font-weight: 500;
-  text-align: center;
-  -webkit-margin-before: -8px;
-  -webkit-margin-after: 0px;
-  color: #1de9b6;
-  background-color: rgba(48, 54, 65, 0.95);
-  padding: 15px;
-  border-bottom: 1px solid #00FFBF;
-  border-radius: 0px;
-}
-
-.well h1 .light {
-  font-weight: 100;
-}
-
-.panel-default>.panel-heading {
-  background-color: rgba(70, 76, 84, 1);
-  border-radius: 0px;
-  border-bottom: 2px solid #000000;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  z-index: 99999999;
-}
-
-.panel-default>.panel-heading h4.panel-title {
-  color: white;
-}
-
-.panel-default>.panel-heading h4 a:hover {
-  color: #1de9b6;
-  text-decoration: none;
-}
-
-.panel-body {
-  background-color: rgba(211, 211, 211, 1);
-  margin-left: 4px;
-  margin-right: 4px;
-  z-index: 1;
-}
-
-.panel-group .panel {
-  border-radius: 0px;
-  background-color: transparent;
-}
-
-.panel-default {
-  border: none;
-}
-
-.googft-info-window {
-  min-height: 140px !important;
-  overflow: auto;
+#calcoastaccess #search_address {
   display: block;
-  margin: auto;
-}
-
-label {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: 2px solid rgb(255, 235, 59);
+  padding-bottom: 5px;
   width: 100%;
+  font-size: 16px;
 }
 
-#search_radius {
-	height: 39px;
-  width: 70%;
+#calcoastaccess #search {
+  margin-left: 20px;
+  margin-top: -5px;
+  position: absolute;
+  font-size: 20px;
 }
 
-#nav-menu-control {
-  display: none;
+#calcoastaccess .result-list,
+.scroll-list {
+  height: 68vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-right: 10px;
 }
 
-.center-text {
-	text-align: center;
+#calcoastaccess .result-list li {
+  background-color: rgb(229, 229, 229);
 }
 
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-  body {
-    -webkit-transform: translateZ(0) translateX(0);
-    transform: translateZ(0) translateX(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: 300ms ease all;
-    transition: 300ms ease all;
+#calcoastaccess .result-list li:hover {
+  background-color: rgb(214, 214, 214);
+}
+
+#calcoastaccess ::-webkit-input-placeholder {
+   color: white;
+}
+
+#calcoastaccess :-moz-placeholder { /* Firefox 18- */
+   color: white;
+}
+
+#calcoastaccess ::-moz-placeholder {  /* Firefox 19+ */
+   color: white;
+}
+
+#calcoastaccess :-ms-input-placeholder {
+   color: white;
+}
+
+.chardinjs-helper-layer.chardinjs-right,
+.chardinjs-helper-layer.chardinjs-top {
+   border: none;
+}
+
+.chardinjs-overlay {
+  background: rgb(26, 112, 141);
+}
+
+
+
+  #calcoastaccess h4#feedback {
+
   }
 
-  .well {
-    width: 280px;
+  .angular-google-map-container {
+    height: 75vh;
+    transition: height 0.2s ease;
   }
 
-  .well h1 {
-    font-size: 24px;
-  }
-
-  .well h1 .light {
-    margin-left: 0px;
-  }
-
-  .well.show-nav {
-    -webkit-transform: translateZ(0) translateX(-100px);
-    transform: translateZ(0) translateX(-100px);
-    max-height: 94vh;
-    transition: all 0.5s ease;
-  }
-
-  .alert-info {
-    /*max-height: 200px;*/
-    height: 28vh;
-  }
-
-  .well.hide-nav {
-    -webkit-transform: translateZ(0) translateX(-380px);
-    transform: translateZ(0) translateX(-380px);
-    transition: all 0.5s ease;
-  }
-
-  .well #mobile-nav-toggle {
+  #calcoastaccess #search_address {
+    padding: 8px 8px 6px 8px;
+    position: relative;
     display: block;
-    color: black;
-    text-align: center;
-    color: #5e5e5e;
-    font-size: 24px;
+    outline: none;
+    border: none;
+    background: bottom left linear-gradient(#FEEA3B, #FEEA3B) no-repeat, bottom center linear-gradient(#FEEA3B, #FEEA3B) repeat-x, bottom right linear-gradient(#FEEA3B, #FEEA3B) no-repeat;
+    background-size: 2px 6px, 2px 2px, 2px 6px;
+  }
+
+  #calcoastaccess .info-window-content {
+      width: 300px !important;
+  }
+
+  #calcoastaccess #footerInfo {
+    background-color: #E5E5E5;
+  }
+
+  #calcoastaccess #footerInfo h4 {
+    margin-top: 0;
+  }
+
+  #calcoastaccess #footerInfo h4 i.fa {
+    padding-right: 10px;
+  }
+
+  .fa-heart {
+    display: inline-block;
+    position: relative;
+    top: .2em;
+    /*font-size: 1.4em;*/
+    -webkit-transform: scale(.9);
+       -moz-transform: scale(.9);
+            transform: scale(.9);
+    -webkit-animation: love .5s infinite linear alternate-reverse;
+       -moz-animation: love .5s infinite linear alternate-reverse;
+            animation: love .5s infinite linear alternate-reverse;
+  }
+
+  #ccc .column-12 a {
     text-decoration: none;
   }
 
-  #nav-menu-control {
-    display: block;
-    height: 40px;
-    width: 45px;
-    background-color: white;
-    margin-right: -54px;
-    margin-top: 50px;
-    float: right;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    /*border: 1px solid #e3e3e3;*/
-  }
-
-
-
-  /*.menu-icon {
+    #ccc .column-12 {
+    box-shadow: 0 3px 5px rgba(0,0,0,.26);
+    -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.26);
     position: relative;
-    padding-left: 1.25em;
   }
 
-  .menu-icon:before {
-    content: "";
-  position: absolute;
-  left: 0;
-  top: 0.25em;
-  width: 1em;
-  height: 0.15em;
-  background: black;
-  box-shadow: 
-    0 0.25em 0 0 black,
-    0 0.5em 0 0 black;
-  }*/
-}
+    #ccc .column-12 img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    margin-bottom: -22px;
+    position: relative;
+    margin-bottom: -22px;
+  }
+
+  #calcoastaccess #foot-logo {
+      width: 9.5%;
+      display: inline;
+      clear: both;
+      float: left;
+      opacity: 0.9;
+      margin: 0 10px;
+  }
+
+  .ngdialog-content #foot-logo {
+    -webkit-filter: invert(80%);
+       -moz-filter: invert(80%);
+        -ms-filter: invert(80%);
+         -o-filter: invert(80%);
+            filter: invert(80%);
+    width: 30px;
+  }
+
+  @-webkit-keyframes love {
+      to {-webkit-transform: scale(1.2);}
+  }
+
+  @-moz-keyframes love {
+      to {-moz-transform: scale(1.2);}
+  }
+  @keyframes love {
+      to {transform: scale(1.2);}
+  }
+
+
+  .ngdialog-overlay {
+    background: rgba(26, 112, 141, 0.8);
+  }
+
+  .ngdialog.ngdialog-theme-default .ngdialog-content {
+      width: 65%;
+      padding: 2em;
+  }
+
+  .mapFifty .angular-google-map-container {
+    height: 35vh;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    line-height: 1rem;
+  }
+
+  .page-header h1 span.light {
+    letter-spacing: -0.02em;
+    margin-right: 2px;
+  }
+
+  #LocationPanel {
+    padding-bottom: 20px;
+  }
+
+  #LocationPanel .mdc-bg-light-blue-700 p {
+    padding: 0 25px;
+    margin-bottom: 15px;
+  }
+
+  #LocationPanel .mdc-bg-light-blue-700 a {
+    color: white;
+    text-decoration: underline;
+  }
+
+  #LocationPanel h2#close {
+    text-align: right;
+    position: absolute;
+  }
+
+  #LocationPanel h1 {
+    /*padding-bottom: 20px;*/
+  }
+
+  #LocationPanel h3 {
+    padding-bottom: 10px;
+  }
+
+  #LocationPanel .column-10 {
+    margin-bottom: 5px;
+    padding-left: 5px;
+  }
+
+  [title=Show\ 45\ degree\ view] {
+    display:none;
+  }
+
+  .fa-bars {
+    display: none;
+  }
+
+  #searchContainer {
+    margin-top: -40px;
+  }
+
+  .cluster-icon div {
+    line-height: 66px !important;
+    margin-left: -1px;
+  }
+
+  .chardinjs-overlay {
+    background-color: #01579B;
+  }
+
+  @media only screen
+    and (min-device-width: 300px)
+    and (max-device-width: 736px) {
+      #ccc {
+        display: none;
+      }
+
+      .fa-bars {
+        display: inline-block;
+        position: absolute;
+        padding: 16px 10px;
+        clear: both;
+        font-size: 17px;
+      }
+
+      .page-header {
+        padding: 5px 0 0 0;
+        background-color: #01579B;
+      }
+
+      .page-header h1 {
+        text-align: center;
+        display: inline-block;
+        margin: auto;
+        position: absolute;
+        top: 20px;
+        clear: both;
+      }
+
+      #calcoastaccess #foot-logo {
+        display: inline-block;
+        /* margin: auto; */
+        margin-left: -33%;
+        position: relative;
+        float: none;
+      }
+
+      .page-header .column-4 {
+        text-align: center;
+      }
+
+      #searchAndResults {
+        width: 60%;
+        left: -60%;
+        position: absolute;
+        transition: all 0.4s ease;
+      }
+
+      .pull-over-page-header {
+        margin-top: 0;
+        width: 100%;
+      }
+      .angular-google-map-container {
+        height: 83vh;
+      }
+
+      #searchAndResults.menuActive {
+        transition: all 0.4s ease;
+        left: 0px;
+        z-index: 999999999999999999999;
+        background-color: #0288D1;
+        height: 100%;
+      }
+
+      #calcoastaccess .result-list li:hover {
+        background-color: #0288D1;
+      }
+
+      #searchAndResults .result-list.margin-top {
+        height: 95vh;
+        margin-top: 5px;
+      }
+
+      #searchAndResults.menuActive li {
+        background-color: #0288D1;
+        /*border-bottom: 1px solid rgb(54, 89, 125);*/
+        color: white;
+      }
+
+      #searchAndResults .column-10.push-1 {
+        width: 85%;
+        margin: 0;
+      }
+
+      #searchAndResults .column-1 {
+        width: 18%;
+        display: inline-block;
+        float: right;
+        margin-top: -22px;
+      }
+
+      #searchContainer {
+        margin-top: 0;
+        padding: 15px 10px 0 10px;
+      }
+
+      #amenities .column-6 {
+        width: 48%;
+        margin: 0;
+        display: inline-block;
+        clear: both;
+      }
+
+      .card.margin-top {
+        margin: 0;
+      }
+
+      #footerInfo .column-2,
+      #footerInfo .column-8 {
+        margin-top: 15px;
+        width: 32%;
+        display: inline-block;
+        clear: both;
+      }
+
+      #footerInfo {
+        margin-bottom: -71px;
+        margin-top: 20px;
+      }
+
+      .fab {
+        right: 15px;
+      }
+
+      #calcoastaccess .result-list::-webkit-scrollbar-track,
+      .scroll-list::-webkit-scrollbar-track {
+        -webkit-box-shadow: none;
+        background-color: none;
+      }
+
+      #calcoastaccess .result-list::-webkit-scrollbar,
+      .scroll-list::-webkit-scrollbar  {
+        width: 10px;
+        background-color: none;
+      }
+
+      #calcoastaccess .result-list::-webkit-scrollbar-thumb,
+      .scroll-list::-webkit-scrollbar-thumb  {
+        background-color: none;
+      }
+
+      #LocationPanel .column-2 {
+        width: 50%;
+        margin: 0;
+        padding: 0 15px 15px;
+        float: left;
+      }
+
+      #LocationPanel .column-1 {
+        width: 10%;
+        margin: 0;
+        clear: both;
+        float: left;
+      }
+
+      #LocationPanel .column-10 {
+        width: 80;
+      }
+
+      .ngdialog.ngdialog-theme-default .ngdialog-content {
+          width: 90%;
+      }
+  }

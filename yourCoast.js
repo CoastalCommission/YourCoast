@@ -17,7 +17,7 @@ angular.module('yourCoast', ['ngResource',
 })
 
 .filter('trust', ['$sce', function($sce){
-		return function(text) {
-			return $sce.trustAsHtml(text);
+		return function(input) {
+			return $sce.trustAsHtml(input);
 		};
 }]);
