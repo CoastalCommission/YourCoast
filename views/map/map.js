@@ -223,7 +223,8 @@ angular.module('yourCoast.map', [])
 
 	$scope.openShare = function openShare() {
 			ngDialog.open({
-					template: 'views/dialog/share.html'
+					template: 'views/dialog/share.html',
+					scope: $scope
 			});
 	}
 
@@ -280,10 +281,7 @@ angular.module('yourCoast.map', [])
 					$scope.map.selectedMarker.mapFifty = !$scope.map.selectedMarker.mapFifty;
 				}
 
-				// AccessLocationsAPI.getWeatherByLatLong.query().then(function(promisedWeatherData) {
-				// 	$scope.weather = promisedWeatherData;
-				// });
-				// console.log($scope.weather);
+
 
 				$scope.map.options.center      = {
 					latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
@@ -300,28 +298,28 @@ angular.module('yourCoast.map', [])
 			}
 
 			if($stateParams.locationID) {
-				AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
-					$scope.openLocationPanel(location[0]);
+					AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
+							$scope.openLocationPanel(location[0]);
 
-					angular.forEach(location, function(location) {
-						// add coords obj to each location
-						location.coords = {
-							latitude: location.LATITUDE,
-							longitude: location.LONGITUDE
-						};
+							angular.forEach(location, function(location) {
+								// add coords obj to each location
+								location.coords = {
+										latitude: location.LATITUDE,
+										longitude: location.LONGITUDE
+								};
+							});
 					});
-				});
 			} else if($stateParams.locationName) {
 				AccessLocationsAPI.getLocationByName.query().$promise.then(function(location) {
-					$scope.openLocationPanel(location[0]);
+						$scope.openLocationPanel(location[0]);
 
-					angular.forEach(location, function(location) {
-						// add coords obj to each location
-						location.coords = {
-							latitude: location.LATITUDE,
-							longitude: location.LONGITUDE
-						};
-					});
+						angular.forEach(location, function(location) {
+							// add coords obj to each location
+								location.coords = {
+										latitude: location.LATITUDE,
+										longitude: location.LONGITUDE
+								};
+						});
 				});
 			}
 		});
