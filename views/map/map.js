@@ -102,7 +102,7 @@ angular.module('yourCoast.map', [])
 	$scope.map.options = {
 							center: {
 								latitude: 37.632711,
-								longitude: -122.572511
+								longitude: -120.572511
 							},
 							zoom: 6,
 							cluster: {
@@ -266,12 +266,13 @@ angular.module('yourCoast.map', [])
 
 			$scope.openLocationPanel = function openLocationPanel(marker) {
 				$scope.map.selectedMarker = [];
-				$scope.toggleMenu();
+
 
 				if("model" in marker) {
 					$scope.map.selectedMarker = marker.model;
 				} else {
 					$scope.map.selectedMarker = marker;
+					$scope.toggleMenu();
 				}
 
 				$scope.map.locations           = [$scope.map.selectedMarker];
