@@ -5,6 +5,24 @@ body,
     height: 100% !important;
 }
 
+.fa {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  padding-left: 2px;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-icons.kilo {
+  font-size: 2rem;
+}
+
 #calcoastaccess #search_address {
   display: block;
   background-color: transparent;
@@ -17,8 +35,7 @@ body,
 }
 
 #calcoastaccess #search {
-  margin-left: 20px;
-  margin-top: -5px;
+  margin: 5px 0 0 2.2%;
   position: absolute;
   font-size: 20px;
 }
@@ -29,6 +46,7 @@ body,
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 10px;
+  margin-left: 23px;
 }
 
 #calcoastaccess .result-list li {
@@ -76,12 +94,14 @@ body,
   }
 
   #calcoastaccess #search_address {
-    padding: 8px 8px 6px 8px;
+    padding: 8px 8px 6px 29px;
     position: relative;
     display: block;
     outline: none;
     border: none;
-    background: bottom left linear-gradient(#FEEA3B, #FEEA3B) no-repeat, bottom center linear-gradient(#FEEA3B, #FEEA3B) repeat-x, bottom right linear-gradient(#FEEA3B, #FEEA3B) no-repeat;
+    /*background: bottom left linear-gradient(#FEEA3B, #FEEA3B) no-repeat, bottom center linear-gradient(#FEEA3B, #FEEA3B) repeat-x, bottom right linear-gradient(#FEEA3B, #FEEA3B) no-repeat;*/
+    background: rgba(255, 255, 255, 0.29);
+    border-radius: 2px;
     background-size: 2px 6px, 2px 2px, 2px 6px;
   }
 
@@ -136,12 +156,13 @@ body,
   }
 
   #calcoastaccess #foot-logo {
-      width: 9.5%;
-      display: inline;
-      clear: both;
-      float: left;
-      opacity: 0.9;
-      margin: 0 10px;
+    width: 9.5%;
+    width: 50px;
+    display: inline;
+    clear: both;
+    float: left;
+    opacity: 0.9;
+    margin: 0 12px;
   }
 
   .ngdialog-content #foot-logo {
@@ -180,7 +201,7 @@ body,
 
   .page-header h1 {
     font-size: 2rem;
-    line-height: 1rem;
+    line-height: 2.5rem;
   }
 
   .page-header h1 span.light {
@@ -194,7 +215,7 @@ body,
 
   #LocationPanel .mdc-bg-light-blue-700 p {
     padding: 0 25px;
-    margin-bottom: 15px;
+    margin-bottom: 28px;
   }
 
   #LocationPanel .mdc-bg-light-blue-700 a {
@@ -229,7 +250,7 @@ body,
   }
 
   #searchContainer {
-    margin-top: -40px;
+    margin-top: -45px;
   }
 
   .cluster-icon div {
@@ -241,8 +262,8 @@ body,
     background-color: #01579B;
   }
 
-  @media only screen
-    and (min-device-width: 300px)
+  @media screen
+    and (min-device-width: 320px)
     and (max-device-width: 736px) {
       #ccc {
         display: none;
@@ -251,9 +272,10 @@ body,
       .fa-bars {
         display: inline-block;
         position: absolute;
-        padding: 16px 10px;
+        padding: 9px 10px;
         clear: both;
         font-size: 17px;
+
       }
 
       .page-header {
@@ -262,6 +284,8 @@ body,
       }
 
       .page-header h1 {
+        font-size: 1.3rem;
+        line-height: 1.1rem;
         text-align: center;
         display: inline-block;
         margin: auto;
@@ -272,7 +296,7 @@ body,
 
       #calcoastaccess #foot-logo {
         display: inline-block;
-        /* margin: auto; */
+        width: 30px;
         margin-left: -33%;
         position: relative;
         float: none;
@@ -323,13 +347,6 @@ body,
       #searchAndResults .column-10.push-1 {
         width: 85%;
         margin: 0;
-      }
-
-      #searchAndResults .column-1 {
-        width: 18%;
-        display: inline-block;
-        float: right;
-        margin-top: -22px;
       }
 
       #searchContainer {
@@ -403,4 +420,13 @@ body,
       .ngdialog.ngdialog-theme-default .ngdialog-content {
           width: 90%;
       }
+  }
+
+  @media screen
+    and (max-device-width: 320px) {
+
+      .angular-google-map-container {
+          height: 77vh;
+      }
+
   }

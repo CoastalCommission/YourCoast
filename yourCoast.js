@@ -5,6 +5,7 @@ angular.module('yourCoast', ['ngResource',
 														 'ui.router',
 														 'uiGmapgoogle-maps',
 														 'ngDialog',
+														 '720kb.socialshare',
 														 'yourCoast.map'
 														])
 

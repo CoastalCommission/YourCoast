@@ -21,6 +21,6 @@
     "ngDialog": "~0.4.0",
     "angular-sanitize": "~1.4.1",
     "material-design-color-palette": "~1.0.1",
-    "angular-socialshare": "~1.4.1"
+    "angularjs-socialshare": "~0.1.8"
   }
 }

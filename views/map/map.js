@@ -23,21 +23,16 @@ angular.module('yourCoast.map', [])
 				controller: 'mapController'
 			});
 
-
 		$urlRouterProvider.otherwise('/map');
 }])
 
 
 .factory('AccessLocationsAPI', ['$resource', '$stateParams', '$filter', function($resource, $stateParams, $filter) {
-  if($stateParams.locationName) {
-		var correctedName = $stateParams.locationName.replace(/-/g, ' ');
-		console.log(correctedName);
-	}
-
-	var remoteBaseURL  = 'http://10.10.1.84:3333/access/v1/locations',
+	var coastalEndPoint   = 'http://sf7144d.coastal.ca.gov:3333/access/v1',
+			instagramEndPoint = 'https://api.instagram.com/v1',
 
 	    locationsAPI   = {
-	    	getAllLocations: $resource(remoteBaseURL,
+	    	getAllLocations: $resource(coastalEndPoint + '/locations/',
 			                            {},
 			                            {
 			                            	query: {
@@ -47,7 +42,7 @@ angular.module('yourCoast.map', [])
 			                            	}
 			                            }),
 
-	    	getLocationByID: $resource(remoteBaseURL + '/id/' + $stateParams.locationID,
+	    	getLocationByID: $resource(coastalEndPoint + '/locations/id/' + $stateParams.locationID,
 			                            {},
 			                            {
 			                            	query: {
@@ -57,7 +52,7 @@ angular.module('yourCoast.map', [])
 			                            	}
 			                            }),
 
-	    	getLocationByName: $resource(remoteBaseURL + '/name/' + correctedName,
+	    	getLocationByName: $resource(coastalEndPoint + '/locations/name/' + $stateParams.locationName,
 										    						   {},
 										    						   {
 										    						   		query: {
@@ -66,7 +61,19 @@ angular.module('yourCoast.map', [])
 										    						   			cache: true
 										    						   		}
 										    						   }
-																		)
+																		),
+
+				getPhotosByLatLong: $resource(instagramEndPoint + 'locations/search?lat=' +  + '&lng=' +  + '?client_id=27bae1323ac94c67963054afdd50fff4&callback=JSON_CALLBACK',
+																				{},
+																				{
+																					query: {
+																						method: 'GET',
+																						isArray: true,
+																						cache: true
+																					}
+																				}
+																		 )
+
 				// 														,
 				//
 				// getWeatherByLatLong: $resource('http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude,
@@ -225,8 +232,6 @@ angular.module('yourCoast.map', [])
 					template: "<img src='" + photo + "' style='width:100%'/>",
 					plain: true
 			});
-
-			console.log(photo);
 	}
 
 	if("geolocation" in navigator) {
@@ -258,21 +263,6 @@ angular.module('yourCoast.map', [])
 				};
 			});
 
-			$scope.openInfoWindow = function openInfoWindow(marker) {
-				// from from map, else from sidebar
-				if("model" in marker) {
-					$scope.map.selectedMarker = marker.model;
-					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
-				} else {
-					$scope.map.selectedMarker = marker;
-					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
-				}
-			}
-
-			$scope.closeInfoWindow = function closeInfoWindow() {
-				$scope.map.selectedMarker.show = false;
-			};
-
 			$scope.openLocationPanel = function openLocationPanel(marker) {
 				$scope.map.selectedMarker = [];
 				$scope.toggleMenu();
@@ -282,8 +272,6 @@ angular.module('yourCoast.map', [])
 				} else {
 					$scope.map.selectedMarker = marker;
 				}
-
-				console.log($scope.map.selectedMarker);
 
 				$scope.map.locations           = [$scope.map.selectedMarker];
 				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
@@ -298,11 +286,11 @@ angular.module('yourCoast.map', [])
 				// console.log($scope.weather);
 
 				$scope.map.options.center      = {
-					latitude: $scope.map.selectedMarker.LATITUDE - 0.11,
+					latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
 					longitude: $scope.map.selectedMarker.LONGITUDE
 				};
 
-				$scope.map.options.zoom = 11;
+				$scope.map.options.zoom = 14;
 			}
 
 			$scope.closeLocationPanel = function closeLocationPanel() {
