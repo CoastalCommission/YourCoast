@@ -97,6 +97,7 @@ angular.module('yourCoast.map', [])
 	$scope.map = {};
 	$scope.map.locations = [];
 	$scope.map.locations.coords = {};
+	$scope.map.locations.icon = '';
 	$scope.map.selectedMarker = [];
 	$scope.map.selectedMarker.show = false;
 	$scope.map.options = {
@@ -110,17 +111,16 @@ angular.module('yourCoast.map', [])
 								zoomOnClick: true,
 								styles: [
 									{
-	                    url: "icons/m3.png",
-											width:70,
-											height:70,
+	                    url: "icons/m4-fab.png",
+											width:60,
+											height:60,
 											textColor: 'white',
 											textSize: 14,
 											fontFamily: 'Open Sans'
 									}
 								],
 								averageCenter: true,
-								clusterClass: 'cluster-icon',
-								icon: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+								clusterClass: 'cluster-icon'
 							},
 							custom: {
 								panControl: false,
@@ -262,6 +262,8 @@ angular.module('yourCoast.map', [])
 					latitude: location.LATITUDE,
 					longitude: location.LONGITUDE
 				};
+
+				location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
 			});
 
 			$scope.openLocationPanel = function openLocationPanel(marker) {
@@ -308,6 +310,8 @@ angular.module('yourCoast.map', [])
 										latitude: location.LATITUDE,
 										longitude: location.LONGITUDE
 								};
+
+								location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
 							});
 					});
 			} else if($stateParams.locationName) {
@@ -320,6 +324,8 @@ angular.module('yourCoast.map', [])
 										latitude: location.LATITUDE,
 										longitude: location.LONGITUDE
 								};
+
+								location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
 						});
 				});
 			}

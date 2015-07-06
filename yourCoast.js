@@ -11,7 +11,7 @@ angular.module('yourCoast', ['ngResource',
 
 .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-        //    key: 'your api key',
+        key: 'AIzaSyAx3mZAAx_JC8C3Xww3xXPDaT3bG5_8BhY',
         v: '3.17',
         libraries: 'weather,geometry,places'
     });

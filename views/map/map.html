@@ -3,12 +3,14 @@
   <div class="column-12 page-header mdc-bg-light-blue-700">
     <div class="row">
       <a href="#" ng-click="toggleMenu()">
-        <i class="fa fa-bars white-text"></i>
+        <i class="material-icons white-text" id="mobile-nav">&#xE5D2;</i>
       </a>
 
       <div class="column-4 push-3">
-        <img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
-        <h1 class="medium slab"><span class="light">Your</span>Coast</h1>
+        <a href="http://yourcoast.org" alt="yourCoast Home">
+          <img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
+          <h1 class="medium slab"><span class="light">Your</span>Coast</h1>
+        </a>
       </div> <!-- end .column-3 -->
     </div> <!-- end .row -->
   </div> <!-- end .column-12 -->
@@ -19,7 +21,7 @@
 		<div class="row overflow-visible" id="searchContainer" data-intro="Search for a location to find the nearby Public Access locations" data-position="right">
       <div class="column-1">
 				<a id='search' href='#'>
-					<i class='material-icons yellow-text'>search</i>
+					<i class="material-icons yellow-text">&#xE8B6;</i>
 				</a>
 			</div> <!-- end .column-1 -->
 
@@ -60,7 +62,7 @@
                            labelClass="marker_labels"
                            doCluster="true"
                            clusterOptions="map.options.cluster"
-                           icon="'maps.google.com/mapfiles/kml/paddle/ylw-blank.png'"
+                           icon="'icon'"
                            click="openLocationPanel">
 					</ui-gmap-markers>
 				</ui-gmap-google-map>
@@ -80,7 +82,7 @@
             <div class="column-1 push-11">
               <a href="#" ng-click="openShare()">
                 <button class="fab mdc-bg-light-blue-900 pull-up">
-                  <i class="material-icons yellow-text">share</i>
+                  <i class="material-icons yellow-text">&#xE80D;</i>
                 </button>
               </a>
             </div> <!-- end .column-1 -->
@@ -89,7 +91,7 @@
           <div class="row gutters margin-top">
             <div class="column-4 push-2" ng-show='!map.selectedMarker.PHONE_NMBR'>
                 <h1 class="no-margin center-text">
-                  <i class='material-icons kilo mdc-text-grey-400'>phone</i>
+                  <i class='material-icons kilo mdc-text-grey-400'>&#xE0CD;</i>
                 </h1>
 
                 <h4 class='no-margin mdc-text-grey-400 center-text'>
@@ -100,7 +102,7 @@
             <div class="column-4 push-2" ng-show='map.selectedMarker.PHONE_NMBR'>
               <a href='tel:{{ map.selectedMarker.PHONE_NMBR }}'>
                 <h1 class="no-margin center-text">
-                  <i class='material-icons kilo mdc-text-blue-700'>phone</i>
+                  <i class='material-icons kilo mdc-text-blue-700'>&#xE0CD;</i>
                 </h1>
 
                 <h4 class='no-margin mdc-text-blue-700 center-text'>
@@ -112,7 +114,7 @@
             <div class="column-4 push-2">
               <a href='https://www.google.com/maps/dir/Current+Location/{{ map.selectedMarker.LATITUDE }},{{ map.selectedMarker.LONGITUDE}}' target='_blank'>
                 <h1 class="no-margin center-text">
-                  <i class='material-icons kilo mdc-text-blue-700'>directions_car</i>
+                  <i class='material-icons kilo mdc-text-blue-700'>&#xE52E;</i>
                 </h1>
 
                 <h4 class='no-margin mdc-text-blue-700 center-text'>
@@ -129,21 +131,10 @@
                   <h2 class="slab medium no-border mdc-text-light-blue-700">Amenities</h2>
 
                   <div class="row" id="amenities">
-                    <div class='column-6' ng-show='map.selectedMarker.Bch_whlchr || map.selectedMarker.FEE || map.selectedMarker.PARKING || map.selectedMarker.DSABLDACSS || map.selectedMarker.RESTROOMS || map.selectedMarker.VISTOR_CTR || map.selectedMarker.PCNC_AREA || map.selectedMarker.CAMPGROUND || map.selectedMarker.DOG_FRIENDLY === "Yes" || map.selectedMarker.EZ4STROLLERS === "Yes"'>
-                      <div class='row gutters' ng-show='map.selectedMarker.Bch_whlchr'>
-                        <div class='column-1'>
-                          <i class='fa fa-wheelchair mdc-text-blue-700'></i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            {{ map.selectedMarker.Bch_whlchr }}
-                          </p>
-                        </div>
-                      </div>
-
+                    <div class='column-6' ng-show='map.selectedMarker.Bch_whlchr || map.selectedMarker.FEE || map.selectedMarker.PARKING || map.selectedMarker.DSABLDACSS || map.selectedMarker.RESTROOMS || map.selectedMarker.VISTOR_CTR || map.selectedMarker.PCNC_AREA || map.selectedMarker.CAMPGROUND || map.selectedMarker.DOG_FRIENDLY === "Yes" || map.selectedMarker.EZ4STROLLERS === "Yes" || map.selectedMarker.WLDLFE_VWG || map.selectedMarker.TIDEPOOL || map.selectedMarker.VOLLEYBALL || map.selectedMarker.FISHING || map.selectedMarker.BOATING'>
                       <div class='row gutters' ng-show='map.selectedMarker.FEE === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>attach_money</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE227;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -154,7 +145,7 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.PARKING === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>local_parking</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE54F;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -163,20 +154,21 @@
                         </div>
                       </div>
 
-                      <div class='row gutters' ng-show='map.selectedMarker.DSABLDACSS === "Yes"'>
+                      <div class='row gutters' ng-show='map.selectedMarker.DSABLDACSS === "Yes" || map.selectedMarker.Bch_whlchr'>
                         <div class='column-1'>
                           <i class='fa fa-wheelchair mdc-text-blue-700'></i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
-                            Disabled Access
+                            Disabled Access<br>
+                            <span ng-show="map.selectedMarker.Bch_whlchr">Beach Wheelchair {{ map.selectedMarker.Bch_whlchr }}</span>
                           </p>
                         </div>
                       </div>
 
                       <div class='row gutters' ng-show='map.selectedMarker.RESTROOMS === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>wc</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE63D;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -187,7 +179,7 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.VISTOR_CTR === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>store</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE8D1;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -198,7 +190,7 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.PCNC_AREA === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>shopping_basket</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE8CB;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -209,7 +201,7 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.CAMPGROUND === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>explore</i>
+                          <i class='icon-campground mdc-text-blue-700'></i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -218,136 +210,13 @@
                         </div>
                       </div>
 
-                      <div class='row gutters' ng-show='map.selectedMarker.DOG_FRIENDLY === "Yes"'>
-                        <div class='column-1'>
-                          <i class='fa fa-paw mdc-text-blue-700'></i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Dog Friendly
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.EZ4STROLLERS === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>shopping_cart</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Stroller Friendly
-                          </p>
-                        </div>
-                      </div>
-                    </div> <!-- end .column-6 -->
-
-                    <div class='column-6' ng-show='map.selectedMarker.SNDY_BEACH || map.selectedMarker.SKY_SHORE || map.selectedMarker.DUNES || map.selectedMarker.BLUFF || map.selectedMarker.STRS_BEACH || map.selectedMarker.PTH_BEACH || map.selectedMarker.BLFTP_TRLS || map.selectedMarker.BLFTP_PRK || map.selectedMarker.WLDLFE_VWG || map.selectedMarker.TIDEPOOL || map.selectedMarker.VOLLEYBALL || map.selectedMarker.FISHING || map.selectedMarker.BOATING'>
-                      <div class='row gutters' ng-show='map.selectedMarker.SNDY_BEACH === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>terrain</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Sandy Beach
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.SKY_SHORE === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>terrain</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Rocky Shore
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.DUNES === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>terrain</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Dunes
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.BLUFF === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>terrain</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Bluff
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.STRS_BEACH === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>directions_walking</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Stairs to Beach
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.PTH_BEACH === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>directions_walking</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Path to Beach
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.BLFTP_TRLS === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>directions_walking</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Blufftop Trails
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.BLFTP_PRK === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>directions_walking</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Blufftop Park
-                          </p>
-                        </div>
-                      </div>
-
                       <div class='row gutters' ng-show='map.selectedMarker.WLDLFE_VWG === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>camera</i>
+                          <i class='fa fa-binoculars mdc-text-blue-700'></i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
                             Wildlife Viewing
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class='row gutters' ng-show='map.selectedMarker.TIDEPOOL === "Yes"'>
-                        <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>terrain</i>
-                        </div>
-                        <div class='column-10 push-1'>
-                          <p class='no-margin'>
-                            Tidepools
                           </p>
                         </div>
                       </div>
@@ -365,7 +234,7 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.FISHING === "Yes"'>
                         <div class='column-1'>
-                          <i class='fa fa-check mdc-text-blue-700'></i>
+                          <i class='icon-fishing mdc-text-blue-700'></i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
@@ -376,11 +245,134 @@
 
                       <div class='row gutters' ng-show='map.selectedMarker.BOATING === "Yes"'>
                         <div class='column-1'>
-                          <i class='material-icons mdc-text-blue-700'>directions_boat</i>
+                          <i class='material-icons mdc-text-blue-700'>&#xE532;</i>
                         </div>
                         <div class='column-10 push-1'>
                           <p class='no-margin'>
                             Boating
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.DOG_FRIENDLY === "Yes"'>
+                        <div class='column-1'>
+                          <i class='fa fa-paw mdc-text-blue-700'></i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Dog Friendly
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.EZ4STROLLERS === "Yes"'>
+                        <div class='column-1'>
+                          <i class='icon-stroller mdc-text-blue-700'></i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Stroller Friendly
+                          </p>
+                        </div>
+                      </div>
+                    </div> <!-- end .column-6 -->
+
+                    <div class='column-6' ng-show='map.selectedMarker.SNDY_BEACH || map.selectedMarker.SKY_SHORE || map.selectedMarker.DUNES || map.selectedMarker.BLUFF || map.selectedMarker.STRS_BEACH || map.selectedMarker.PTH_BEACH || map.selectedMarker.BLFTP_TRLS || map.selectedMarker.BLFTP_PRK'>
+                      <div class='row gutters' ng-show='map.selectedMarker.SNDY_BEACH === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE564;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Sandy Beach
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.SKY_SHORE === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE564;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Rocky Shore
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.DUNES === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE564;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Dunes
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.BLUFF === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE564;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Bluff
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.TIDEPOOL === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE564;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Tidepools
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.STRS_BEACH === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE536;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Stairs to Beach
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.PTH_BEACH === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE536;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Path to Beach
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.BLFTP_TRLS === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE536;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Blufftop Trails
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class='row gutters' ng-show='map.selectedMarker.BLFTP_PRK === "Yes"'>
+                        <div class='column-1'>
+                          <i class='material-icons mdc-text-blue-700'>&#xE536;</i>
+                        </div>
+                        <div class='column-10 push-1'>
+                          <p class='no-margin'>
+                            Blufftop Park
                           </p>
                         </div>
                       </div>
@@ -399,7 +391,7 @@
                       </a>
                     </div> -->
 
-                    <div class="column-6 push-3" ng-show="map.selectedMarker.Photo_1 && !map.selectedMarker.Photo_2">
+                    <div class="column-8 push-2" ng-show="map.selectedMarker.Photo_1 && !map.selectedMarker.Photo_2">
                       <a href='#' ng-click='openPhoto(map.selectedMarker.Photo_1)' class="row" ng-show="map.selectedMarker.Photo_1">
                         <img src='{{ map.selectedMarker.Photo_1 }}' alt='{{ map.selectedMarker.NameMobileWeb }}'/>
                       </a>
@@ -459,25 +451,25 @@
     <div class="row gutters" id="footerInfo">
       <div class="column-2">
         <a href="#" ng-click="openFeedback()">
-          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="material-icons">feedback</i>  feedback</h4>
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Send us your feedback" data-position="top"><i class="fa fa-comments-o"></i>  feedback</h4>
         </a>
       </div> <!-- end .column-2 -->
 
       <div class="column-8">
         <a href="#" id="helpOverlay" ng-click="openHelp()">
-          <h4 class="medium blue-text center-text no-padding pull-up"><i class="material-icons">help</i> help</h4>
+          <h4 class="medium blue-text center-text no-padding pull-up"><i class="fa fa-life-ring"></i> help</h4>
         </a>
       </div> <!-- end .column-8 -->
 
       <div class="column-2">
         <a href="#" ng-click="openAbout()">
-          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="material-icons">info</i>  about</h4>
+          <h4 class="blue-text medium no-padding center-text pull-up" id="feedback" data-intro="Find out more about how this app works &amp; the data that powers it" data-position="top"><i class="fa fa-info"></i>  about</h4>
         </a>
       </div> <!-- end .column-2 -->
     </div> <!-- end .row -->
 	</div> <!-- end .column-8 -->
 
 	<div class="column-1" data-intro="Geolocate yourself to find the nearby Public Access locations" data-position="left">
-		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="material-icons">my_location</i></button>
+		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button"><i class="material-icons">&#xE55C;</i></button>
 	</div> <!-- end .column-1 -->
 </div> <!-- end .row -->
