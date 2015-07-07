@@ -27,11 +27,11 @@
 .icon-campground:before {
 	content: "\e600";
 }
-.icon-stroller:before {
-	content: "\e601";
-}
 .icon-fishing:before {
 	content: "\e602";
+}
+.icon-stroller:before {
+	content: "\e601";
 }
 
 html,

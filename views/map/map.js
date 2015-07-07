@@ -5,18 +5,38 @@ angular.module('yourCoast.map', [])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 		$stateProvider
+			// default map view
 			.state('map', {
+				abstract: true,
 				url: '/map',
+				template: '<ui-view/>'
+			})
+
+			.state('map.index', {
+				url: '',
 				templateUrl: 'views/map/map.html',
 				controller: 'mapController'
 			})
 
-			.state('location-id', {
-				url: '/map/location/id/:locationID',
+			// single location view
+			.state('map.location-id', {
+				url: '/location/id/:locationID',
 				templateUrl: 'views/map/map.html',
-				controller: 'mapController'
+				resolve: {
+					AccessLocationsAPI: 'AccessLocationsAPI',
+
+					location: function location($stateParams, AccessLocationsAPI) {
+						// bind data to listings
+						var locationID = $stateParams.locationID,
+								data       = AccessLocationsAPI.getLocationByID.query({ locationID: locationID });
+
+						return data.$promise;
+					}
+				},
+				controller: 'locationController'
 			})
 
+			// single location view
 			.state('location-name', {
 				url: '/map/location/name/:locationName',
 				templateUrl: 'views/map/map.html',
@@ -28,7 +48,7 @@ angular.module('yourCoast.map', [])
 
 
 .factory('AccessLocationsAPI', ['$resource', '$stateParams', '$filter', function($resource, $stateParams, $filter) {
-	var coastalEndPoint   = 'http://sf7144d.coastal.ca.gov:3333/access/v1',
+	var coastalEndPoint   = 'http://134.186.6.10/access/v1',
 			instagramEndPoint = 'https://api.instagram.com/v1',
 
 	    locationsAPI   = {
@@ -42,8 +62,10 @@ angular.module('yourCoast.map', [])
 			                            	}
 			                            }),
 
-	    	getLocationByID: $resource(coastalEndPoint + '/locations/id/' + $stateParams.locationID,
-			                            {},
+	    	getLocationByID: $resource(coastalEndPoint + '/locations/id/:locationID',
+			                            {
+																		locationID: '@locationID'
+																	},
 			                            {
 			                            	query: {
 				                                method: 'GET',
@@ -92,12 +114,15 @@ angular.module('yourCoast.map', [])
 }])
 
 
-.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$stateParams', 'ngDialog',
-											function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $stateParams, ngDialog) {
+.controller('mapController', ['$scope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$state', '$stateParams', 'ngDialog',
+											function($scope, AccessLocationsAPI, uiGmapGoogleMapApi, $state, $stateParams, ngDialog) {
+	// defaults
 	$scope.map = {};
 	$scope.map.locations = [];
 	$scope.map.locations.coords = {};
 	$scope.map.locations.icon = '';
+	$scope.map.fullyLoaded = false;
+	$scope.hasGeolocation;
 	$scope.map.selectedMarker = [];
 	$scope.map.selectedMarker.show = false;
 	$scope.map.options = {
@@ -201,6 +226,8 @@ angular.module('yourCoast.map', [])
 	$scope.map.locationList = [];
 	$scope.menuActive = false;
 
+	var iconURL = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+
 	$scope.toggleMenu = function toggleMenu() {
 		$scope.menuActive = !$scope.menuActive;
 	}
@@ -235,7 +262,9 @@ angular.module('yourCoast.map', [])
 			});
 	}
 
+	// proceed on if the browser supports geolocation
 	if("geolocation" in navigator) {
+		$scope.hasGeolocation = true;
 		$scope.geolocate = function geolocate() {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				$scope.$apply(function() {
@@ -243,33 +272,43 @@ angular.module('yourCoast.map', [])
 					$scope.map.options.center.longitude = position.coords.longitude
 					$scope.map.options.zoom = 12;
 				});
-
+				$scope.geolocated = true;
 				$scope.closeLocationPanel();
 			});
 		}
 	} else {
 		$scope.feedback = "Sorry, your browser doesn't support geolocation."
+		$scope.hasGeolocation = false;
 	}
 
+	// proceed only if we have all things Google Maps
 	uiGmapGoogleMapApi.then(function(maps) {
+		// show map once we have it
+		$scope.map.fullyLoaded = true;
+
+		// fetch all locations
 		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
+			// bind to map
 			$scope.map.locations    = promisedLocations;
+
+			// bind to list
 			$scope.map.locationList = promisedLocations;
 
+			// add properties to each location before view
 			angular.forEach(promisedLocations, function(location) {
-				// add coords obj to each location
 				location.coords = {
 					latitude: location.LATITUDE,
 					longitude: location.LONGITUDE
 				};
 
-				location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
+				location.icon = iconURL;
 			});
 
 			$scope.openLocationPanel = function openLocationPanel(marker) {
-				$scope.map.selectedMarker = [];
+				// nessesary - fixes issue with re-selecting previously selected marker
+				$scope.map.selectedMarker.show = false;
 
-
+				// check is marker is coming from map or list
 				if("model" in marker) {
 					$scope.map.selectedMarker = marker.model;
 				} else {
@@ -277,58 +316,289 @@ angular.module('yourCoast.map', [])
 					$scope.toggleMenu();
 				}
 
-				$scope.map.locations           = [$scope.map.selectedMarker];
+				// remove all markers except for the selected marker
+				$scope.map.locations = [$scope.map.selectedMarker];
+
+				// toggle LocationPanel visibility
 				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
 
-				if($scope.map.selectedMarker != null) {
-					$scope.map.selectedMarker.mapFifty = !$scope.map.selectedMarker.mapFifty;
-				}
-
-
-
-				$scope.map.options.center      = {
+				// pan map viewport to selected marker
+				$scope.map.options.center = {
 					latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
 					longitude: $scope.map.selectedMarker.LONGITUDE
 				};
 
+				// zoom in on selected marker
 				$scope.map.options.zoom = 14;
 			}
 
 			$scope.closeLocationPanel = function closeLocationPanel() {
-				$scope.map.selectedMarker      = [];
+				// reset location to all
 				$scope.map.locations           = promisedLocations;
+
+				// hise the LocationPanel
 				$scope.map.selectedMarker.show = false;
+
+				// reset route
+				// $state.transitionTo('map.index');
 			}
 
-			if($stateParams.locationID) {
-					AccessLocationsAPI.getLocationByID.query().$promise.then(function(location) {
-							$scope.openLocationPanel(location[0]);
+			$scope.switchLocations = function switchLocations(locationID) {
+				var locationID = locationID;
 
-							angular.forEach(location, function(location) {
-								// add coords obj to each location
-								location.coords = {
-										latitude: location.LATITUDE,
-										longitude: location.LONGITUDE
-								};
-
-								location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
-							});
-					});
-			} else if($stateParams.locationName) {
-				AccessLocationsAPI.getLocationByName.query().$promise.then(function(location) {
-						$scope.openLocationPanel(location[0]);
-
-						angular.forEach(location, function(location) {
-							// add coords obj to each location
-								location.coords = {
-										latitude: location.LATITUDE,
-										longitude: location.LONGITUDE
-								};
-
-								location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow-dot.png';
-						});
-				});
+				$state.transitionTo('map.location-id', {locationID:locationID});
 			}
+
 		});
   });
+}])
+
+
+.controller('locationController', ['$scope', 'AccessLocationsAPI', 'location', 'uiGmapGoogleMapApi', '$state', '$stateParams', 'ngDialog',
+											function($scope, AccessLocationsAPI, location, uiGmapGoogleMapApi, $state, $stateParams, ngDialog) {
+	// defaults
+	$scope.map = {};
+	$scope.map.locations = [];
+	$scope.map.locations.coords = {};
+	$scope.map.locations.icon = '';
+	$scope.map.fullyLoaded = false;
+	$scope.hasGeolocation;
+	$scope.map.selectedMarker = [];
+	$scope.map.selectedMarker.show = false;
+	$scope.map.options = {
+							center: {
+								latitude: (location[0].LATITUDE - 0.01),
+								longitude: location[0].LONGITUDE
+							},
+							zoom: 14,
+							cluster: {
+								minimumClusterSize : 10,
+								zoomOnClick: true,
+								styles: [
+									{
+											url: "icons/m4-fab.png",
+											width:60,
+											height:60,
+											textColor: 'white',
+											textSize: 14,
+											fontFamily: 'Open Sans'
+									}
+								],
+								averageCenter: true,
+								clusterClass: 'cluster-icon'
+							},
+							custom: {
+								panControl: false,
+								tilt: 0,
+								zoomControl: true,
+								scaleControl: true,
+								streetViewControl: true,
+								mapTypeId: "terrain",
+								// streetViewControlOptions: {
+								// 	position: "ControlPosition.RIGHT_TOP"
+								// },
+								styles: [
+											{"featureType":"landscape",
+												"stylers":[
+													{"hue":"#F1FF00"},
+													{"saturation":-27.4},
+													{"lightness":9.4},
+													{"gamma":1}
+												]
+											},
+											{"featureType":"road.highway",
+												"stylers":[
+													{"hue":"#ffd54f"},
+													{"saturation":-20},
+													{"lightness":36.4},
+													{"gamma":1}
+												]
+											},
+											{"featureType":"road.arterial",
+												"stylers":[
+													{"hue":"#00FF4F"},
+													{"saturation":0},
+													{"lightness":0},
+													{"gamma":1}
+												]
+											},
+											{"featureType":"road.local",
+												"stylers":[
+													{"hue":"#FFB300"},
+													{"saturation":-38},
+													{"lightness":11.2},
+													{"gamma":1}
+												]
+											},
+											{"featureType":"water",
+											"elementType":"geometry.fill",
+												"stylers":[
+													{"color":"#81D4FA"},
+													{"visibility": "on"}
+												]
+											},
+											{"featureType":"poi",
+												"stylers":[
+													{"hue":"#5af158"},
+													{"saturation":0},
+													{"lightness":0},
+													{"gamma":1}
+												]
+											}
+										]
+							}
+						};
+	$scope.map.events = {
+		tilesloaded: function (map, eventName, originalEventArgs) {
+			var panoLocation = new google.maps.LatLng($scope.map.selectedMarker.LATITUDE, $scope.map.selectedMarker.LONGITUDE);
+			var panoramaOptions = {
+				position: panoLocation,
+				pov: {
+					heading: 30,
+					pitch: 5,
+					zoom: 1
+				}
+			};
+			var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+			map.setStreetView(panorama);
+		}
+	},
+	$scope.map.locationList = [];
+	$scope.menuActive = false;
+
+	var iconURL = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+
+	angular.forEach(location, function(location) {
+		location.coords = {
+			latitude: location.LATITUDE,
+			longitude: location.LONGITUDE
+		};
+
+		location.icon = iconURL;
+	});
+
+	$scope.toggleMenu = function toggleMenu() {
+		$scope.menuActive = !$scope.menuActive;
+	}
+
+	$scope.openHelp = function helpOverlay() {
+			$('body').chardinJs('start');
+	}
+
+	$scope.openFeedback = function openFeedback() {
+			ngDialog.open({
+					template: 'views/dialog/feedback.html'
+			});
+	}
+
+	$scope.openAbout = function openAbout() {
+			ngDialog.open({
+					template: 'views/dialog/about.html'
+			});
+	}
+
+	$scope.openShare = function openShare() {
+			ngDialog.open({
+					template: 'views/dialog/share.html',
+					scope: $scope
+			});
+	}
+
+	$scope.openPhoto = function openPhoto(photo) {
+			ngDialog.open({
+					template: "<img src='" + photo + "' style='width:100%'/>",
+					plain: true
+			});
+	}
+
+	// proceed on if the browser supports geolocation
+	if("geolocation" in navigator) {
+		$scope.hasGeolocation = true;
+		$scope.geolocate = function geolocate() {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				$scope.$apply(function() {
+					$scope.map.options.center.latitude = position.coords.latitude;
+					$scope.map.options.center.longitude = position.coords.longitude
+					$scope.map.options.zoom = 12;
+				});
+				$scope.geolocated = true;
+				$scope.closeLocationPanel();
+			});
+		}
+	} else {
+		$scope.feedback = "Sorry, your browser doesn't support geolocation."
+		$scope.hasGeolocation = false;
+	}
+
+	// proceed only if we have all things Google Maps
+	uiGmapGoogleMapApi.then(function(maps) {
+		// show map once we have it
+		$scope.map.fullyLoaded = true;
+
+		// fetch all locations
+		AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
+			// bind to map
+			$scope.map.locations    = promisedLocations;
+
+			// bind to list
+			$scope.map.locationList = promisedLocations;
+
+			// add properties to each location before view
+			angular.forEach(promisedLocations, function(location) {
+				location.coords = {
+					latitude: location.LATITUDE,
+					longitude: location.LONGITUDE
+				};
+
+				location.icon = iconURL;
+			});
+
+			$scope.openLocationPanel = function openLocationPanel(marker) {
+				// nessesary - fixes issue with re-selecting previously selected marker
+				$scope.map.selectedMarker.show = false;
+
+				// check is marker is coming from map or list
+				if("model" in marker) {
+					$scope.map.selectedMarker = marker.model;
+				} else {
+					$scope.map.selectedMarker = marker;
+					$scope.toggleMenu();
+				}
+
+				// remove all markers except for the selected marker
+				$scope.map.locations = [$scope.map.selectedMarker];
+
+				// toggle LocationPanel visibility
+				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
+
+				// pan map viewport to selected marker
+				$scope.map.options.center = {
+					latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
+					longitude: $scope.map.selectedMarker.LONGITUDE
+				};
+
+				// zoom in on selected marker
+				$scope.map.options.zoom = 14;
+			}
+
+			$scope.closeLocationPanel = function closeLocationPanel() {
+				// reset location to all
+				$scope.map.locations           = promisedLocations;
+
+				// hise the LocationPanel
+				$scope.map.selectedMarker.show = false;
+
+				// reset route
+				// $state.transitionTo('map.index');
+			}
+
+			$scope.switchLocations = function switchLocations(locationID) {
+				var locationID = locationID;
+
+				$state.transitionTo('map.location-id', {locationID:locationID});
+			}
+
+			$scope.openLocationPanel(location[0]);
+		});
+	});
 }]);
