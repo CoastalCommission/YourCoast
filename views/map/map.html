@@ -80,7 +80,7 @@
 
           <div class="row overflow-visible">
             <div class="column-1 push-11">
-              <a href="" ng-click="openShare()">
+              <a href="" ng-click="openShare()" ga-track-event="['click', 'share']">
                 <button class="fab mdc-bg-light-blue-900 pull-up">
                   <i class="material-icons yellow-text">&#xE80D;</i>
                 </button>
@@ -100,7 +100,7 @@
             </div> <!-- end .column-4 -->
 
             <div class="column-4 push-2" ng-show='map.selectedMarker.PHONE_NMBR'>
-              <a href='tel:{{ map.selectedMarker.PHONE_NMBR }}'>
+              <a href='tel:{{ map.selectedMarker.PHONE_NMBR }}' ga-track-event="['click', 'Call - {{ map.selectedMarker.NameMobileWeb }}']">
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-blue-700'>&#xE0CD;</i>
                 </h1>
@@ -112,7 +112,7 @@
             </div> <!-- end .column-4 -->
 
             <div class="column-4 push-2">
-              <a href='https://www.google.com/maps/dir/Current+Location/{{ map.selectedMarker.LATITUDE }},{{ map.selectedMarker.LONGITUDE}}' target='_blank'>
+              <a href='https://www.google.com/maps/dir/Current+Location/{{ map.selectedMarker.LATITUDE }},{{ map.selectedMarker.LONGITUDE}}' target='_blank' ga-track-event="['click', 'Directions - {{ map.selectedMarker.NameMobileWeb }}']">
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-blue-700'>&#xE52E;</i>
                 </h1>
@@ -470,7 +470,7 @@
 	</div> <!-- end .column-8 -->
 
 	<div class="column-1" data-intro="Geolocate yourself to find the nearby Public Access locations" data-position="left">
-		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button">
+		<button ng-click="geolocate()" id="geolocate" class="fab pull-up yellow animated fadeInUp" type="button" ga-track-event="['click', 'geolocate']">
       <i class="material-icons animated" ng-show="hasGeolocation" ng-hide="geolocated" ng-class="{ rotateIn: hasGeolocation === true }">&#xE1B7;</i>
       <i class="material-icons animated" ng-show="!hasGeolocation" ng-class="{ rotateIn: hasGeolocation === false }">&#xE1B6;</i>
       <i class="material-icons animated" ng-show="geolocated" ng-class="{ rotateIn: geolocated === true }">&#xE55C;</i>
