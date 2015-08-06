@@ -35,7 +35,7 @@
   			<a ng-repeat="location in map.locationList | orderBy:'LIST_ORDER' | filter:search"
            ui-sref="map.location-id({ locationID: {{ location.ID }} })"
            alt="{{ location.NameMobileWeb }}">
-          <li ng-bind-html='location.NameMobileWeb | trust'>
+                <li ng-bind-html='location.NameMobileWeb | trust'>
   				</li>
   			</a>
   		</ul>
@@ -70,7 +70,7 @@
         <div ng-show='map.selectedMarker.show' id='LocationPanel'>
           <div class='row mdc-bg-light-blue-700'>
             <a href='' ng-click='closeLocationPanel()'>
-              <h2 class='yellow-text light no-border no-margin' id="close"><i class='fa fa-close'></i></h2>
+              <h2 class='yellow-text light no-border no-margin' id="close"><i class='material-icons'>&#xE5CD;</i></h2>
             </a>
 
             <h1 class='slab white-text center-text medium' ng-bind-html='map.selectedMarker.NameMobileWeb | trust'></h1>
@@ -89,7 +89,7 @@
           </div> <!-- end .row -->
 
           <div class="row gutters margin-top">
-            <div class="column-4 push-2" ng-show='!map.selectedMarker.PHONE_NMBR'>
+            <div class="column-6" ng-show='!map.selectedMarker.PHONE_NMBR'>
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-grey-400'>&#xE0CD;</i>
                 </h1>
@@ -97,9 +97,9 @@
                 <h4 class='no-margin mdc-text-grey-400 center-text'>
                   No telephone number
                 </h4>
-            </div> <!-- end .column-4 -->
+            </div> <!-- end .column-6 -->
 
-            <div class="column-4 push-2" ng-show='map.selectedMarker.PHONE_NMBR'>
+            <div class="column-6" ng-show='map.selectedMarker.PHONE_NMBR'>
               <a href='tel:{{ map.selectedMarker.PHONE_NMBR }}' ga-track-event="['click', 'Call - {{ map.selectedMarker.NameMobileWeb }}']">
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-blue-700'>&#xE0CD;</i>
@@ -109,9 +109,9 @@
                   {{ map.selectedMarker.PHONE_NMBR }}
                 </h4>
               </a>
-            </div> <!-- end .column-4 -->
+            </div> <!-- end .column-6 -->
 
-            <div class="column-4 push-2">
+            <div class="column-6">
               <a href='https://www.google.com/maps/dir/Current+Location/{{ map.selectedMarker.LATITUDE }},{{ map.selectedMarker.LONGITUDE}}' target='_blank' ga-track-event="['click', 'Directions - {{ map.selectedMarker.NameMobileWeb }}']">
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-blue-700'>&#xE52E;</i>
@@ -121,7 +121,7 @@
                   Directions
                 </h4>
               </a>
-            </div> <!-- end .column-4 -->
+            </div> <!-- end .column-6 -->
           </div> <!-- end .row -->
 
           <div class="row gutters card-body">

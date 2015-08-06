@@ -9,16 +9,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 		<!-- css -->
-  	<link rel="stylesheet" href="http://www.coastal.ca.gov/css/all.min.css">
-		<link rel="stylesheet" href="bower_components/material-design-color-palette/css/material-design-color-palette.min.css">
-		<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.min.css">
-		<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.min.css">
-		<link rel="stylesheet" href="bower_components/chardin.js/chardinjs.css">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="http://www.coastal.ca.gov/css/all.min.css">
 
-    <!-- modernizr -->
+			<!-- bower:css -->
+			<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
+			<link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+			<link rel="stylesheet" href="bower_components/material-design-color-palette/css/material-design-color-palette.css" />
+			<!-- endbower -->
+
+			<!-- inject:css -->
+			<link rel="stylesheet" href="css/custom.css">
+			<!-- endinject -->
+
+		<!-- material icons -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	      rel="stylesheet">
+
+    	<!-- modernizr -->
 		<script src="http://www.coastal.ca.gov/javascript/modernizr.2.3.8.custom.js"></script>
 
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -42,20 +49,22 @@
 		</div> <!-- end .container -->
 
 		<!-- js -->
-		<script src="bower_components/angular/angular.min.js"></script>
-		<script src="bower_components/angular-resource/angular-resource.min.js"></script>
-		<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-		<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="bower_components/lodash/lodash.min.js"></script>
-		<script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
-		<script src="bower_components/ngDialog/js/ngDialog.min.js"></script>
-		<script src="bower_components/angularjs-socialshare/dist/angular-socialshare.min.js"></script>
-		<script src="bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
+			<!-- bower:js -->
+			<script src="bower_components/jquery/dist/jquery.js"></script>
+			<script src="bower_components/angular/angular.js"></script>
+			<script src="bower_components/ngDialog/js/ngDialog.js"></script>
+			<script src="bower_components/angular-resource/angular-resource.js"></script>
+			<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+			<script src="bower_components/lodash/lodash.js"></script>
+			<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+			<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+			<script src="bower_components/angularjs-socialshare/dist/angular-socialshare.min.js"></script>
+			<script src="bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
+			<!-- endbower -->
 
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/chardin.js/chardinjs.min.js"></script>
-
-		<script src="yourCoast.js"></script>
-		<script src="views/map/map.js"></script>
+			<!-- inject:js -->
+			<script src="yourCoast.js"></script>
+			<script src="views/map/map.js"></script>
+			<!-- endinject -->
 	</body>
 </html>

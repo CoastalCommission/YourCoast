@@ -1,2 +1,7 @@
 .DS_Store
 Thumbs.db
+
+/.tmp
+/build
+/bower_components
+/node_modules

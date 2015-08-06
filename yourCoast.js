@@ -26,10 +26,7 @@ angular.module('yourCoast', ['ngResource',
 		AnalyticsProvider.trackUrlParams(true);
 		AnalyticsProvider.useAnalytics(true);
 		AnalyticsProvider.setPageEvent('$stateChangeSuccess');
-})
-
-
-.run(function(Analytics) {
+}).run(function(Analytics) {
   	// relying on automatic page tracking, you need to inject Analytics
 })
 

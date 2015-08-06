@@ -34,6 +34,14 @@
 	content: "\e601";
 }
 
+.fadeInUp {
+  -webkit-animation-duration: 0.6s;
+	   -moz-animation-duration: 0.6s;
+	    -ms-animation-duration: 0.6s;
+       -o-animation-duration: 0.6s;
+	       	animation-duration: 0.6s;
+}
+
 html,
 body,
 .container {
@@ -243,6 +251,7 @@ a:hover {
 
   .mapFifty .angular-google-map-container {
     height: 35vh;
+		transition: height 1s ease-in-out;
   }
 
   .page-header h1 {
@@ -270,11 +279,18 @@ a:hover {
   }
 
   #LocationPanel h2#close {
-    text-align: right;
-    position: absolute;
+		text-align: right;
+		/*position: absolute;*/
+		padding-top: 10px;
+		padding-bottom: 0px;
   }
 
+	#LocationPanel h2#close i {
+		font-size: 30px;
+	}
+
   #LocationPanel h1 {
+		margin-top: -5px;
     /*padding-bottom: 20px;*/
   }
 
@@ -373,6 +389,7 @@ a:hover {
       }
       .angular-google-map-container {
         height: 83vh;
+				transition: height 1s ease-in-out;
       }
 
       #searchAndResults.menuActive {
