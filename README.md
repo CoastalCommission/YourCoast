@@ -1,4 +1,4 @@
-# [YourCoast.org](yourcoast.org)
+# [YourCoast.org](http://yourcoast.org)
 Search, geolocate, and find your way to your nearest California Coastal Access destination
 
 [![YourCoast.org](https://raw.github.com/zachmoreno/yourcoast/angular/images/YourCoast.png)](http://yourcoast.org)
