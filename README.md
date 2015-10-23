@@ -1,7 +1,8 @@
-# YourCoast.org
+# [YourCoast.org](yourcoast.org)
 Search, geolocate, and find your way to your nearest California Coastal Access destination
 
 [![YourCoast.org](https://raw.github.com/zachmoreno/yourcoast/angular/images/YourCoast.png)](http://yourcoast.org)
+[![Point Reyes Headlands](https://raw.github.com/zachmoreno/yourcoast/angular/images/YourCoast-single.png)](http://www.coastal.ca.gov/YourCoast/#/map/location/id/329)
 
 ## Features
 
