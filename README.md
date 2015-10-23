@@ -1,30 +1,31 @@
-# California Coastal Access Map
-Search, geolocate, and find your way to your nearnest California Coastal Access destination
+# YourCoast.org
+Search, geolocate, and find your way to your nearest California Coastal Access destination
 
-[![Searchable Map Template screenshot](https://raw.github.com/xachmoreno/ca-coastal-access-map/coastal/images/ca-coastal-access-map-preview.png)](http://xachmoreno.github.io/ca-coastal-access-map/)
+[![YourCoast.org](https://raw.github.com/zachmoreno/yourcoast/angular/images/YourCoast.png)](http://yourcoast.org)
 
 ## Features
 
-* clean, full screen layout
-* mobile and tablet friendly using responsive design
-* address search (with variable radius and geocomplete)
-* geolocation (find me!)
-* results count (using Google's Fusion Tables v1 API)
-* RESTful URLs for sharing searches
-* ability to easily add additional search filters (checkboxes, sliders, etc)
-* all done with HTML, CSS and Javascript - no server side code required
-  
+* mobile first responsive design
+* search & filter access locations
+* html5 geolocation
+* Built with AngularJS
+* Material design
+* RESTful URLs for sharing single locations
+* Publicly avialble open dataset provided through RESTful API, [api.coastal.ca.gov](http://api.coastal.ca.gov)
+
 ## Dependencies
 
-* [Google Fusion Tables](http://www.google.com/fusiontables/Home)
-* [Google Maps API V3](https://developers.google.com/maps/documentation/javascript)
+* [Open Coastal APIs](http://api.coastal.ca.gov)
+* [AngularJS](https://angularjs.org/)
+* [Angular Google Maps](https://github.com/angular-ui/angular-google-maps)
+  * [lodash](https://github.com/lodash/lodash)
+* [ngDialog](https://github.com/likeastore/ngDialog)
+* [Angular Socialshare](https://github.com/720kb/angular-socialshare)
 * [jQuery](http://jquery.org)
-* [jQuery Address](https://github.com/asual/jquery-address)
-* [Bootstrap 3](http://twitter.github.com/bootstrap)
-
+* [Chardin.js](https://github.com/heelhook/chardin.js/tree/master)
+* [Material Design Color Palette](https://github.com/zavoloklom/material-design-color-palette/)
 
 ## Copyright
 
-Copyright (c) 2013 Derek Eder. Released under the [MIT License](https://github.com/derekeder/FusionTable-Map-Template/blob/master/LICENSE).
-Copyright (c) 2014 California Coastal Commission.
-
+Copyright (c) 2015 California Coastal Commission.
+Released under the [MIT License](https://github.com/zachmoreno/yourcoast/blob/master/LICENSE).
