@@ -137,6 +137,8 @@
 			}
 		},
 		$scope.menuActive = false;
+		$scope.clickedMarker = {};
+		$scope.clickedMarker.show = false;
 
 		$scope.search = $rootScope.searchQuery;
 		$scope.$watch(

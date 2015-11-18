@@ -57,13 +57,17 @@
 					<ui-gmap-markers models="map.locations"
                            idkey="'ID'"
                            coords="'coords'"
-                           labelVisible="true"
-                           labelContent="'NameMobileWeb'"
-                           labelClass="marker_labels"
                            doCluster="true"
                            clusterOptions="map.options.cluster"
                            icon="'icon'"
-                           click="switchLocations(ID)">
+                           click="markerClick(NameMobileWeb, ID)">
+                           <ui-gmap-windows show="true" closeClick="'closeClick'">
+                               <div>
+                                    <a ui-sref="map.location-id({ locationID: {{ clickedMarker.id || 0 }} })">
+                                       <p>{{ clickedMarker.name }}</p>
+                                   </a>
+                               </div>
+                           </ui-gmap-windows>
 					</ui-gmap-markers>
 				</ui-gmap-google-map>
 

@@ -4,22 +4,21 @@
 	angular.module('yourCoast.map', [])
 
 	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+		$stateProvider
+			// default map view
+			.state('map', {
+				abstract: true,
+				url: '/map',
+				template: '<ui-view/>'
+			})
 
-			$stateProvider
-				// default map view
-				.state('map', {
-					abstract: true,
-					url: '/map',
-					template: '<ui-view/>'
-				})
+			.state('map.index', {
+				url: '',
+				templateUrl: 'views/map/map.html',
+				controller: 'mapController'
+			});
 
-				.state('map.index', {
-					url: '',
-					templateUrl: 'views/map/map.html',
-					controller: 'mapController'
-				});
-
-			$urlRouterProvider.otherwise('/map');
+		$urlRouterProvider.otherwise('/map');
 	}])
 
 
@@ -185,6 +184,15 @@
 		},
 		$scope.map.locationList = [];
 		$scope.menuActive = false;
+		$scope.markerClick = function markerClick(name, id) {
+			console.log(id);
+
+			$scope.clickedMarker = {};
+
+			$scope.clickedMarker.name = name;
+			$scope.clickedMarker.id = id;
+			$scope.clickedMarker.show = true;
+		};
 
 		$scope.$watch(function() {
 				$rootScope.searchQuery = $scope.search;
