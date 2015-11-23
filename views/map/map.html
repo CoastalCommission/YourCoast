@@ -8,8 +8,7 @@
 
       <div class="column-4 push-3">
         <a href="http://yourcoast.org" alt="yourCoast Home">
-          <img src="images/Coastal-Access-Foot-Logo.png" alt="Coastal Access Logo" id="foot-logo" />
-          <h1 class="medium slab"><span class="light">Your</span>Coast</h1>
+            <h1 class="medium slab"><span class="light">Your</span>Coast</h1>
         </a>
       </div> <!-- end .column-3 -->
     </div> <!-- end .row -->
@@ -60,14 +59,14 @@
                            doCluster="true"
                            clusterOptions="map.options.cluster"
                            icon="'icon'"
-                           click="markerClick(NameMobileWeb, ID)">
-                           <ui-gmap-windows show="true" closeClick="'closeClick'">
+                           click="switchLocations(ID)">
+                           <!-- <ui-gmap-windows>
                                <div>
                                     <a ui-sref="map.location-id({ locationID: {{ clickedMarker.id || 0 }} })">
                                        <p>{{ clickedMarker.name }}</p>
                                    </a>
                                </div>
-                           </ui-gmap-windows>
+                           </ui-gmap-windows> -->
 					</ui-gmap-markers>
 				</ui-gmap-google-map>
 

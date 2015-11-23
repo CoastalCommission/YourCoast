@@ -17,8 +17,7 @@ angular.module('yourCoast', ['ngResource',
     uiGmapGoogleMapApiProvider.configure({
         // key: 'AIzaSyAx3mZAAx_JC8C3Xww3xXPDaT3bG5_8BhY',
 		key: 'AIzaSyDvU4e-mutCkm5V77UnBU4bO5ptYj-bbGw',
-        v: '3.17',
-        libraries: 'weather,geometry,places'
+        v: '3.17'
     });
 })
 
