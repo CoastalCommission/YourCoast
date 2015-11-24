@@ -2,6 +2,7 @@
 
 angular.module('yourCoast', ['ngResource',
 							 'ngSanitize',
+							 'ngMaterial',
 							 'ui.router',
 							 'uiGmapgoogle-maps',
 							 'ngDialog',
@@ -19,6 +20,19 @@ angular.module('yourCoast', ['ngResource',
 		key: 'AIzaSyDvU4e-mutCkm5V77UnBU4bO5ptYj-bbGw',
         v: '3.17'
     });
+})
+
+.config(function($mdThemingProvider) {
+	$mdThemingProvider.theme('default')
+	    .primaryPalette('light-blue', {
+			'default': '400', // by default use shade 400
+			'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+			'hue-2': '700', // use shade 600 for the <code>md-hue-2</code> class
+			'hue-3': '900' // use shade A100 for the <code>md-hue-3</code> class
+		})
+	    .accentPalette('yellow', {
+			'default': '500'
+		});
 })
 
 // Google Analytics config

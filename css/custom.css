@@ -34,476 +34,69 @@
 	content: "\e601";
 }
 
-.fadeInUp {
-  -webkit-animation-duration: 0.6s;
-	   -moz-animation-duration: 0.6s;
-	    -ms-animation-duration: 0.6s;
-       -o-animation-duration: 0.6s;
-	       	animation-duration: 0.6s;
+.angular-google-map-container {
+	height: 84vh;
+	transition: height 0.2s ease;
 }
 
-html,
-body,
-.container {
-    min-height: 100% !important;
-    height: 100% !important;
-}
-
-a:hover {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.fa {
-  font-weight: normal;
-  font-style: normal;
-  font-size: 20px;
-  line-height: 1;
-  padding-left: 2px;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  word-wrap: normal;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
-
-.fab i.material-icons {
-  font-size: 29px;
-  line-height: 1.3;
-}
-
-.material-icons.kilo {
-  font-size: 2rem;
-}
-
-#calcoastaccess #search_address {
-  display: block;
-  background-color: transparent;
-  color: white;
-  border: none;
-  border-bottom: 2px solid rgb(255, 235, 59);
-  padding-bottom: 5px;
-  width: 100%;
-  font-size: 16px;
-}
-
-#calcoastaccess #search {
-  margin: 5px 0 0 2.2%;
-  position: absolute;
-  font-size: 20px;
-}
-
-#calcoastaccess .result-list,
-.scroll-list {
-  height: 68vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding-right: 10px;
-  margin-left: 23px;
-}
-
-#calcoastaccess .result-list li {
-  background-color: rgb(229, 229, 229);
-}
-
-#calcoastaccess .result-list li:hover {
-  background-color: rgb(214, 214, 214);
-}
-
-#calcoastaccess ::-webkit-input-placeholder {
-   color: white;
-}
-
-#calcoastaccess :-moz-placeholder { /* Firefox 18- */
-   color: white;
-}
-
-#calcoastaccess ::-moz-placeholder {  /* Firefox 19+ */
-   color: white;
-}
-
-#calcoastaccess :-ms-input-placeholder {
-   color: white;
-}
-
-.chardinjs-helper-layer.chardinjs-right,
-.chardinjs-helper-layer.chardinjs-top {
-   border: none;
-}
-
-.chardinjs-overlay {
-  background: rgb(26, 112, 141);
-}
-
-
-
-  #calcoastaccess h4#feedback {
-
-  }
-
-  .angular-google-map-container {
-    height: 75vh;
-    transition: height 0.2s ease;
-  }
-
-  #calcoastaccess #search_address {
-    padding: 8px 8px 6px 29px;
-    position: relative;
-    display: block;
-    outline: none;
-    border: none;
-    /*background: bottom left linear-gradient(#FEEA3B, #FEEA3B) no-repeat, bottom center linear-gradient(#FEEA3B, #FEEA3B) repeat-x, bottom right linear-gradient(#FEEA3B, #FEEA3B) no-repeat;*/
-    background: rgba(255, 255, 255, 0.29);
-    border-radius: 2px;
-    background-size: 2px 6px, 2px 2px, 2px 6px;
-  }
-
-  #calcoastaccess .info-window-content {
-      width: 300px !important;
-  }
-
-  #calcoastaccess #footerInfo {
-    background-color: #E5E5E5;
-  }
-
-  #calcoastaccess #footerInfo h4 {
-    margin-top: 0;
-  }
-
-  #calcoastaccess #footerInfo h4 i.fa {
-    padding-right: 10px;
-  }
-
-  .fa-heart {
-    display: inline-block;
-    position: relative;
-    top: .2em;
-    /*font-size: 1.4em;*/
-    -webkit-transform: scale(.9);
-       -moz-transform: scale(.9);
-            transform: scale(.9);
-    -webkit-animation: love .5s infinite linear alternate-reverse;
-       -moz-animation: love .5s infinite linear alternate-reverse;
-            animation: love .5s infinite linear alternate-reverse;
-  }
-
-  #ccc .column-12 a {
-    text-decoration: none;
-  }
-
-    #ccc .column-12 {
-    box-shadow: 0 3px 5px rgba(0,0,0,.26);
-    -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.26);
-    position: relative;
-  }
-
-    #ccc .column-12 img {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    display: block;
-    margin: auto;
-    margin-bottom: -22px;
-    position: relative;
-    margin-bottom: -22px;
-  }
-
-  #calcoastaccess #foot-logo {
-    width: 9.5%;
-    width: 50px;
-    display: inline;
-    clear: both;
-    float: left;
-    opacity: 0.9;
-    margin: 0 12px;
-  }
-
-  .ngdialog-content #foot-logo {
-    -webkit-filter: invert(80%);
-       -moz-filter: invert(80%);
-        -ms-filter: invert(80%);
-         -o-filter: invert(80%);
-            filter: invert(80%);
-    width: 30px;
-  }
-
-  @-webkit-keyframes love {
-      to {-webkit-transform: scale(1.2);}
-  }
-
-  @-moz-keyframes love {
-      to {-moz-transform: scale(1.2);}
-  }
-  @keyframes love {
-      to {transform: scale(1.2);}
-  }
-
-
-  .ngdialog-overlay {
-    background: rgba(26, 112, 141, 0.8);
-  }
-
-  .ngdialog.ngdialog-theme-default .ngdialog-content {
-      width: 65%;
-      padding: 2em;
-  }
-
-  .mapFifty .angular-google-map-container {
+.mapFifty .angular-google-map-container {
     height: 35vh;
-		transition: height 1s ease-in-out;
-  }
+	transition: height 1s ease-in-out;
+}
 
-  .page-header h1 {
-    font-size: 2rem;
-    line-height: 2.5rem;
-  }
+md-sidenav {
+	height: 80vh;
+	overflow-y: scroll;
+}
 
-  .page-header h1 span.light {
-    letter-spacing: -0.02em;
-    margin-right: 2px;
-  }
+md-toolbar h1 {
+	font-size: 20px;
+	font-weight: 500;
+	margin: 0;
+}
 
-  #LocationPanel {
-    padding-bottom: 20px;
-  }
+md-card-content md-toolbar h1 {
+	font-size: 24px;
+}
 
-  #LocationPanel .mdc-bg-light-blue-700 p {
-    padding: 0 25px;
-    margin-bottom: 28px;
-  }
+.md-button.md-fab md-icon {
+	color: #FF8F00;
+}
 
-  #LocationPanel .mdc-bg-light-blue-700 a {
-    color: white;
-    text-decoration: underline;
-  }
+[class^="pull-up-"], [class*=" pull-up-"] {
+	z-index: 9999;
+}
 
-  #LocationPanel h2#close {
-		text-align: right;
-		/*position: absolute;*/
-		padding-top: 10px;
-		padding-bottom: 0px;
-  }
+.pull-up-10 {
+	display: block;
+	margin-top: -10px;
+}
 
-	#LocationPanel h2#close i {
-		font-size: 30px;
-	}
+.pull-up-20 {
+	display: block;
+	margin-top: -20px;
+}
 
-  #LocationPanel h1 {
-		margin-top: -5px;
-    /*padding-bottom: 20px;*/
-  }
+.pull-up-30 {
+	display: block;
+	margin-top: -30px;
+}
 
-  #LocationPanel h3 {
-    padding-bottom: 10px;
-  }
+.pull-up-40 {
+	display: block;
+	margin-top: -40px;
+}
 
-  #LocationPanel .column-10 {
-    margin-bottom: 5px;
-    padding-left: 5px;
-  }
+.pull-up-50 {
+	display: block;
+	margin-top: -50px;
+}
 
-  #LocationPanel .column-10 p {
-    padding: 3px 0 3px 5px;
-  }
+.pull-up-60 {
+	display: block;
+	margin-top: -60px;
+}
 
-  [title=Show\ 45\ degree\ view] {
-    display:none;
-  }
-
-  #mobile-nav {
-    display: none;
-  }
-
-  #searchContainer {
-    margin-top: -45px;
-  }
-
-  .cluster-icon div {
-    line-height: 62px !important;
-    margin-left: -1px;
-  }
-
-  .chardinjs-overlay {
-    background-color: #01579B;
-  }
-
-  @media screen
-    and (min-device-width: 320px)
-    and (max-device-width: 736px) {
-      #ccc {
-        display: none;
-      }
-
-      #mobile-nav {
-        display: inline-block;
-        position: absolute;
-        padding: 9px 10px;
-        clear: both;
-        font-size: 17px;
-
-      }
-
-      .page-header {
-        padding: 5px 0 0 0;
-        background-color: #01579B;
-      }
-
-      .page-header h1 {
-        font-size: 1.3rem;
-        line-height: 1.1rem;
-        text-align: center;
-        display: inline-block;
-        margin: auto;
-        position: absolute;
-        top: 20px;
-        clear: both;
-      }
-
-      #calcoastaccess #foot-logo {
-        display: inline-block;
-        width: 30px;
-        margin-left: -33%;
-        position: relative;
-        float: none;
-      }
-
-      .page-header .column-4 {
-        text-align: center;
-      }
-
-      #searchAndResults {
-        width: 60%;
-        left: -60%;
-        position: absolute;
-        transition: all 0.4s ease;
-      }
-
-      .fab.pull-up {
-        margin-top: -35px;
-      }
-
-      .pull-over-page-header {
-        margin-top: 0;
-        width: 100%;
-      }
-      .angular-google-map-container {
-        height: 83vh;
-				transition: height 1s ease-in-out;
-      }
-
-      #searchAndResults.menuActive {
-        transition: all 0.4s ease;
-        left: 0px;
-        z-index: 999999999999999999999;
-        background-color: #0288D1;
-        height: 100%;
-      }
-
-      #calcoastaccess .result-list li:hover {
-        background-color: #0288D1;
-      }
-
-      #searchAndResults .result-list.margin-top {
-        height: 95vh;
-        margin-top: 5px;
-      }
-
-      #searchAndResults.menuActive li {
-        background-color: #0288D1;
-        /*border-bottom: 1px solid rgb(54, 89, 125);*/
-        color: white;
-      }
-
-      #searchAndResults .column-10.push-1 {
-        width: 85%;
-        margin: 0;
-      }
-
-      #searchContainer {
-        margin-top: 0;
-        padding: 15px 10px 0 10px;
-      }
-
-      #amenities .column-6,
-      #LocationPanel .column-4 {
-        width: 48%;
-        margin: 0;
-        display: inline-block;
-        clear: both;
-      }
-
-      #LocationPanel #amenities .column-10 {
-        padding-left: 32px;
-        padding-top: 4px;
-      }
-
-      .card.margin-top {
-        margin: 0;
-      }
-
-      #footerInfo .column-2,
-      #footerInfo .column-8 {
-        margin-top: 15px;
-        width: 32%;
-        display: inline-block;
-        clear: both;
-      }
-
-      #footerInfo {
-        margin-bottom: -71px;
-        margin-top: 20px;
-      }
-
-      .fab {
-        right: 15px;
-      }
-
-      #calcoastaccess .result-list::-webkit-scrollbar-track,
-      .scroll-list::-webkit-scrollbar-track {
-        -webkit-box-shadow: none;
-        background-color: none;
-      }
-
-      #calcoastaccess .result-list::-webkit-scrollbar,
-      .scroll-list::-webkit-scrollbar  {
-        width: 10px;
-        background-color: none;
-      }
-
-      #calcoastaccess .result-list::-webkit-scrollbar-thumb,
-      .scroll-list::-webkit-scrollbar-thumb  {
-        background-color: none;
-      }
-
-      #LocationPanel .column-2 {
-        width: 50%;
-        margin: 0;
-        padding: 0 15px 15px;
-        float: left;
-      }
-
-      #LocationPanel .column-1 {
-        width: 10%;
-        margin: 0;
-        clear: both;
-        float: left;
-      }
-
-      #LocationPanel .column-10 {
-        width: 80;
-      }
-
-      .ngdialog.ngdialog-theme-default .ngdialog-content {
-          width: 90%;
-      }
-  }
-
-  @media screen
-    and (max-device-width: 320px) {
-
-      .angular-google-map-container {
-          height: 77vh;
-      }
-
-  }
+.text-center {
+	text-align: center;
+}
