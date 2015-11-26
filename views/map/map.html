@@ -89,236 +89,182 @@
                         </div> <!-- end flex -->
                     </div> <!-- end row flex -->
 
-                    <div layout="row" flex layout-align="start center">
-                        <md-list>
-                            <md-list-item ng-show="map.selectedMarker.FEE === 'Yes'" class="mdc-text-grey-blue-700">
+                    <div layout="row" flex="50" layout-align="start center">
+                        <md-list layout="row" layout-wrap>
+                            <md-list-item flex="50" ng-show="map.selectedMarker.FEE === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Fee" class="material-icons">
     	                            &#xE227;
     	                        </md-icon>
 
                                 <p>Fee</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.PARKING === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.PARKING === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Parking" class="material-icons">
     	                            &#xE54F;
     	                        </md-icon>
 
                                 <p>Parking</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.DSABLDACSS === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.DSABLDACSS === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Disabled Access" class="material-icons">
     	                            &#xE914;
     	                        </md-icon>
 
                                 <p>Disabled Access</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.RESTROOMS === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.RESTROOMS === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Restrooms" class="material-icons">
     	                            &#xE63D;
     	                        </md-icon>
 
                                 <p>Restrooms</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.VISTOR_CTR === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.VISTOR_CTR === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Visitor Center" class="material-icons">
     	                            &#xE8D1;
     	                        </md-icon>
 
                                 <p>Visitor Center</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.DOG_FRIENDLY === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.DOG_FRIENDLY === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dog Friendly" class="material-icons">
     	                            &#xE91D;
     	                        </md-icon>
 
                                 <p>Dog Friendly</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.EZ4STROLLERS === 'Yes'" class="mdc-text-grey-blue-700">
-                                <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+                            <md-list-item flex="50" ng-show="map.selectedMarker.EZ4STROLLERS === 'Yes'" class="mdc-text-grey-blue-700">
+                                <md-icon aria-label="Stroller Friendly" class="material-icons">
+    	                            &#xEB42;
     	                        </md-icon>
 
                                 <p>Stroller Friendly</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.PCNC_AREA === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.PCNC_AREA === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Picnic Area" class="material-icons">
     	                            &#xE8CB;
     	                        </md-icon>
 
                                 <p>Picnic Area</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.CAMPGROUND === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.CAMPGROUND === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
     	                            dashboard
     	                        </md-icon>
 
                                 <p>Camping</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.SNDY_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.SNDY_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            &#xEB3E;
     	                        </md-icon>
 
                                 <p>Sandy Beach</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.DUNES === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.DUNES === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Dunes</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.RKY_SHORE === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.RKY_SHORE === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Rocky Shore</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.BLUFF === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.BLUFF === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Bluff</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.STRS_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.STRS_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Stairs to Beach</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.PTH_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.PTH_BEACH === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Path to Beach</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.BLFTP_TRLS === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.BLFTP_TRLS === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Blufftop Trails</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.BLFTP_PRK === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.BLFTP_PRK === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Blufftop Park</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.WLDLFE_VWG === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.WLDLFE_VWG === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Wildlife Viewing</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.TIDEPOOL === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.TIDEPOOL === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Tidepools</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.VOLLEYBALL === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.VOLLEYBALL === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Volleyball</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.FISHING === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.FISHING === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            fingerprint
     	                        </md-icon>
 
                                 <p>Fishing</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
 
-                            <md-list-item ng-show="map.selectedMarker.BOATING === 'Yes'" class="mdc-text-grey-blue-700">
+                            <md-list-item flex="50" ng-show="map.selectedMarker.BOATING === 'Yes'" class="mdc-text-grey-blue-700">
                                 <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
+    	                            &#xE532;
     	                        </md-icon>
 
                                 <p>Boating</p>
-
-                                <md-divider></md-divider>
-                            </md-list-item>
-
-                            <md-list-item ng-show="map.selectedMarker.BOATING === 'Yes'" class="mdc-text-grey-blue-700">
-                                <md-icon aria-label="Dashboard" class="material-icons">
-    	                            dashboard
-    	                        </md-icon>
-
-                                <p>Boating</p>
-
-                                <md-divider></md-divider>
                             </md-list-item>
                         </md-list>
                     </div> <!-- end row flex -->
@@ -327,7 +273,7 @@
         </md-card> <!-- end column flex -->
 
         <div layout="column" flex="10" layout-align="start center">
-            <md-button class="md-fab mdc-text-yellow-600 pull-up-30" aria-label="Eat cake">
+            <md-button ng-click="geolocate()" class="md-fab mdc-text-yellow-600 pull-up-30" aria-label="Eat cake">
                 <md-icon class="mdc-text-blue-grey-800">
                     location_searching
                 </md-icon>
