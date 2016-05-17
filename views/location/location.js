@@ -1,29 +1,31 @@
 (function() {
-	'use strict';
+    'use strict';
 
-	angular.module('yourCoast.map', [])
+    angular.module('yourCoast.location', [])
 
-	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
-		$stateProvider
-			// default map view
-			.state('map', {
-				abstract: true,
-				url: '/map',
-				template: '<ui-view/>'
-			})
-
-			.state('map.index', {
-				url: '',
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+        $stateProvider
+			// single location view
+			.state('map.location-id', {
+				url: '/location/id/:locationID',
 				templateUrl: 'views/map/map.html',
-				controller: 'mapController'
+				resolve: {
+					AccessLocationsAPI: 'AccessLocationsAPI',
+
+					location: function location($stateParams, AccessLocationsAPI) {
+						// bind data to location
+						var locationID = $stateParams.locationID,
+							data       = AccessLocationsAPI.getLocationByID.query({ locationID: locationID });
+
+						return data.$promise;
+					}
+				},
+				controller: 'locationController'
 			});
-
-		$urlRouterProvider.otherwise('/map');
-	}])
+    }])
 
 
-	.controller('mapController', ['$scope', '$rootScope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$state', '$stateParams', '$filter', 'ngDialog', function($scope, $rootScope, AccessLocationsAPI, uiGmapGoogleMapApi, $state, $stateParams, $filter, ngDialog) {
+	.controller('locationController', ['$scope', '$rootScope', 'AccessLocationsAPI', 'location', 'uiGmapGoogleMapApi', '$state', '$stateParams', '$filter', 'ngDialog', function($scope, $rootScope, AccessLocationsAPI, location, uiGmapGoogleMapApi, $state, $stateParams, $filter, ngDialog) {
 		// defaults
 		$scope.map = {};
 		$scope.map.locations = [];
@@ -35,16 +37,16 @@
 		$scope.map.selectedMarker.show = false;
 		$scope.map.options = {
 								center: {
-									latitude: 37.632711,
-									longitude: -120.572511
+									latitude: (location[0].LATITUDE - 0.01),
+									longitude: location[0].LONGITUDE
 								},
-								zoom: 6,
+								zoom: 14,
 								cluster: {
 									minimumClusterSize : 10,
 									zoomOnClick: true,
 									styles: [
 										{
-		                   						url: 'icons/m4-fab.png',
+												url: 'icons/m4-fab.png',
 												width:60,
 												height:60,
 												textColor: 'white',
@@ -60,7 +62,7 @@
 									tilt: 0,
 									zoomControl: true,
 									scaleControl: true,
-									streetViewControl: true,
+									streetViewControl: false,
 									mapTypeId: 'terrain',
 									// streetViewControlOptions: {
 									// 	position: 'ControlPosition.RIGHT_TOP'
@@ -115,7 +117,7 @@
 												}
 											]
 								}
-							 };
+							};
 		$scope.map.events = {
 			tilesloaded: function (map, eventName, originalEventArgs) {
 				var panoLocation = new google.maps.LatLng($scope.map.selectedMarker.LATITUDE, $scope.map.selectedMarker.LONGITUDE);
@@ -131,14 +133,25 @@
 				map.setStreetView(panorama);
 			}
 		},
-		$scope.map.locationList = [];
 		$scope.menuActive = false;
 
-		$scope.$watch(function() {
+		$scope.search = $rootScope.searchQuery;
+		$scope.$watch(
+			function() {
 				$rootScope.searchQuery = $scope.search;
-		});
+			}
+		);
 
 		var iconURL = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+
+		angular.forEach(location, function(location) {
+			location.coords = {
+				latitude: location.LATITUDE,
+				longitude: location.LONGITUDE
+			};
+
+			location.icon = iconURL;
+		});
 
 		$scope.toggleMenu = function toggleMenu() {
 			$scope.menuActive = !$scope.menuActive;
@@ -150,27 +163,27 @@
 
 		$scope.openFeedback = function openFeedback() {
 			ngDialog.open({
-				template: 'views/dialog/feedback.html'
+					template: 'views/dialog/feedback.html'
 			});
 		};
 
 		$scope.openAbout = function openAbout() {
 			ngDialog.open({
-				template: 'views/dialog/about.html'
+					template: 'views/dialog/about.html'
 			});
 		};
 
 		$scope.openShare = function openShare() {
 			ngDialog.open({
-				template: 'views/dialog/share.html',
-				scope: $scope
+					template: 'views/dialog/share.html',
+					scope: $scope
 			});
 		};
 
 		$scope.openPhoto = function openPhoto(photo) {
 			ngDialog.open({
-				template: '<img src="' + photo + '" style="width:100%"/>',
-				plain: true
+					template: '<img src="' + photo + '" style="width:100%"/>',
+					plain: true
 			});
 		};
 
@@ -198,78 +211,95 @@
 			// show map once we have it
 			$scope.map.fullyLoaded = true;
 
+			// switch base map on desktop/mobile
 			if($( window ).width() <= 736) {
 				$scope.map.options.custom.mapTypeId = 'roadmap';
 			} else {
 				$scope.map.options.custom.mapTypeId = 'terrain';
 			}
 
-			// fetch all locations
-			AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
-				// bind to map
-				$scope.map.locations    = promisedLocations;
+			if($rootScope.locationList) {
+				$scope.$watch(function() {
+					$scope.map.locationList = $rootScope.locationList;
 
-				// bind to list
-				$scope.map.locationList = promisedLocations;
+					$scope.closeLocationPanel = function closeLocationPanel() {
+						// reset location to all
+						$scope.map.locations = $rootScope.locationList;
 
-				// bind to $rootScope
-				$rootScope.locationList = promisedLocations;
-
-				// add properties to each location before view
-				angular.forEach(promisedLocations, function(location) {
-					location.coords = {
-						latitude: location.LATITUDE,
-						longitude: location.LONGITUDE
+						// hise the LocationPanel
+						$scope.map.selectedMarker.show = false;
 					};
-
-					location.icon = iconURL;
 				});
+			} else {
+				AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
+					angular.forEach(promisedLocations, function(location) {
+						location.coords = {
+							latitude: location.LATITUDE,
+							longitude: location.LONGITUDE
+						};
 
-				$scope.openLocationPanel = function openLocationPanel(marker) {
-					// nessesary - fixes issue with re-selecting previously selected marker
-					$scope.map.selectedMarker.show = false;
+						location.icon = iconURL;
+					});
 
-					// check is marker is coming from map or list
-					if('model' in marker) {
-						$filter('trust')(marker.model.DescriptionMobileWeb);
-						$scope.map.selectedMarker = marker.model;
-					} else {
-						$filter('trust')(marker.DescriptionMobileWeb);
-						$scope.map.selectedMarker = marker;
+					$scope.map.locationList = promisedLocations;
+
+					$scope.closeLocationPanel = function closeLocationPanel() {
+						// reset location to all
+						$scope.map.locations           = promisedLocations;
+
+						// hise the LocationPanel
+						$scope.map.selectedMarker.show = false;
+					};
+				});
+			}
+
+			$scope.openLocationPanel = function openLocationPanel(marker) {
+				// nessesary - fixes issue with re-selecting previously selected marker
+				$scope.map.selectedMarker.show = false;
+
+				// check is marker is coming from map or list
+				if('model' in marker) {
+					$filter('trust')(marker.model.DescriptionMobileWeb);
+					$scope.map.selectedMarker = marker.model;
+				} else {
+					$filter('trust')(marker.DescriptionMobileWeb);
+					$scope.map.selectedMarker = marker;
+
+					// close the mobile menu
+					if($scope.menuActive === true) {
 						$scope.toggleMenu();
 					}
+				}
 
-					// remove all markers except for the selected marker
-					$scope.map.locations = [$scope.map.selectedMarker];
+				// remove all markers except for the selected marker
+				$scope.map.locations = [$scope.map.selectedMarker];
 
-					// toggle LocationPanel visibility
-					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
+				// toggle LocationPanel visibility
+				$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
 
-					// pan map viewport to selected marker
-					$scope.map.options.center = {
-						latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
-						longitude: $scope.map.selectedMarker.LONGITUDE
-					};
-
-					// zoom in on selected marker
-					$scope.map.options.zoom = 14;
-
-					// set page title
-					document.title = marker.NameMobileWeb;
+				// pan map viewport to selected marker
+				$scope.map.options.center = {
+					latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
+					longitude: $scope.map.selectedMarker.LONGITUDE
 				};
 
-				$scope.closeLocationPanel = function closeLocationPanel() {
-					// reset location to all
-					$scope.map.locations           = promisedLocations;
+				// zoom in on selected marker
+				$scope.map.options.zoom = 14;
 
-					// hise the LocationPanel
-					$scope.map.selectedMarker.show = false;
-				};
+				// set title
+				document.title = marker.NameMobileWeb + ' - YourCoast';
+			};
 
-				$scope.switchLocations = function switchLocations(locationID) {
-					$state.transitionTo('map.location-id', {locationID:locationID});
-				};
-			});
-	  });
+
+
+			$scope.switchLocations = function switchLocations(locationID) {
+				$state.transitionTo('map.location-id', {locationID:locationID});
+			};
+
+			console.log(location);
+
+			//
+			$scope.openLocationPanel(location[0]);
+		});
 	}]);
 })();

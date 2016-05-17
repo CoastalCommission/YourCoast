@@ -89,7 +89,7 @@
           </div> <!-- end .row -->
 
           <div class="row gutters margin-top">
-            <div class="column-6" ng-show='!map.selectedMarker.PHONE_NMBR'>
+            <div class="column-6" ng-if='!map.selectedMarker.PHONE_NMBR'>
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-grey-400'>&#xE0CD;</i>
                 </h1>
@@ -99,7 +99,7 @@
                 </h4>
             </div> <!-- end .column-6 -->
 
-            <div class="column-6" ng-show='map.selectedMarker.PHONE_NMBR'>
+            <div class="column-6" ng-if='map.selectedMarker.PHONE_NMBR'>
               <a href='tel:{{ map.selectedMarker.PHONE_NMBR }}' ga-track-event="['click', 'Call - {{ map.selectedMarker.NameMobileWeb }}']">
                 <h1 class="no-margin center-text">
                   <i class='material-icons kilo mdc-text-blue-700'>&#xE0CD;</i>
