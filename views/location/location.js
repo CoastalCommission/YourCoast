@@ -25,7 +25,7 @@
     }])
 
 
-	.controller('locationController', ['$scope', '$rootScope', 'AccessLocationsAPI', 'location', 'uiGmapGoogleMapApi', '$state', '$stateParams', '$filter', 'ngDialog', function($scope, $rootScope, AccessLocationsAPI, location, uiGmapGoogleMapApi, $state, $stateParams, $filter, ngDialog) {
+	.controller('locationController', ['$scope', '$rootScope', 'AccessLocationsAPI', 'WeatherAPI', 'location', 'uiGmapGoogleMapApi', '$state', '$stateParams', '$filter', 'ngDialog', function($scope, $rootScope, AccessLocationsAPI, WeatherAPI, location, uiGmapGoogleMapApi, $state, $stateParams, $filter, ngDialog) {
 		// defaults
 		$scope.map = {};
 		$scope.map.locations = [];
@@ -149,6 +149,13 @@
 				latitude: location.LATITUDE,
 				longitude: location.LONGITUDE
 			};
+
+            WeatherAPI.query({
+                latitude: location.LATITUDE,
+                longitude: location.LONGITUDE
+            }).$promise.then(function(promisedWeather) {
+                location.weather = promisedWeather.query.results.channel;
+            });
 
 			location.icon = iconURL;
 		});
