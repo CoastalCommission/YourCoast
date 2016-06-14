@@ -8,8 +8,7 @@ angular.module('yourCoast', ['ngResource',
 							 '720kb.socialshare',
 							 'angular-google-analytics',
 							 'yourCoast.services',
-							 'yourCoast.map',
-							 'yourCoast.location'
+							 'yourCoast.map'
 							])
 
 // Google Maps config
@@ -17,7 +16,7 @@ angular.module('yourCoast', ['ngResource',
     uiGmapGoogleMapApiProvider.configure({
         // key: 'AIzaSyAx3mZAAx_JC8C3Xww3xXPDaT3bG5_8BhY', // *.coastal.ca.gov/*
 		key: 'AIzaSyDvU4e-mutCkm5V77UnBU4bO5ptYj-bbGw', // general
-        v: '3.17'
+        v: '3'
         // libraries: 'weather,geometry,places'
     });
 })

@@ -22,6 +22,7 @@
     "angular-sanitize": "~1.4.1",
     "material-design-color-palette": "~1.0.1",
     "angularjs-socialshare": "~0.1.8",
-    "angular-google-analytics": "~0.0.16"
+    "angular-google-analytics": "~0.0.16",
+    "angular-ui-router": "^0.3.1"
   }
 }

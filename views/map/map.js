@@ -16,158 +16,242 @@
 			.state('map.index', {
 				url: '',
 				templateUrl: 'views/map/map.html',
-				controller: 'mapController'
-			});
+				controller: 'mapController',
+				controllerAs: 'mapCtrl',
+				resolve: {
+					locations: ['AccessLocationsAPI', function(AccessLocationsAPI) {
+						return AccessLocationsAPI.getAllLocations.query();
+					}],
 
-		$urlRouterProvider.otherwise('/map');
+					location: [function() {
+						return
+					}]
+				}
+			})
+
+			.state('map.location-id', {
+				url: '/locations/:locationID',
+				templateUrl: 'views/map/map.html',
+				controller: 'mapController',
+				controllerAs: 'mapCtrl',
+				resolve: {
+					locations: ['AccessLocationsAPI', function(AccessLocationsAPI) {
+						return AccessLocationsAPI.getAllLocations.query();
+					}],
+
+					location: ['$stateParams', 'AccessLocationsAPI', function($stateParams, AccessLocationsAPI) {
+						return AccessLocationsAPI.getLocationByID.query({
+							locationID: $stateParams.locationID
+						});
+					}]
+				}
+			});
 	}])
 
 
-	.controller('mapController', ['$scope', '$rootScope', 'AccessLocationsAPI', 'uiGmapGoogleMapApi', '$state', '$stateParams', '$filter', 'ngDialog', function($scope, $rootScope, AccessLocationsAPI, uiGmapGoogleMapApi, $state, $stateParams, $filter, ngDialog) {
+	.controller('mapController', ['locations', 'location', 'WeatherAPI', 'uiGmapGoogleMapApi', '$filter', '$state', 'ngDialog', function(locations, location, WeatherAPI, uiGmapGoogleMapApi, $filter, $state, ngDialog) {
+
+		// view model
+		var vm = this;
+
 		// defaults
-		$scope.map = {};
-		$scope.map.locations = [];
-		$scope.map.locations.coords = {};
-		$scope.map.locations.icon = '';
-		$scope.map.fullyLoaded = false;
-		$scope.hasGeolocation = false;
-		$scope.map.selectedMarker = [];
-		$scope.map.selectedMarker.show = false;
-		$scope.map.options = {
-								center: {
-									latitude: 37.632711,
-									longitude: -120.572511
-								},
-								zoom: 6,
-								cluster: {
-									minimumClusterSize : 10,
-									zoomOnClick: true,
-									styles: [
-										{
-		                   						url: 'icons/m4-fab.png',
-												width:60,
-												height:60,
-												textColor: 'white',
-												textSize: 14,
-												fontFamily: 'Open Sans'
-										}
-									],
-									averageCenter: true,
-									clusterClass: 'cluster-icon'
-								},
-								custom: {
-									panControl: false,
-									tilt: 0,
-									zoomControl: true,
-									scaleControl: true,
-									streetViewControl: true,
-									mapTypeId: 'terrain',
-									// streetViewControlOptions: {
-									// 	position: 'ControlPosition.RIGHT_TOP'
-									// },
-									styles: [
-												{'featureType':'landscape',
-													'stylers':[
-														{'hue':'#F1FF00'},
-														{'saturation':-27.4},
-														{'lightness':9.4},
-														{'gamma':1}
-													]
-												},
-												{'featureType':'road.highway',
-													'stylers':[
-														{'hue':'#ffd54f'},
-														{'saturation':-20},
-														{'lightness':36.4},
-														{'gamma':1}
-													]
-												},
-												{'featureType':'road.arterial',
-													'stylers':[
-														{'hue':'#00FF4F'},
-														{'saturation':0},
-														{'lightness':0},
-														{'gamma':1}
-													]
-												},
-												{'featureType':'road.local',
-													'stylers':[
-														{'hue':'#FFB300'},
-														{'saturation':-38},
-														{'lightness':11.2},
-														{'gamma':1}
-													]
-												},
-												{'featureType':'water',
-												'elementType':'geometry.fill',
-													'stylers':[
-														{'color':'#81D4FA'},
-														{'visibility': 'on'}
-													]
-												},
-												{'featureType':'poi',
-													'stylers':[
-														{'hue':'#5af158'},
-														{'saturation':0},
-														{'lightness':0},
-														{'gamma':1}
-													]
-												}
-											]
-								}
-							 };
-		$scope.map.events = {
-			tilesloaded: function (map, eventName, originalEventArgs) {
-				var panoLocation = new google.maps.LatLng($scope.map.selectedMarker.LATITUDE, $scope.map.selectedMarker.LONGITUDE);
-				var panoramaOptions = {
-					position: panoLocation,
-					pov: {
-						heading: 30,
-						pitch: 5,
-						zoom: 1
+		vm.map = {};
+		vm.map.locations = [];
+		vm.map.fullyLoaded = false;
+		vm.hasGeolocation = false;
+		vm.map.geolocation = {};
+		vm.map.selectedMarker = [];
+		if(locations && location) {
+			vm.map.selectedMarker.show = true;
+		} else {
+			vm.map.selectedMarker.show = false;
+		}
+		vm.map.options = {
+			center: {
+				latitude: 37.632711,
+				longitude: -120.572511
+			},
+			zoom: 6,
+			cluster: {
+				minimumClusterSize : 10,
+				zoomOnClick: true,
+				styles: [
+					{
+							url: 'icons/m4-fab.png',
+							width:60,
+							height:60,
+							textColor: 'white',
+							textSize: 14,
+							fontFamily: 'Open Sans'
 					}
-				};
-				var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
-				map.setStreetView(panorama);
+				],
+				averageCenter: true,
+				clusterClass: 'cluster-icon'
+			},
+			custom: {
+				panControl: false,
+				tilt: 0,
+				zoomControl: true,
+				scaleControl: true,
+				streetViewControl: true,
+				mapTypeId: 'terrain',
+				// streetViewControlOptions: {
+				// 	position: 'ControlPosition.RIGHT_TOP'
+				// },
+				styles: [
+					{'featureType':'landscape',
+						'stylers':[
+							{'hue':'#F1FF00'},
+							{'saturation':-27.4},
+							{'lightness':9.4},
+							{'gamma':1}
+						]
+					},
+					{'featureType':'road.highway',
+						'stylers':[
+							{'hue':'#ffd54f'},
+							{'saturation':-20},
+							{'lightness':36.4},
+							{'gamma':1}
+						]
+					},
+					{'featureType':'road.arterial',
+						'stylers':[
+							{'hue':'#00FF4F'},
+							{'saturation':0},
+							{'lightness':0},
+							{'gamma':1}
+						]
+					},
+					{'featureType':'road.local',
+						'stylers':[
+							{'hue':'#FFB300'},
+							{'saturation':-38},
+							{'lightness':11.2},
+							{'gamma':1}
+						]
+					},
+					{'featureType':'water',
+					'elementType':'geometry.fill',
+						'stylers':[
+							{'color':'#81D4FA'},
+							{'visibility': 'on'}
+						]
+					},
+					{'featureType':'poi',
+						'stylers':[
+							{'hue':'#5af158'},
+							{'saturation':0},
+							{'lightness':0},
+							{'gamma':1}
+						]
+					}
+				]
 			}
-		},
-		$scope.map.locationList = [];
-		$scope.menuActive = false;
+		};
+		vm.map.events = {
+			click: function click(marker, eventName, model) {
+				$state.go('map.location-id', {
+					locationID: model.ID
+				});
+            }
+		};
+		vm.menuActive = false;
+		vm.locationsList = [];
 
-		$scope.$watch(function() {
-				$rootScope.searchQuery = $scope.search;
-		});
+		// $scope.$watch(function() {
+		// 	$rootScope.searchQuery = vm.search;
+		// });
 
-		var iconURL = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+		if(locations) {
+			locations.$promise.then(function(promisedLocations) {
+				angular.forEach(promisedLocations, function(location) {
+					location.coords = {
+						latitude: location.LATITUDE,
+						longitude: location.LONGITUDE
+					};
 
-		$scope.toggleMenu = function toggleMenu() {
-			$scope.menuActive = !$scope.menuActive;
+					// WeatherAPI.query({
+					//     latitude: location.LATITUDE,
+					//     longitude: location.LONGITUDE
+					// }).$promise.then(function(promisedWeather) {
+					//     location.weather = promisedWeather.query.results.channel;
+					// });
+
+					location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+				});
+
+				vm.locationsList = promisedLocations;
+				vm.map.locations = promisedLocations;
+			});
+		}
+
+		if(location) {
+			location.$promise.then(function(promisedLocation) {
+				angular.forEach(promisedLocation, function(location) {
+					location.coords = {
+						latitude: location.LATITUDE,
+						longitude: location.LONGITUDE
+					};
+
+					// WeatherAPI.query({
+					//     latitude: location.LATITUDE,
+					//     longitude: location.LONGITUDE
+					// }).$promise.then(function(promisedWeather) {
+					//     location.weather = promisedWeather.query.results.channel;
+					// });
+
+					location.icon = 'http://maps.google.com/mapfiles/ms/micons/yellow.png';
+				});
+
+				// set page title
+				document.title = promisedLocation[0].NameMobileWeb;
+
+				vm.map.selectedMarker = promisedLocation[0];
+				vm.map.locations = [vm.map.selectedMarker];
+
+				// toggle LocationPanel visibility
+				vm.map.selectedMarker.show = !vm.map.selectedMarker.show;
+
+				// pan map viewport to selected marker
+				vm.map.options.center = {
+					latitude: vm.map.selectedMarker.LATITUDE - 0.01,
+					longitude: vm.map.selectedMarker.LONGITUDE
+				};
+
+				// zoom in on selected marker
+				vm.map.options.zoom = 14;
+			});
+		}
+
+		vm.toggleMenu = function toggleMenu() {
+			vm.menuActive = !vm.menuActive;
 		};
 
-		$scope.openHelp = function helpOverlay() {
+		vm.openHelp = function helpOverlay() {
 			$('body').chardinJs('start');
 		};
 
-		$scope.openFeedback = function openFeedback() {
+		vm.openFeedback = function openFeedback() {
 			ngDialog.open({
 				template: 'views/dialog/feedback.html'
 			});
 		};
 
-		$scope.openAbout = function openAbout() {
+		vm.openAbout = function openAbout() {
 			ngDialog.open({
 				template: 'views/dialog/about.html'
 			});
 		};
 
-		$scope.openShare = function openShare() {
+		vm.openShare = function openShare() {
 			ngDialog.open({
 				template: 'views/dialog/share.html',
-				scope: $scope
+				scope: vm
 			});
 		};
 
-		$scope.openPhoto = function openPhoto(photo) {
+		vm.openPhoto = function openPhoto(photo) {
 			ngDialog.open({
 				template: '<img src="' + photo + '" style="width:100%"/>',
 				plain: true
@@ -176,100 +260,47 @@
 
 		// proceed on if the browser supports geolocation
 		if('geolocation' in navigator) {
-			$scope.hasGeolocation = true;
-			$scope.geolocate = function geolocate() {
+			vm.hasGeolocation = true;
+			vm.geolocate = function geolocate() {
 				navigator.geolocation.getCurrentPosition(function(position) {
-					$scope.$apply(function() {
-						$scope.map.options.center.latitude = position.coords.latitude;
-						$scope.map.options.center.longitude = position.coords.longitude;
-						$scope.map.options.zoom = 12;
-					});
-					$scope.geolocated = true;
-					$scope.closeLocationPanel();
+					vm.map.options.center.latitude = position.coords.latitude;
+					vm.map.options.center.longitude = position.coords.longitude;
+					vm.map.geolocation = {
+						latitude: position.coords.latitude,
+						longitude: position.coords.longitude
+					};
+					vm.map.options.zoom = 10;
+					vm.geolocated = true;
+					vm.closeLocationPanel();
 				});
 			};
 		} else {
-			$scope.feedback = 'Sorry, your browser doesn\'t support geolocation.';
-			$scope.hasGeolocation = false;
+			vm.feedback = 'Sorry, your browser doesn\'t support geolocation.';
+			vm.hasGeolocation = false;
 		}
 
 		// proceed only if we have all things Google Maps
 		uiGmapGoogleMapApi.then(function(maps) {
 			// show map once we have it
-			$scope.map.fullyLoaded = true;
+			vm.map.fullyLoaded = true;
 
 			if($( window ).width() <= 736) {
-				$scope.map.options.custom.mapTypeId = 'roadmap';
+				vm.map.options.custom.mapTypeId = 'roadmap';
 			} else {
-				$scope.map.options.custom.mapTypeId = 'terrain';
+				vm.map.options.custom.mapTypeId = 'terrain';
 			}
 
-			// fetch all locations
-			AccessLocationsAPI.getAllLocations.query().$promise.then(function(promisedLocations) {
-				// bind to map
-				$scope.map.locations    = promisedLocations;
+			vm.closeLocationPanel = function closeLocationPanel() {
+				// $state.go('map.index');
 
-				// bind to list
-				$scope.map.locationList = promisedLocations;
+				// reset location to all
+				vm.map.locations = vm.locationsList;
 
-				// bind to $rootScope
-				$rootScope.locationList = promisedLocations;
+				// hide the LocationPanel
+				vm.map.selectedMarker.show = false;
 
-				// add properties to each location before view
-				angular.forEach(promisedLocations, function(location) {
-					location.coords = {
-						latitude: location.LATITUDE,
-						longitude: location.LONGITUDE
-					};
-
-					location.icon = iconURL;
-				});
-
-				$scope.openLocationPanel = function openLocationPanel(marker) {
-					// nessesary - fixes issue with re-selecting previously selected marker
-					$scope.map.selectedMarker.show = false;
-
-					// check is marker is coming from map or list
-					if('model' in marker) {
-						$filter('trust')(marker.model.DescriptionMobileWeb);
-						$scope.map.selectedMarker = marker.model;
-					} else {
-						$filter('trust')(marker.DescriptionMobileWeb);
-						$scope.map.selectedMarker = marker;
-						$scope.toggleMenu();
-					}
-
-					// remove all markers except for the selected marker
-					$scope.map.locations = [$scope.map.selectedMarker];
-
-					// toggle LocationPanel visibility
-					$scope.map.selectedMarker.show = !$scope.map.selectedMarker.show;
-
-					// pan map viewport to selected marker
-					$scope.map.options.center = {
-						latitude: $scope.map.selectedMarker.LATITUDE - 0.01,
-						longitude: $scope.map.selectedMarker.LONGITUDE
-					};
-
-					// zoom in on selected marker
-					$scope.map.options.zoom = 14;
-
-					// set page title
-					document.title = marker.NameMobileWeb;
-				};
-
-				$scope.closeLocationPanel = function closeLocationPanel() {
-					// reset location to all
-					$scope.map.locations           = promisedLocations;
-
-					// hise the LocationPanel
-					$scope.map.selectedMarker.show = false;
-				};
-
-				$scope.switchLocations = function switchLocations(locationID) {
-					$state.transitionTo('map.location-id', {locationID:locationID});
-				};
-			});
-	  });
+				vm.map.options.zoom = 13;
+			};
+		});
 	}]);
 })();
