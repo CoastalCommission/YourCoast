@@ -103,13 +103,13 @@ a:hover {
   margin-left: 23px;
 }
 
-#calcoastaccess .result-list li {
+/*#calcoastaccess .result-list li {
   background-color: rgb(229, 229, 229);
 }
 
 #calcoastaccess .result-list li:hover {
   background-color: rgb(214, 214, 214);
-}
+}*/
 
 #calcoastaccess ::-webkit-input-placeholder {
    color: white;
@@ -163,9 +163,9 @@ a:hover {
       width: 300px !important;
   }
 
-  #calcoastaccess #footerInfo {
+  /*#calcoastaccess #footerInfo {
     background-color: #E5E5E5;
-  }
+  }*/
 
   #calcoastaccess #footerInfo h4 {
     margin-top: 0;

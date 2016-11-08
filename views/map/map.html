@@ -31,7 +31,7 @@
 
             <div class="row" data-intro="Search results can be clicked to open any location" data-position="right">
           		<ul class="unstyled-list result-list margin-top">
-          			<a ng-repeat="location in mapCtrl.locationsList | orderBy:'LIST_ORDER' | filter:mapCtrl.search"
+                    <a ng-repeat="location in mapCtrl.locationsList | orderBy:'LIST_ORDER' | filter:mapCtrl.search"
                        ui-sref="map.location-id({ locationID: location.ID })"
                        alt="{{ location.NameMobileWeb }}">
                         <li ng-bind-html='location.NameMobileWeb | trust'>
